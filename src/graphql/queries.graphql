@@ -5,3 +5,24 @@ query Debug {
 mutation Echo($text: String!) {
     echo(text: $text)
 }
+
+mutation Auth($code: String!) {
+    auth(code: $code) {
+        token
+        user {
+            id
+            email
+            name
+            did
+        }
+    }
+}
+
+query WhoAmI {
+    whoami {
+        id
+        name
+        email
+        did
+    }
+}

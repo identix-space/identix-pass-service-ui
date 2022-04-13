@@ -8,8 +8,8 @@ import resolvers from './resolvers';
 const apolloServer = new ApolloServer({
     typeDefs: loadTypeDefs(),
     resolvers,
-    mocks: false,
-    mockEntireSchema: false,
+    mocks: true,
+    mockEntireSchema: true,
     // eslint-disable-next-line new-cap
     plugins: process.env.NODE_ENV !== 'production' ? [ApolloServerPluginLandingPageGraphQLPlayground()] : []
 });

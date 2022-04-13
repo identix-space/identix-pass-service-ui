@@ -3,14 +3,28 @@ schema {
   mutation: Mutation
 }
 
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
 scalar Date
 
 scalar Json
 
 type Mutation {
+  auth(code: String!): AuthResponse!
   echo(text: String!): String!
 }
 
 type Query {
   debug: Json
+  whoami: User
+}
+
+type User {
+  did: String!
+  email: String
+  id: ID!
+  name: String!
 }
