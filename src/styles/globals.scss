@@ -8,6 +8,9 @@ html, body {
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
 .container {
   width: 900px;
   margin: 0 auto;
@@ -20,4 +23,8 @@ html, body {
   @media (min-width: 1300px) {
     width: 1120px;
   }
+}
+
+.active-link {
+  color: #FFFFFF !important;
 }
