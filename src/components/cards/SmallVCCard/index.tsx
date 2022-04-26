@@ -31,7 +31,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img}: CardProps): 
 
 const Card = styled.div`
   position: relative;
-  width: 398px;
+  width: 400px;
   height: 185px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));

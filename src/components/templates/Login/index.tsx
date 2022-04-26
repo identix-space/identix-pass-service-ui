@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
-import {Button} from '../../elements/Button';
+import {ButtonTransparent} from '../../elements/Buttons';
 
 export const LogIn: FC = () => {
     return (
@@ -13,7 +13,7 @@ export const LogIn: FC = () => {
             </Left>
             <Right>
                 <Image src="/assets/identix-pass-logo.svg" width="270" height="260" style={{marginLeft: '20px'}}/>
-                <Button><span>Log in</span></Button>
+                <ButtonTransparent><span>Log in</span></ButtonTransparent>
             </Right>
         </LogInModal>
     );

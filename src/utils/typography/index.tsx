@@ -24,7 +24,7 @@ export const Title2 = styled.h2<TextProps>`
   font-weight: bold;
   color: ${(props) => (props.color ? props.color : COLORS.white)};
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
-  margin: ${(props) => (props.margin ? props.margin : '15px 0')};
+  margin: ${(props) => (props.margin ? props.margin : '0')};
   z-index: 99;
 `;
 
@@ -51,7 +51,7 @@ export const Body2 = styled.p<TextProps>`
   font-size: 16px;
   color: ${(props) => (props.color ? props.color : COLORS.white)};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : '500')};
-  line-height: 140%;
+  line-height: 150%;
   text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
   margin: ${(props) => (props.margin ? props.margin : '15px 0')};
 `;

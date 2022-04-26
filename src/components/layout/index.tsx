@@ -42,6 +42,7 @@ const Main = styled.div`
 `;
 
 const Workplace = styled.div`
+  overflow-y: hidden;
   position: relative;
   width: 100%;
   height: 100vh;
@@ -49,7 +50,8 @@ const Workplace = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 140px 100px 0 175px;
+  position: relative;
+  padding: 160px 100px 0 180px;
 `;
 
 export default Layout;
