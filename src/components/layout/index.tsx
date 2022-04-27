@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react';
 import Head from 'next/head';
-import Header from '../Header';
+import Header from './Header';
+import SidePanel from './SidePanel';
 import styled from 'styled-components';
 
 type Props = {
@@ -17,12 +18,17 @@ const Layout = ({children, title = 'Identix.Pass'}: Props) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
             </Head>
-            <div>
+            <Main>
                 <Header/>
-                <Main>
-                    {children}
-                </Main>
-            </div>
+                <div className="container">
+                    <Workplace>
+                        <SidePanel/>
+                        <Content>
+                            {children}
+                        </Content>
+                    </Workplace>
+                </div>
+            </Main>
         </>
     );
 };
@@ -30,10 +36,22 @@ const Layout = ({children, title = 'Identix.Pass'}: Props) => {
 const Main = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 65px;
   width: 100vw;
   height: 100vh;
   background: url('/assets/bg.png') center/cover no-repeat;
+`;
+
+const Workplace = styled.div`
+  overflow-y: hidden;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(179.18deg, #2A3F7E 6.96%, rgba(58, 163, 193, 0.6) 174.88%);
+`;
+
+const Content = styled.div`
+  position: relative;
+  padding: 160px 100px 0 180px;
 `;
 
 export default Layout;

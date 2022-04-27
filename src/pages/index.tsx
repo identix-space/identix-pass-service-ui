@@ -1,18 +1,23 @@
-import React, {ReactNode, ReactElement} from 'react';
-import Layout from '../components/layout';
-import {SignInWith} from '../components/Login';
+import React, {ReactNode} from 'react';
+import {LogIn} from '../components/templates/Login';
+import Header from '../components/layout/Header';
+import styled from 'styled-components';
 
 export default function IndexPage(): ReactNode {
 
     return (
-        <SignInWith/>
+        <Main>
+            <Header/>
+            <LogIn/>
+        </Main>
     );
 }
 
-IndexPage.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <Layout>
-            {page}
-        </Layout>
-    );
-};
+const Main = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 65px;
+  width: 100vw;
+  height: 100vh;
+  background: url('/assets/bg.png') center/cover no-repeat;
+`;

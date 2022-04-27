@@ -3,9 +3,9 @@ import {ApolloProvider} from '@apollo/client';
 import React, {ReactNode, ReactElement} from 'react';
 import type {NextPage} from 'next';
 import {AppProps} from 'next/app';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode

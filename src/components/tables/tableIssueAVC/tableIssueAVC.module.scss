@@ -1,0 +1,43 @@
+.table {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+}
+
+.thead {
+  background: linear-gradient(0deg, rgba(53, 87, 153, 0.29), rgba(53, 87, 153, 0.29)), #241D42;
+  color: white;
+}
+
+.head_td {
+  padding: 20px 15px;
+}
+
+.body_row:nth-of-type(odd) {
+  background: #334275;
+}
+
+.table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.body_row:nth-of-type(even) {
+  background: linear-gradient(0deg, rgba(53, 87, 153, 0.29), rgba(53, 87, 153, 0.29)), #241D42;
+}
+
+.body_td {
+  padding: 20px 15px;
+  color: white;
+  word-wrap: break-word;
+}
+
+.sort_button {
+  border: 0;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  background: url('/assets/sort-btn.svg') center/contain no-repeat;
+}
