@@ -50,8 +50,28 @@ const Workplace = styled.div`
 `;
 
 const Content = styled.div`
+  overflow-y: auto;
+  height: 100vh;
   position: relative;
-  padding: 160px 100px 0 180px;
+  padding: 140px 100px 100px 160px;
+
+  &::-webkit-scrollbar {
+    width: 12px;     
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #2A3F7E;
+    opacity: 0.5;
+  }
+
+  &::-webkit-scrollbar-thumb { 
+    border-radius: 20px;  
+    background: rgba(255, 255, 255, 0.23);
+  }
+  
+  @media(min-width: 1400px) {
+    padding: 160px 100px 100px 180px;
+  }
 `;
 
 export default Layout;

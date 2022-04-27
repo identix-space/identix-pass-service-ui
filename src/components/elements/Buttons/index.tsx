@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import React, {ReactNode} from 'react';
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from 'react';
 import {useRouter} from 'next/router';
+import styles from './Buttons.module.scss';
 
-interface ButtonProps {
+interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     children: ReactNode;
 }
 
-export const Button = ({children}: ButtonProps): JSX.Element => {
+export const Button = ({children, ...props}: ButtonProps): JSX.Element => {
     return (
-        <ButtonBlock>{children}</ButtonBlock>
+        <button className={styles.button} {...props}>{children}</button>
     );
 };
 
@@ -24,32 +25,6 @@ export const BackButton = (): JSX.Element => {
         <BackButtonBlock onClick={() => router.back()}>Back</BackButtonBlock>
     );
 };
-
-export const ButtonBlock = styled.button`
-  position: relative;
-  border: 0;
-  width: 100%;
-  height: 40px;
-  font-weight: 700;
-  font-size: 15px;
-  color: #FFFFFF;
-  background: linear-gradient(92.25deg, #8F5AE0 -10.04%, #37B9C6 116.12%);
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all .1s ease-in;
-  z-index: 99;
-
-  &:hover {
-    transform: scale(0.99);
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.35);
-  }
-  
-  &[disabled] {
-    pointer-events: none;
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), linear-gradient(92.25deg, #8F5AE0 -10.04%, #37B9C6 116.12%);
-  }
-`;
 
 export const ButtonTransparentBlock = styled.button`
   position: relative;
@@ -85,11 +60,11 @@ export const BackButtonBlock = styled.button`
   position: absolute;
   border: 0;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   color: #FFFFFF;
   background: none;
   padding: 0 0 0 20px;
-  top: 100px;
+  top: 95px;
   cursor: pointer;
   transition: all .1s ease-in;
   z-index: 99;
@@ -103,8 +78,19 @@ export const BackButtonBlock = styled.button`
     content: '';
     width: 10px;
     height: 16px;
-    top: 4px;
+    top: 0;
     left: 0;
     background: url('/assets/arrow-back.svg') center/contain no-repeat;
+
+    @media(min-width: 1400px) {
+      width: 9px;
+      height: 14px;
+      top: 1px;
+    }
+  }
+
+  @media(min-width: 1400px) {
+    top: 100px;
+    font-size: 16px;
   }
 `;

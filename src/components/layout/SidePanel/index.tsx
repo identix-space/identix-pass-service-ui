@@ -1,4 +1,5 @@
 import React, {useState, FC} from 'react';
+import Image from 'next/image';
 import VCWalletIcon from '../../../../public/assets/vc-wallet-icon.svg';
 import MarketplaceIcon from '../../../../public/assets/marketplace-icon.svg';
 import ServicesIcon from '../../../../public/assets/services-icon.svg';
@@ -8,6 +9,7 @@ import EventLogsIcon from '../../../../public/assets/event-logs-icon.svg';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import {Body2} from '../../../utils/typography';
 
 interface PanelProps {
     open: boolean;
@@ -79,6 +81,15 @@ const SidePanel = (): JSX.Element => {
 
     return (
         <Panel open={opened}>
+            <UserInfo>
+                <Avatar>
+                    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
+                </Avatar>
+                <UserTexts open={opened}>
+                    <Body2 margin="15px 0 0">did-ekjfebjfbbf</Body2>
+                    <PublicKey>Public key:1812ab...bde0cd</PublicKey>
+                </UserTexts>
+            </UserInfo>
             <nav>
                 <ul>
                     {menuItems.map(({href, title}) => (
@@ -104,13 +115,12 @@ const Panel = styled.aside<PanelProps>`
   position: absolute;
   left: 0;
   top: 0;
-  width: ${(props) => props.open ? '160px' : '78px'};
+  width: ${(props) => props.open ? '140px' : '68px'};
   height: 100%;
-  padding-top: 120px;
-  background: #2A3F7E;
+  padding-top: 85px;
+  background: #1b2f6c;
   cursor: pointer;
 
-  
   ul {
     position: relative;
     z-index: 99;
@@ -133,8 +143,13 @@ const Panel = styled.aside<PanelProps>`
         align-items: center;
         height: 50px;
         list-style: none;
-        padding: 12px 0 12px 28px;
-        font-size: 14px;
+        padding: 12px 0 12px 23px;
+        font-size: 13px;
+
+        @media (min-width: 1400px) {
+          padding: 12px 0 12px 28px;
+          font-size: 14px;
+        }
       }
 
       &:hover {
@@ -155,12 +170,20 @@ const Panel = styled.aside<PanelProps>`
       }
     }
   }
+
+  @media (min-width: 1400px) {
+    width: ${(props) => props.open ? '160px' : '78px'};
+  }
 `;
 
 const Title = styled.span<PanelProps>`
   display: ${(props) => props.open ? 'block' : 'none'};
   margin-top: 4px;
-  margin-left: 16px;
+  margin-left: 14px;
+
+  @media (min-width: 1400px) {
+    margin-left: 16px;
+  }
 `;
 
 const BgClick = styled.div`
@@ -175,9 +198,38 @@ const BgClick = styled.div`
   transition: all .2s;
 
   &:hover {
-    background: #2e4686;
+    background: #253c79;
     box-shadow: 1px 11px 12px #0CCEEE;
   }
+`;
+
+const UserInfo = styled.div`
+  position: relative;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  z-index: 99;
+`;
+
+const Avatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 2px solid #0BCDED;
+  filter: drop-shadow(0px 4px 12px rgba(11, 205, 237, 0.51));
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const PublicKey = styled.span`
+  font-size: 10px;
+  color: #0BCDED;
+`;
+
+const UserTexts = styled.div<PanelProps>`
+  display: ${(props) => props.open ? 'inline' : 'none'};
 `;
 
 export default SidePanel;

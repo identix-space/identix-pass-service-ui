@@ -60,12 +60,16 @@ export const LargeVCCard = ({title, did, status, issued, img}: CardProps): JSX.E
 const Card = styled.div`
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 400px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 8px;
   border: 4px solid #3fd0e9;
   padding: 22px;
+
+  @media(min-width: 1400px) {
+    height: 420px;
+  }
 `;
 
 const TopInfo = styled.div`

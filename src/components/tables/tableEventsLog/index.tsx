@@ -55,15 +55,17 @@ function SortButton({
     );
 }
 
-export function IssueAVCTable({data}: { data: Data }) {
+export function EventsLogTable({data}: { data: Data }) {
     const [sortKey, setSortKey] = useState<SortKeys>('id');
     const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
     const headers: { key: SortKeys; label: string }[] = [
         {key: 'id', label: 'Event ID'},
         {key: 'event_date', label: 'Event date'},
+        {key: 'credential', label: 'Credential(s)'},
         {key: 'event_type', label: 'Event type'},
-        {key: 'did', label: 'Dst DID'},
+        {key: 'src_did', label: 'Rst DID'},
+        {key: 'dst_did', label: 'Dst DID'},
         {key: 'status', label: 'Status'},
         {key: 'status_updated', label: 'Status updated'}
     ];
@@ -80,7 +82,7 @@ export function IssueAVCTable({data}: { data: Data }) {
     }
 
     return (
-        <table className={styles.table}>
+        <table className={styles.table_wide}>
             <thead className={styles.thead}>
                 <tr>
                     {headers.map((row) => {
@@ -107,8 +109,10 @@ export function IssueAVCTable({data}: { data: Data }) {
                         <tr key={person.id} className={styles.body_row}>
                             <td className={styles.body_td}>#{person.id}</td>
                             <td className={styles.body_td}>{person.event_date}</td>
+                            <td className={styles.body_td}>{person.credential}</td>
                             <td className={styles.body_td}>{person.event_type}</td>
-                            <td className={styles.body_td}>{person.did}</td>
+                            <td className={styles.body_td}>{person.src_did}</td>
+                            <td className={styles.body_td}>{person.dst_did}</td>
                             <td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>
                             <td className={styles.body_td}>{person.status_updated}</td>
                         </tr>

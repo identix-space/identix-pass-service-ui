@@ -4,6 +4,7 @@ import Layout from '../../components/layout';
 import {SmallVCCard} from '../../components/cards';
 import {Title2} from '../../utils/typography';
 import styled from 'styled-components';
+import {ServicesBlock} from '../../components/cards/ServicesBlock';
 
 export default function VcWalletPage(): ReactNode {
 
@@ -32,6 +33,7 @@ export default function VcWalletPage(): ReactNode {
                     </a>
                 </Link>
             </VCCards>
+            <ServicesBlock/>
         </>
     );
 }
@@ -41,9 +43,13 @@ const VCCards = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 25px;
+  gap: 20px 0;
   width: 100%;
   margin-top: 40px;
+  
+  @media(min-width: 1400px) {
+    gap: 25px 0;
+  }
 `;
 
 VcWalletPage.getLayout = function getLayout(page: ReactElement) {
