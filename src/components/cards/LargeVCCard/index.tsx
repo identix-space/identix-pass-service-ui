@@ -77,7 +77,7 @@ export const LargeVCCard = ({title, did, status, issued, img}: LargeVCCardProps)
                 <Body5 fontWeight="700">{status}</Body5>
             </TopRightLabel>
             <BottomLeftLabel>
-                <Body2 fontWeight="700">VC DID: {did} </Body2>
+                <Body2 fontWeight="700">VC DID: {did}</Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
