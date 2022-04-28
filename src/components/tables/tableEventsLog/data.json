@@ -1,0 +1,52 @@
+[
+  {
+    "id": 2343435452435,
+    "event_date": "19 Nov 2022 12:34:33",
+    "credential": "5 items",
+    "event_type": "Share credentials",
+    "src_did": "did:ever:abcd...123",
+    "dst_did": "did:ever:abcd...123",
+    "status": "Accepted",
+    "status_updated": "19 Feb 2022 12:33:32"
+  },
+  {
+    "id": 2332135345435,
+    "event_date": "19 Nov 2022 12:34:33",
+    "credential": "5 items",
+    "event_type": "Share credentials",
+    "src_did": "did:ever:abcd...123",
+    "dst_did": "did:ever:abcd...123",
+    "status": "Accepted",
+    "status_updated": "19 Feb 2022 12:33:32"
+  },
+  {
+    "id": 4543435345435,
+    "event_date": "19 Nov 2022 12:34:33",
+    "credential": "5 items",
+    "event_type": "Share credentials",
+    "src_did": "did:ever:abcd...123",
+    "dst_did": "did:ever:abcd...123",
+    "status": "Accepted",
+    "status_updated": "19 Feb 2022 12:33:32"
+  },
+  {
+    "id": 2343435345411,
+    "event_date": "19 Nov 2022 12:34:33",
+    "credential": "5 items",
+    "event_type": "Share credentials",
+    "src_did": "did:ever:abcd...123",
+    "dst_did": "did:ever:abcd...123",
+    "status": "Accepted",
+    "status_updated": "19 Feb 2022 12:33:32"
+  },
+  {
+    "id": 2343433415435,
+    "event_date": "19 Nov 2022 12:34:33",
+    "credential": "5 items",
+    "event_type": "Share credentials",
+    "src_did": "did:ever:abcd...123",
+    "dst_did": "did:ever:abcd...123",
+    "status": "Accepted",
+    "status_updated": "19 Feb 2022 12:33:32"
+  }
+]

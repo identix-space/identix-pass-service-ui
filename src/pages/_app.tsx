@@ -5,7 +5,6 @@ import type {NextPage} from 'next';
 import {AppProps} from 'next/app';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 type NextPageWithLayout = NextPage & {
     getLayout?: (page: ReactElement) => ReactNode
