@@ -10,10 +10,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {Body2} from '../../../utils/typography';
-
-interface PanelProps {
-    open: boolean;
-}
+import {SidePanelProps} from './SidePanel.props';
 
 const menuItems = [
     {
@@ -86,7 +83,7 @@ const SidePanel = (): JSX.Element => {
                     <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
                 </Avatar>
                 <UserTexts open={opened}>
-                    <Body2 margin="15px 0 0">did-ekjfebjfbbf</Body2>
+                    <Body2 margin="14px 0 0">did-ekjfebjfbbf</Body2>
                     <PublicKey>Public key:1812ab...bde0cd</PublicKey>
                 </UserTexts>
             </UserInfo>
@@ -111,7 +108,7 @@ const SidePanel = (): JSX.Element => {
     );
 };
 
-const Panel = styled.aside<PanelProps>`
+const Panel = styled.aside<SidePanelProps>`
   position: absolute;
   left: 0;
   top: 0;
@@ -173,10 +170,11 @@ const Panel = styled.aside<PanelProps>`
 
   @media (min-width: 1400px) {
     width: ${(props) => props.open ? '160px' : '78px'};
+    padding-top: 78px;
   }
 `;
 
-const Title = styled.span<PanelProps>`
+const Title = styled.span<SidePanelProps>`
   display: ${(props) => props.open ? 'block' : 'none'};
   margin-top: 4px;
   margin-left: 14px;
@@ -210,8 +208,12 @@ const UserInfo = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   z-index: 99;
+
+  @media (min-width: 1400px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const Avatar = styled.div`
@@ -228,7 +230,7 @@ const PublicKey = styled.span`
   color: #0BCDED;
 `;
 
-const UserTexts = styled.div<PanelProps>`
+const UserTexts = styled.div<SidePanelProps>`
   display: ${(props) => props.open ? 'inline' : 'none'};
 `;
 

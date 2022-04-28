@@ -3,13 +3,9 @@ import styled from 'styled-components';
 import {Title3} from '../../../utils/typography';
 import Image from 'next/image';
 import Link from 'next/link';
+import {ServicesBlockProps} from './ServicesBlock.props';
 
-interface ServicesProps {
-    image: string;
-    url: string;
-}
-
-const Service = ({image, url}: ServicesProps): JSX.Element => {
+const Service = ({image, url}: ServicesBlockProps): JSX.Element => {
     return (
         <ServiceBlock>
             <Link href={url}>

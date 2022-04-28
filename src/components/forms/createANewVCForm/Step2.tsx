@@ -1,10 +1,7 @@
 import React, {FC} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
-
-interface NextStepProps {
-    nextStep: () => void;
-}
+import {NextStepProps} from './createANewVCForm.props';
 
 export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     return (

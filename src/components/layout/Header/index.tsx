@@ -27,6 +27,7 @@ const HeaderWrapper = styled.header`
   
   @media(min-width: 1400px) {
     padding-left: 360px;
+    height: 56px;
   }
 `;
 

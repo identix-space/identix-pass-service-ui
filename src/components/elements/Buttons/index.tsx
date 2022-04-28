@@ -1,11 +1,8 @@
 import styled from 'styled-components';
-import React, {ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from 'react';
+import React from 'react';
 import {useRouter} from 'next/router';
 import styles from './Buttons.module.scss';
-
-interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-    children: ReactNode;
-}
+import {ButtonProps} from './Buttons.props';
 
 export const Button = ({children, ...props}: ButtonProps): JSX.Element => {
     return (

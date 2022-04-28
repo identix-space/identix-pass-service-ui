@@ -2,16 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/typography';
 import Image from 'next/image';
+import {LargeVCCardProps} from './LargeVCCard.props';
 
-interface CardProps {
-    title: string;
-    did: string;
-    status: 'Active' | 'Expired';
-    issued: string;
-    img: string;
-}
-
-export const LargeVCCard = ({title, did, status, issued, img}: CardProps): JSX.Element => {
+export const LargeVCCard = ({title, did, status, issued, img}: LargeVCCardProps): JSX.Element => {
     return (
         <Card>
             <TopInfo>

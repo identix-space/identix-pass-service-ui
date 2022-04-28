@@ -2,16 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {Body2, Label1, Label2} from '../../../utils/typography';
+import {SmallVCCardProps} from './SmallVCCard.props';
 
-interface CardProps {
-    citizenship: string;
-    title: string;
-    did: string;
-    status: 'Active' | 'Expired';
-    img: string;
-}
+export const SmallVCCard = ({citizenship, title, did, status, img}: SmallVCCardProps): JSX.Element => {
 
-export const SmallVCCard = ({citizenship, title, did, status, img}: CardProps): JSX.Element => {
     return (
         <Card>
             <Label1 color="black">{citizenship}</Label1>
