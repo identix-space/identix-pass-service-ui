@@ -1,5 +1,5 @@
 import React, {ReactNode, ReactElement} from 'react';
-import SortableTable from '../../components/tables/tableIssueAVC';
+import {IssueAVCTable} from '../../components/tables';
 import Layout from '../../components/layout';
 import data from '../../components/tables/tableIssueAVC/data.json';
 import {Body2, Title2} from '../../utils/typography';
@@ -13,7 +13,7 @@ export default function IssueAVCPage(): ReactNode {
         <>
             <Title2>Issue a VC</Title2>
             <Body2 margin="30px 0 40px">Here you can see services where your Verifiable Credentials may be utilized. As SSI adoption grows, you will see here not only complex crypto services, but also representatives of traditional areas (banks, medical centers, entertainment services, online schools, ticket providers, etc.).</Body2>
-            <SortableTable data={data} />
+            <IssueAVCTable data={data} />
             <ButtonWrapper>
                 <Link href="/issue-a-vc/new">
                     <a>

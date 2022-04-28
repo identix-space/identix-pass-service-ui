@@ -2,17 +2,46 @@ import React from 'react';
 import styled from 'styled-components';
 import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/typography';
 import Image from 'next/image';
+import {LargeVCCardProps} from './LargeVCCard.props';
+import {Modal} from '../../elements/Modal';
+import {useModal} from '../../elements/Modal/useModal';
 
-interface CardProps {
-    title: string;
-    did: string;
-    status: 'Active' | 'Expired';
-    issued: string;
-    img: string;
-}
+export const LargeVCCard = ({title, did, status, issued, img}: LargeVCCardProps): JSX.Element => {
+    const {isShown, toggle} = useModal();
+    const content = {
+        glossary: {
+            title: 'example glossary',
+            GlossDiv: {
+                title: 'S',
+                GlossList: {
+                    GlossEntry: {
+                        ID: 'SGML',
+                        SortAs: 'SGML',
+                        GlossTerm: 'Standard Generalized Markup Language',
+                        Acronym: 'SGML',
+                        Abbrev: 'ISO 8879:1986'
+                    }
+                }
+            }
+        },
+        glosssary: {
+            title: 'example glossary',
+            GlossDiv: {
+                title: 'S',
+                GlossList: {
+                    GlossEntry: {
+                        ID: 'SGML',
+                        SortAs: 'SGML',
+                        GlossTerm: 'Standard Generalized Markup Language',
+                        Acronym: 'SGML',
+                        Abbrev: 'ISO 8879:1986'
+                    }
+                }
+            }
+        }
+    };
 
-export const LargeVCCard = ({title, did, status, issued, img}: CardProps): JSX.Element => {
-    return (
+    return (<>
         <Card>
             <TopInfo>
                 <Image src={img} width="92" height="92"/>
@@ -50,22 +79,28 @@ export const LargeVCCard = ({title, did, status, issued, img}: CardProps): JSX.E
             <BottomLeftLabel>
                 <Body2 fontWeight="700">VC DID: {did} </Body2>
             </BottomLeftLabel>
-            <RawData>
+            <RawData onClick={toggle}>
                 Raw data
             </RawData>
         </Card>
+        <Modal headerText="Raw Data" isShown={isShown} hide={toggle} modalContent={JSON.stringify(content, undefined, 2)}/>
+    </>
     );
 };
 
 const Card = styled.div`
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 400px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 8px;
   border: 4px solid #3fd0e9;
   padding: 22px;
+
+  @media(min-width: 1400px) {
+    height: 420px;
+  }
 `;
 
 const TopInfo = styled.div`

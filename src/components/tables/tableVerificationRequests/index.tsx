@@ -1,6 +1,7 @@
 import React, {MouseEventHandler, useCallback, useState} from 'react';
 import styles from '../tableIssueAVC.module.scss';
 import data from './data.json';
+import {useRouter} from 'next/router';
 
 type Data = typeof data;
 
@@ -55,17 +56,20 @@ function SortButton({
     );
 }
 
-export function IssueAVCTable({data}: { data: Data }) {
-    const [sortKey, setSortKey] = useState<SortKeys>('id');
+export function VerificationRequestsTable({data}: { data: Data }) {
+    const [sortKey, setSortKey] = useState<SortKeys>('vc_did');
     const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
+    const router = useRouter();
+    const handleRowClick = () => {
+        router.push('/verifier/request');
+    };
 
     const headers: { key: SortKeys; label: string }[] = [
-        {key: 'id', label: 'Event ID'},
-        {key: 'event_date', label: 'Event date'},
-        {key: 'event_type', label: 'Event type'},
-        {key: 'did', label: 'Dst DID'},
+        {key: 'vc_did', label: 'VC DID'},
+        {key: 'holder', label: 'Holder'},
+        {key: 'request_date', label: 'Request date'},
         {key: 'status', label: 'Status'},
-        {key: 'status_updated', label: 'Status updated'}
+        {key: 'request_processed', label: 'Request processed'}
     ];
 
     const sortedData = useCallback(
@@ -104,13 +108,12 @@ export function IssueAVCTable({data}: { data: Data }) {
             <tbody>
                 {sortedData().map((person) => {
                     return (
-                        <tr key={person.id} className={styles.body_row}>
-                            <td className={styles.body_td}>#{person.id}</td>
-                            <td className={styles.body_td}>{person.event_date}</td>
-                            <td className={styles.body_td}>{person.event_type}</td>
-                            <td className={styles.body_td}>{person.did}</td>
+                        <tr key={person.id} className={styles.body_row} onClick={() => handleRowClick()}>
+                            <td className={styles.body_td}>{person.vc_did}</td>
+                            <td className={styles.body_td}>{person.holder}</td>
+                            <td className={styles.body_td}>{person.request_date}</td>
                             <td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>
-                            <td className={styles.body_td}>{person.status_updated}</td>
+                            <td className={styles.body_td}>{person.request_processed}</td>
                         </tr>
                     );
                 })}

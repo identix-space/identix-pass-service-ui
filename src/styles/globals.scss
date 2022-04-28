@@ -13,12 +13,11 @@ a {
   text-decoration: none;
 }
 .container {
-  width: 1130px;
+  width: 1000px;
   margin: 0 auto;
 
-  @media (max-width: 930px) {
-    padding-left: 15px;
-    padding-right: 15px;
+  @media (min-width: 1400px) {
+    width: 1130px;
   }
 }
 

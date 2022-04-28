@@ -2,14 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {Title3, Body2} from '../../../utils/typography';
+import {ServiceCardProps} from './ServiceCard.props';
 
-interface CardProps {
-    title: string;
-    description: string;
-    img: string;
-}
-
-export const ServiceCard = ({title, description, img}: CardProps): JSX.Element => {
+export const ServiceCard = ({title, description, img}: ServiceCardProps): JSX.Element => {
     return (
         <Card>
             <ImgWrapper>
