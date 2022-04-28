@@ -3,9 +3,45 @@ import styled from 'styled-components';
 import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/typography';
 import Image from 'next/image';
 import {LargeVCCardProps} from './LargeVCCard.props';
+import {Modal} from '../../elements/Modal';
+import {useModal} from '../../elements/Modal/useModal';
 
 export const LargeVCCard = ({title, did, status, issued, img}: LargeVCCardProps): JSX.Element => {
-    return (
+    const {isShown, toggle} = useModal();
+    const content = {
+        glossary: {
+            title: 'example glossary',
+            GlossDiv: {
+                title: 'S',
+                GlossList: {
+                    GlossEntry: {
+                        ID: 'SGML',
+                        SortAs: 'SGML',
+                        GlossTerm: 'Standard Generalized Markup Language',
+                        Acronym: 'SGML',
+                        Abbrev: 'ISO 8879:1986'
+                    }
+                }
+            }
+        },
+        glosssary: {
+            title: 'example glossary',
+            GlossDiv: {
+                title: 'S',
+                GlossList: {
+                    GlossEntry: {
+                        ID: 'SGML',
+                        SortAs: 'SGML',
+                        GlossTerm: 'Standard Generalized Markup Language',
+                        Acronym: 'SGML',
+                        Abbrev: 'ISO 8879:1986'
+                    }
+                }
+            }
+        }
+    };
+
+    return (<>
         <Card>
             <TopInfo>
                 <Image src={img} width="92" height="92"/>
@@ -43,10 +79,12 @@ export const LargeVCCard = ({title, did, status, issued, img}: LargeVCCardProps)
             <BottomLeftLabel>
                 <Body2 fontWeight="700">VC DID: {did}</Body2>
             </BottomLeftLabel>
-            <RawData>
+            <RawData onClick={toggle}>
                 Raw data
             </RawData>
         </Card>
+        <Modal headerText="Raw Data" isShown={isShown} hide={toggle} modalContent={JSON.stringify(content, undefined, 2)}/>
+    </>
     );
 };
 

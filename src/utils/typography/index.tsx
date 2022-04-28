@@ -96,6 +96,20 @@ export const Body3 = styled.p<TextProps>`
   }
 `;
 
+export const Body4 = styled.p<TextProps>`
+  font-size: 18px;
+  color: ${(props) => (props.color ? props.color : COLORS.white)};
+  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : '500')};
+  line-height: 140%;
+  text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
+  margin: ${(props) => (props.margin ? props.margin : '15px 0')};
+
+  @media(min-width: 1400px) {
+    font-size: 20px;
+    margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
+  }
+`;
+
 export const Body5 = styled.p<TextProps>`
   font-size: 24px;
   color: ${(props) => (props.color ? props.color : COLORS.white)};

@@ -19,7 +19,7 @@ const HeaderWrapper = styled.header`
   align-items: center;
   top: 0;
   width: 100%;
-  height: 60px;
+  height: 56px;
   padding-left: 300px;
   background: linear-gradient(114.12deg, rgba(42, 63, 126, 0.5) 45.55%, rgba(58, 163, 193, 0.6) 115.21%), rgba(97, 146, 211, 0.33);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
@@ -27,7 +27,7 @@ const HeaderWrapper = styled.header`
   
   @media(min-width: 1400px) {
     padding-left: 360px;
-    height: 56px;
+    height: 60px;
   }
 `;
 

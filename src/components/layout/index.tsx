@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from './Header';
 import SidePanel from './SidePanel';
 import styled from 'styled-components';
+import {SearchBar} from '../elements';
 
 type Props = {
     children: ReactNode;
@@ -24,6 +25,7 @@ const Layout = ({children, title = 'Identix.Pass'}: Props) => {
                     <Workplace>
                         <SidePanel/>
                         <Content>
+                            <SearchBar/>
                             {children}
                         </Content>
                     </Workplace>
