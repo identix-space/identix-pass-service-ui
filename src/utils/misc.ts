@@ -9,7 +9,9 @@ export function generateSSORedirectUrl(): string {
 }
 
 export function extractTokenFromUrl(url: string): string {
+    console.log('url ', url);
     const queryParams = new URLSearchParams(new URL(url).search);
+    console.log('queryParams ', queryParams);
     const userAccessToekn = queryParams.get('token');
     if (!userAccessToekn) {
         return '';
