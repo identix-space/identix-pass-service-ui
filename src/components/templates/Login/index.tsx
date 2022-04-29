@@ -19,6 +19,7 @@ export const LogIn: FC = () => {
 
     useEffect(() => {
         const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
+        console.log(urlAfterLogin);
         let token;
         try {
             token = extractTokenFromUrl(urlAfterLogin);
