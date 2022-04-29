@@ -1,10 +1,31 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
-import {ButtonTransparent} from '../../elements';
+// import {ButtonTransparent} from '../../elements';
+import {
+    extractTokenFromUrl,
+    generateAfterWeb2OutServisesUserLogin,
+    generateSSORedirectUrl,
+    redirect,
+    setAuthorizationToken
+} from '../../../utils/misc';
+import {useRouter} from 'next/router';
 
 export const LogIn: FC = () => {
+
+    const router = useRouter();
+    const redirectUrl = generateSSORedirectUrl();
+
+    useEffect(() => {
+        const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
+        const token = extractTokenFromUrl(urlAfterLogin);
+        if (token) {
+            setAuthorizationToken(token);
+            redirect('vc-wallet');
+        }
+    }, [router]);
+
     return (
         <LogInModal>
             <Left>
@@ -13,7 +34,10 @@ export const LogIn: FC = () => {
             </Left>
             <Right>
                 <Image src="/assets/identix-pass-logo.svg" width="270" height="260"/>
-                <ButtonTransparent><span>Log in</span></ButtonTransparent>
+                <button onClick={() => redirect(redirectUrl)}>
+                    Log In
+                    {/*<ButtonTransparent onClick={() => console.log('asdsad')}><span>Log in</span></ButtonTransparent>*/}
+                </button>
             </Right>
         </LogInModal>
     );

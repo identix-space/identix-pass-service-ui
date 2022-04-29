@@ -28,7 +28,8 @@
         "react-json-formatter": "^0.2.1",
         "sharp": "^0.30.3",
         "styled-components": "^5.3.5",
-        "zustand": "^4.0.0-rc.0"
+        "zustand": "^4.0.0-rc.0",
+        "zustand-persist": "^0.4.0"
     },
     "devDependencies": {
         "@graphql-codegen/add": "^3.1.1",
