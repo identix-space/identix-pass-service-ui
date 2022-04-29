@@ -25,6 +25,7 @@ export const LogIn: FC = () => {
             redirect('vc-wallet');
         }
     }, [router]);
+    
 
     return (
         <LogInModal>
