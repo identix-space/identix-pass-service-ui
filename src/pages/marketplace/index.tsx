@@ -3,7 +3,6 @@ import Layout from '../../components/layout';
 import {Title2} from '../../utils/typography';
 
 export default function MarketplacePage(): ReactNode {
-
     return (
         <>
             <Title2>Marketplace</Title2>

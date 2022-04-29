@@ -11,7 +11,32 @@ export default function VcWalletPage(): ReactNode {
     return (
         <>
             <Title2>VC Wallet</Title2>
+            {/*{loading ? <p>Loading...</p>*/}
+            {/*    : <VCCards>*/}
+            {/*        {countries.length > 0*/}
+            {/*            ? <>*/}
+            {/*                {countries.map((country, index) => (*/}
+            {/*                    <Link href="/vc-wallet/vc" passHref key={index}>*/}
+            {/*                        <a>*/}
+            {/*                            <SmallVCCard citizenship="Everscale.Land" title={country.name} status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>*/}
+            {/*                        </a>*/}
+            {/*                    </Link>*/}
+            {/*                ))}*/}
+            {/*            </>*/}
+            {/*            : <NoVCs>*/}
+            {/*                <Body4 fontWeight="700" margin="0 0 40px">You do not have Verifiable Credentials yet.<br/>*/}
+            {/*                    Go to marketplace to claim your first one!</Body4>*/}
+            {/*                <Link href="/marketplace">*/}
+            {/*                    <a>*/}
+            {/*                        <Button>Go to marketplace </Button>*/}
+            {/*                    </a>*/}
+            {/*                </Link>*/}
+            {/*            </NoVCs>*/}
+            {/*        }*/}
+            {/*    </VCCards>*/}
+            {/*}*/}
             <VCCards>
+
                 <Link href="/vc-wallet/vc" passHref>
                     <a>
                         <SmallVCCard citizenship="Everscale.Land" title="State ID" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>
@@ -19,29 +44,29 @@ export default function VcWalletPage(): ReactNode {
                 </Link>
                 <Link href="/vc-wallet/vc" passHref>
                     <a>
-                        <SmallVCCard citizenship="Everscale.Land" title="Proof of residency" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>
+                        <SmallVCCard citizenship="Everscale.Land" title="State ID" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>
                     </a>
                 </Link>
                 <Link href="/vc-wallet/vc" passHref>
                     <a>
-                        <SmallVCCard citizenship="Everscale.Academy" title="Financial Literacy Certificate" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-academy-logo.svg"/>
+                        <SmallVCCard citizenship="Everscale.Land" title="State ID" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>
                     </a>
                 </Link>
                 <Link href="/vc-wallet/vc" passHref>
                     <a>
-                        <SmallVCCard citizenship="SumSub" title="Basic KYC credential" status="Expired" did="did:ever:abcd...sds34" img="/assets/sumsub-logo.svg"/>
+                        <SmallVCCard citizenship="Everscale.Land" title="State ID" status="Active" did="did:ever:abcd...sds34" img="/assets/everscale-land-logo.svg"/>
                     </a>
                 </Link>
+                {/*<NoVCs>*/}
+                {/*    <Body4 fontWeight="700" margin="0 0 40px">You do not have Verifiable Credentials yet.<br/>*/}
+                {/*            Go to marketplace to claim your first one!</Body4>*/}
+                {/*    <Link href="/marketplace">*/}
+                {/*        <a>*/}
+                {/*            <Button>Go to marketplace </Button>*/}
+                {/*        </a>*/}
+                {/*    </Link>*/}
+                {/*</NoVCs>*/}
             </VCCards>
-            {/*<NoVCs>*/}
-            {/*    <Body4 fontWeight="700" margin="0 0 40px">You do not have Verifiable Credentials yet.<br/>*/}
-            {/*        Go to marketplace to claim your first one!</Body4>*/}
-            {/*    <Link href="/marketplace">*/}
-            {/*        <a>*/}
-            {/*            <Button>Go to marketplace </Button>*/}
-            {/*        </a>*/}
-            {/*    </Link>*/}
-            {/*</NoVCs>*/}
             <ServicesBlock/>
         </>
     );
@@ -83,3 +108,15 @@ VcWalletPage.getLayout = function getLayout(page: ReactElement) {
         </Layout>
     );
 };
+
+// export async function getServerSideProps() {
+//     const {data, loading} = await getApolloClient.query<ExampleQueryQuery>({
+//         query: ExampleQueryDocument
+//     });
+//     return {
+//         props: {
+//             data,
+//             loading
+//         }
+//     };
+// }

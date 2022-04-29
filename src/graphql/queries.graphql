@@ -1,28 +1,20 @@
-query Debug {
-    debug
-}
-
-mutation Echo($text: String!) {
-    echo(text: $text)
-}
-
-mutation Auth($code: String!) {
-    auth(code: $code) {
-        token
-        user {
-            id
-            email
-            name
-            did
-        }
+query GetUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
+  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+    vcDid
+    vcTypeDid
+    vcParams
+    vcRawText
+    issuerDid
+    holderDid
+    createdAt
+    updatedAt
+    verificationCases {
+        verifierDid
+        status
     }
+  }
 }
 
-query WhoAmI {
-    whoami {
-        id
-        name
-        email
-        did
-    }
+mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
+    issuerVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams )
 }

@@ -78,7 +78,7 @@ const SidePanel = (): JSX.Element => {
 
     return (
         <Panel open={opened}>
-            <UserInfo>
+            <UserInfo open={opened}>
                 <Avatar>
                     <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
                 </Avatar>
@@ -196,12 +196,12 @@ const BgClick = styled.div`
   transition: all .2s;
 
   &:hover {
-    background: #253c79;
+    //background: #253c79;
     box-shadow: 1px 11px 12px #0CCEEE;
   }
 `;
 
-const UserInfo = styled.div`
+const UserInfo = styled.div<SidePanelProps>`
   position: relative;
   height: 100px;
   display: flex;
@@ -209,7 +209,8 @@ const UserInfo = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
-  z-index: 99;
+  z-index: ${(props) => props.open ? '99' : '97'};
+  cursor: auto;
 
   @media (min-width: 1400px) {
     margin-bottom: 30px;

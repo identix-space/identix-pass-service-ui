@@ -1,29 +1,57 @@
 import create from 'zustand';
 
-export type VCType = {
-    citizenship: string;
-    title: string;
-    did: string;
-    status: 'Active' | 'Expired';
-    img: string;
-    setCitizenship: (citizenship: string) => void;
-    setTitle: (title: string) => void;
-    setDid: (did: string) => void;
-    setStatus: (status: 'Active' | 'Expired') => void;
-    setImg: (img: string) => void;
+interface VC {
+    vcDid: string;
+    vcTypeDid: string;
+    vcParams: string;
+    vcRawText: string;
+    issuerDid: string;
+    holderDid: string;
 }
 
-const useStore = create<VCType>((set) => ({
-    citizenship: 'Belarus',
-    title: 'State ID',
-    did: '31253313412',
-    status: 'Active',
-    img: '/assets/identix-pass-logo.svg',
-    setCitizenship: (citizenship) => set({citizenship}),
-    setTitle: (title) => set({title}),
-    setDid: (did) => set({did}),
-    setStatus: (status) => set({status}),
-    setImg: (img) => set({img})
+interface issuerVC {
+    holderDid: string;
+    vcTypeDid: string;
+    vcParams: string;
+    setHolderDid: (holderDid: string) => void;
+    setVcTypeDid: (vcTypeDid: string) => void;
+    setVcParams: (vcParams: string) => void;
+}
+
+interface VCState {
+    vcs: VC[];
+    addVC: (vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string) => void;
+}
+
+export const useVCStore = create<VCState>((set) => ({
+    vcs: [],
+    addVC: (vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string) =>
+        set((state) => ({
+            vcs: [
+                ...state.vcs,
+                {vcDid: vcDid, vcTypeDid: vcTypeDid, vcParams: vcParams, vcRawText: vcRawText, issuerDid: issuerDid, holderDid: holderDid}
+            ]
+        }))
 }));
 
-export default useStore;
+export const useIssuerVCStore = create<issuerVC>((set) => ({
+    holderDid: '',
+    setHolderDid: (holderDid) =>
+        set((state) => ({
+            ...state,
+            holderDid
+        })),
+    vcTypeDid: '',
+    setVcTypeDid: (vcTypeDid) =>
+        set((state) => ({
+            ...state,
+            vcTypeDid
+        })),
+    vcParams: '',
+    setVcParams: (vcParams) =>
+        set((state) => ({
+            ...state,
+            vcParams
+        }))
+}));
+

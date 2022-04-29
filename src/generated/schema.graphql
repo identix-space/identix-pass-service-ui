@@ -3,28 +3,50 @@ schema {
   mutation: Mutation
 }
 
-type AuthResponse {
-  token: String!
-  user: User!
+enum AgentsRoles {
+  holder
+  issuer
+  verifier
 }
 
-scalar Date
-
-scalar Json
+type EventLogEntry {
+  created: String!
+  id: Float!
+  message: String!
+  owner: String!
+}
 
 type Mutation {
-  auth(code: String!): AuthResponse!
-  echo(text: String!): String!
+  issuerVC(holderDid: String!, vcParams: String!, vcTypeDid: String!): Boolean!
+  requestVcVerification(vcDid: String!, verifierDid: String!): Boolean!
+  verifyVC(vcDid: String!, verificationStatus: VerificationStatuses!): Boolean!
 }
 
 type Query {
-  debug: Json
-  whoami: User
+  checkAccountExists(did: String!): Boolean!
+  getEventLogEntries(count: Int, startIndex: Int): [EventLogEntry!]!
+  getUserVCs(count: Int, role: AgentsRoles, startIndex: Int): [VC!]!
 }
 
-type User {
-  did: String!
-  email: String
-  id: ID!
-  name: String!
+type VC {
+  createdAt: String!
+  holderDid: String!
+  issuerDid: String!
+  updatedAt: String!
+  vcDid: String!
+  vcParams: String!
+  vcRawText: String!
+  vcTypeDid: String!
+  verificationCases: [VerificationCase!]!
+}
+
+type VerificationCase {
+  status: VerificationStatuses!
+  verifierDid: String!
+}
+
+enum VerificationStatuses {
+  approved
+  pendingApproval
+  rejected
 }
