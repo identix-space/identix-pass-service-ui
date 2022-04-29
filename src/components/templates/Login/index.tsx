@@ -19,7 +19,12 @@ export const LogIn: FC = () => {
 
     useEffect(() => {
         const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
-        const token = extractTokenFromUrl(urlAfterLogin);
+        let token;
+        try {
+            token = extractTokenFromUrl(urlAfterLogin);
+        } catch (e) {
+            console.log(e);
+        }
         if (token) {
             setAuthorizationToken(token);
             redirect('vc-wallet');
