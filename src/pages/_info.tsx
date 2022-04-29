@@ -5,7 +5,7 @@ export default function _InfoPage(): ReactNode {
     return (
         <div>
             {
-                `${packageJson.name} ${packageJson.version} ${String(process.env.NEXT_PUBLIC_APP_URL)}`
+                `${packageJson.name} ${packageJson.version}`
             }
             <hr/>
             {
