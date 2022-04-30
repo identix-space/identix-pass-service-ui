@@ -4,5 +4,6 @@ export interface SmallVCCardProps {
     did: string;
     status: 'Active' | 'Expired';
     img: string;
+    verificationStatus?: string;
 }
 

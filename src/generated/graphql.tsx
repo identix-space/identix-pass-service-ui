@@ -107,14 +107,23 @@ export enum VerificationStatuses {
   Rejected = 'rejected'
 }
 
-export type GetUserVCsQueryVariables = Exact<{
+export type GetUserVCsHolderQueryVariables = Exact<{
   role?: InputMaybe<AgentsRoles>;
   startIndex?: InputMaybe<Scalars['Int']>;
   count?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type GetUserVCsQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> }> };
+export type GetUserVCsHolderQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> }> };
+
+export type GetUserVCsIssuerQueryVariables = Exact<{
+  role?: InputMaybe<AgentsRoles>;
+  startIndex?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetUserVCsIssuerQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string }> };
 
 export type CheckAccountExistsQueryVariables = Exact<{
   did: Scalars['String'];
@@ -162,8 +171,8 @@ export type VerifyVcMutationVariables = Exact<{
 export type VerifyVcMutation = { __typename?: 'Mutation', verifyVC: boolean };
 
 
-export const GetUserVCsDocument = gql`
-    query getUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
+export const GetUserVCsHolderDocument = gql`
+    query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
   getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
     vcDid
     vcTypeDid
@@ -182,16 +191,16 @@ export const GetUserVCsDocument = gql`
     `;
 
 /**
- * __useGetUserVCsQuery__
+ * __useGetUserVCsHolderQuery__
  *
- * To run a query within a React component, call `useGetUserVCsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserVCsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserVCsHolderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserVCsHolderQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserVCsQuery({
+ * const { data, loading, error } = useGetUserVCsHolderQuery({
  *   variables: {
  *      role: // value for 'role'
  *      startIndex: // value for 'startIndex'
@@ -199,17 +208,59 @@ export const GetUserVCsDocument = gql`
  *   },
  * });
  */
-export function useGetUserVCsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserVCsQuery, GetUserVCsQueryVariables>) {
+export function useGetUserVCsHolderQuery(baseOptions?: Apollo.QueryHookOptions<GetUserVCsHolderQuery, GetUserVCsHolderQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserVCsQuery, GetUserVCsQueryVariables>(GetUserVCsDocument, options);
+        return Apollo.useQuery<GetUserVCsHolderQuery, GetUserVCsHolderQueryVariables>(GetUserVCsHolderDocument, options);
       }
-export function useGetUserVCsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserVCsQuery, GetUserVCsQueryVariables>) {
+export function useGetUserVCsHolderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserVCsHolderQuery, GetUserVCsHolderQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserVCsQuery, GetUserVCsQueryVariables>(GetUserVCsDocument, options);
+          return Apollo.useLazyQuery<GetUserVCsHolderQuery, GetUserVCsHolderQueryVariables>(GetUserVCsHolderDocument, options);
         }
-export type GetUserVCsQueryHookResult = ReturnType<typeof useGetUserVCsQuery>;
-export type GetUserVCsLazyQueryHookResult = ReturnType<typeof useGetUserVCsLazyQuery>;
-export type GetUserVCsQueryResult = Apollo.QueryResult<GetUserVCsQuery, GetUserVCsQueryVariables>;
+export type GetUserVCsHolderQueryHookResult = ReturnType<typeof useGetUserVCsHolderQuery>;
+export type GetUserVCsHolderLazyQueryHookResult = ReturnType<typeof useGetUserVCsHolderLazyQuery>;
+export type GetUserVCsHolderQueryResult = Apollo.QueryResult<GetUserVCsHolderQuery, GetUserVCsHolderQueryVariables>;
+export const GetUserVCsIssuerDocument = gql`
+    query getUserVCsIssuer($role: AgentsRoles, $startIndex: Int, $count: Int) {
+  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+    vcDid
+    vcTypeDid
+    vcParams
+    issuerDid
+    holderDid
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetUserVCsIssuerQuery__
+ *
+ * To run a query within a React component, call `useGetUserVCsIssuerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserVCsIssuerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserVCsIssuerQuery({
+ *   variables: {
+ *      role: // value for 'role'
+ *      startIndex: // value for 'startIndex'
+ *      count: // value for 'count'
+ *   },
+ * });
+ */
+export function useGetUserVCsIssuerQuery(baseOptions?: Apollo.QueryHookOptions<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>(GetUserVCsIssuerDocument, options);
+      }
+export function useGetUserVCsIssuerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>(GetUserVCsIssuerDocument, options);
+        }
+export type GetUserVCsIssuerQueryHookResult = ReturnType<typeof useGetUserVCsIssuerQuery>;
+export type GetUserVCsIssuerLazyQueryHookResult = ReturnType<typeof useGetUserVCsIssuerLazyQuery>;
+export type GetUserVCsIssuerQueryResult = Apollo.QueryResult<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>;
 export const CheckAccountExistsDocument = gql`
     query checkAccountExists($did: String!) {
   checkAccountExists(did: $did)

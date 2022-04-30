@@ -4,7 +4,17 @@ import styled from 'styled-components';
 import {Body2, Label1, Label2} from '../../../utils/typography';
 import {SmallVCCardProps} from './SmallVCCard.props';
 
-export const SmallVCCard = ({citizenship, title, did, status, img}: SmallVCCardProps): JSX.Element => {
+function startAndEnd(str: string) {
+    const lngth = 35;
+    const gapMin = 0;
+    const gapMax = 9;
+    if (str && str.length > lngth) {
+        return `${str.substr(gapMin, gapMax)}...${str.substr(str.length - gapMax, str.length)}`;
+    }
+    return str;
+}
+
+export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus}: SmallVCCardProps): JSX.Element => {
 
     return (
         <Card>
@@ -13,12 +23,18 @@ export const SmallVCCard = ({citizenship, title, did, status, img}: SmallVCCardP
                 <Image src={img} width="62" height="62"/>
                 <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
             </ImageTitleBlock>
+            {verificationStatus && <VerificationLabel>
+                <Label2 fontWeight="600" color={verificationStatus === 'approved' ? '#7EF606' : verificationStatus === 'rejected' ? '#FF0000' : verificationStatus === 'pendingApproval' ? '#999999' : '#FFFFFF'}>{verificationStatus === 'pendingApproval' ? 'Pending' : verificationStatus}</Label2>
+            </VerificationLabel>}
             <TopRightLabel>
-                <Label2 fontWeight="700">{status}</Label2>
+                <Label2 fontWeight="600">{status}</Label2>
             </TopRightLabel>
             <BottomLeftLabel>
-                <Label2 fontWeight="700">VC DID: {did}</Label2>
+                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did)}</u></Label2>
             </BottomLeftLabel>
+            {/*<SendToVerifier>*/}
+            {/*    <Body3 fontWeight="700" color="black">Send to verifier</Body3>*/}
+            {/*</SendToVerifier>*/}
         </Card>
     );
 };
@@ -52,6 +68,21 @@ const ImageTitleBlock = styled.div`
   margin-top: 11px;
 `;
 
+const VerificationLabel = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -1px;
+  right: 50px;
+  width: 160px;
+  height: 32px;
+  padding-right: 15px;
+  text-transform: capitalize;
+  padding-bottom: 2px;
+  background: url('/assets/service-card-label.svg') center/contain no-repeat;
+`;
+
 const TopRightLabel = styled.div`
   position: absolute;
   display: flex;
@@ -69,10 +100,22 @@ const BottomLeftLabel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: -1px;
-  left: -1px;
-  width: 320px;
+  bottom: -4px;
+  left: -3px;
+  width: 250px;
   height: 32px;
-  padding-left: 18px;
+  padding-left: 13px;
   background: url('/assets/card-label-left-sm.svg') center/contain no-repeat;
 `;
+
+// const SendToVerifier = styled.div`
+//   position: absolute;
+//   bottom: 0;
+//   right: 16px;
+//   color: black;
+//   text-decoration: underline;
+//
+//   &:hover {
+//     text-decoration: none;
+//   }
+// `;

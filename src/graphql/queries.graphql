@@ -1,4 +1,4 @@
-query getUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
+query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
   getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
     vcDid
     vcTypeDid
@@ -12,6 +12,17 @@ query getUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
         verifierDid
         status
     }
+  }
+}
+
+query getUserVCsIssuer($role: AgentsRoles, $startIndex: Int, $count: Int) {
+  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+    vcDid
+    vcTypeDid
+    vcParams
+    issuerDid
+    holderDid
+    createdAt
   }
 }
 
