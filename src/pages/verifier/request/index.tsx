@@ -16,7 +16,7 @@ export default function RequestPage(): ReactNode {
                 <Date>19 Nov 2022 19:55</Date>
                 <Status>Processing</Status>
             </StatusCard>
-            <LargeVCCard title="Everscale.id" did="did:ever:xe65...cdh764" issued="18 Nov 2022 17:15" status="Active" img="/assets/everscale-land-logo.svg"/>
+            <LargeVCCard citizenship="Everscale.id" did="did:ever:xe65...cdh764" issued="18 Nov 2022 17:15" status="Active" img="/assets/everscale-land-logo.svg" firstName="J" lastName="M" dateOfBirth="260797" id="12312321"/>
             <ButtonWrapper>
                 <Button>Accept</Button>
             </ButtonWrapper>

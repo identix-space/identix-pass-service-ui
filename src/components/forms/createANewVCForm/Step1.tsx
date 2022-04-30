@@ -1,19 +1,44 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
+import {useIssuerVCStore} from '../../../store/store';
+
+interface InputProps {
+    match: boolean;
+}
 
 export const StepOne: FC<NextStepProps> = ({nextStep}): JSX.Element => {
+    const [value, setValue] = useState('');
+    const [match, setMatch] = useState(true);
+    const {setHolderDid} = useIssuerVCStore();
+
+    const goNextStep = () => {
+        if (value.match(/^did:ever:*/)) {
+            setMatch(true);
+            setHolderDid(value);
+            nextStep();
+        } else {
+            setMatch(false);
+        }
+    };
+
     return (
         <>
             <Form>
                 <InputRow>
-                    <Input id="did" type="text"/>
+                    <Input match={match} id="did" type="text" value={value} onChange={(event) => {
+                        setValue(event.target.value);
+                    }}/>
                     <Label htmlFor="did">Insert the DID of the VC holder here.<br/>
-                    Currently only <strong>did:ever</strong> method is supported.</Label>
+                        Currently only <strong>did:ever</strong> method is supported.</Label>
                 </InputRow>
+                {!match ? <Error>Wrong DID string. Please, match the “did:method:xyz123” format</Error> : <></>}
                 <ButtonWrapper>
-                    <Button onClick={() => nextStep()}>Continue</Button>
+                    <Button onClick={(event) => {
+                        goNextStep();
+                        event.preventDefault();
+                    }}>Continue</Button>
                 </ButtonWrapper>
             </Form>
         </>
@@ -33,26 +58,26 @@ const InputRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  
+
   & > * {
     flex: 0 0 auto;
   }
 `;
 
-const Input = styled.input`
+const Input = styled.input<InputProps>`
   width: 60%;
   height: 56px;
   padding: 15px 22px;
   background: #FFFFFF;
+  border: ${(props) => props.match ? '2px solid #FFFFFF' : '2px solid #FF0000'};
   font-size: 16px;
   font-weight: 700;
-  border: none;
   border-radius: 3px;
-  
+
   :active {
     outline: 0;
   }
-  
+
   :focus {
     outline: 0;
   }
@@ -67,4 +92,14 @@ const Label = styled.label`
 
 const ButtonWrapper = styled.div`
   width: 60%;
+`;
+
+const Error = styled.div`
+  width: fit-content;
+  display: block;
+  color: #FF0000;
+  background: #FFFFFF;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 13px;
 `;

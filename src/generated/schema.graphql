@@ -26,6 +26,7 @@ type Query {
   checkAccountExists(did: String!): Boolean!
   getEventLogEntries(count: Int, startIndex: Int): [EventLogEntry!]!
   getUserVCs(count: Int, role: AgentsRoles, startIndex: Int): [VC!]!
+  whoami: String!
 }
 
 type VC {

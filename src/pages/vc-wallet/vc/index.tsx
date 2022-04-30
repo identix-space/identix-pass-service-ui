@@ -11,7 +11,7 @@ export default function VcCardPage(): ReactNode {
         <>
             <BackButton/>
             <Title2 margin="0 0 40px">VC Wallet</Title2>
-            <LargeVCCard title="Everscale.id" did="did:ever:xe65...cdh764" issued="18 Nov 2022 17:15" status="Active" img="/assets/everscale-land-logo.svg"/>
+            <LargeVCCard citizenship="Everscale.id" did="did:ever:xe65...cdh764" issued="18 Nov 2022 17:15" status="Active" img="/assets/everscale-land-logo.svg" firstName="J" lastName="M" dateOfBirth="260797" id="12312321"/>
             <ServicesBlock/>
         </>
     );

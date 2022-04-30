@@ -1,4 +1,4 @@
-query GetUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
+query getUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
   getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
     vcDid
     vcTypeDid
@@ -15,6 +15,31 @@ query GetUserVCs($role: AgentsRoles, $startIndex: Int, $count: Int) {
   }
 }
 
+query checkAccountExists($did: String!) {
+    checkAccountExists(did: $did)
+}
+
+query getEventLogEntries($startIndex: Int, $count: Int) {
+    getEventLogEntries(startIndex: $startIndex, count: $count) {
+        id
+        owner
+        created
+        message
+    }
+}
+
+query whoami {
+    whoami
+}
+
 mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
-    issuerVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams )
+    issuerVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)
+}
+
+mutation requestVcVerification($verifierDid: String!, $vcDid: String!) {
+    requestVcVerification(verifierDid: $verifierDid, vcDid: $vcDid)
+}
+
+mutation verifyVC($vcDid: String!, $verificationStatus: VerificationStatuses!) {
+    verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
 }

@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
-// import {ButtonTransparent} from '../../elements';
+import {ButtonTransparent} from '../../elements';
 import {
     extractTokenFromUrl,
     generateAfterWeb2OutServisesUserLogin,
@@ -40,10 +40,9 @@ export const LogIn: FC = () => {
             </Left>
             <Right>
                 <Image src="/assets/identix-pass-logo.svg" width="270" height="260"/>
-                <button onClick={() => redirect(redirectUrl)}>
+                <ButtonTransparent onClick={() => redirect(redirectUrl)}>
                     Log In
-                    {/*<ButtonTransparent onClick={() => console.log('asdsad')}><span>Log in</span></ButtonTransparent>*/}
-                </button>
+                </ButtonTransparent>
             </Right>
         </LogInModal>
     );

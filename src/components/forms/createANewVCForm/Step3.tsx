@@ -3,14 +3,36 @@ import styled from 'styled-components';
 import {Title2} from '../../../utils/typography';
 import {LargeVCCard} from '../../cards';
 import {Button} from '../../elements';
+import {useIssuerVCStore} from '../../../store/store';
+import {useIssuerVcMutation} from '../../../generated/graphql';
 
 export const StepThree: FC = (): JSX.Element => {
+    const {holderDid, vcTypeDid, vcTypeTitle, vcParams} = useIssuerVCStore();
+    const [issuerVc, {loading, error}] = useIssuerVcMutation({variables: {holderDid: holderDid, vcTypeDid: vcTypeDid, vcParams: vcParams}});
+
+    console.log(vcTypeDid);
+    if (loading) {
+        return <p>Submitting...</p>;
+    }
+    if (error) {
+        return <p>{`Submission error! ${error.message}`}</p>;
+    }
+
     return (
         <FinalForm>
-            <Title2 margin="0 0 45px">State ID</Title2>
-            <LargeVCCard title="Everscale.id" did="did:ever:xe65...cdh764" issued="18 Nov 2022 17:15" status="Active" img="/assets/everscale-land-logo.svg"/>
+            <Title2 margin="0 0 45px">{vcTypeTitle}</Title2>
+            <LargeVCCard
+                citizenship={JSON.parse(vcParams).citizenship}
+                did={holderDid}
+                issued={JSON.parse(vcParams).dateOfIssuance}
+                status="Review"
+                img="/assets/everscale-land-logo.svg"
+                firstName={JSON.parse(vcParams).firstName}
+                lastName={JSON.parse(vcParams).lastName}
+                dateOfBirth={JSON.parse(vcParams).dateOfBirth}
+                id={JSON.parse(vcParams).id}/>
             <ButtonWrapper>
-                <Button>Sign and issue</Button>
+                <Button onClick={() => issuerVc()}>Sign and issue</Button>
             </ButtonWrapper>
         </FinalForm>
     );
