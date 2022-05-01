@@ -61,6 +61,7 @@ export type Query = {
   checkAccountExists: Scalars['Boolean'];
   getEventLogEntries: Array<EventLogEntry>;
   getUserVCs: Array<Vc>;
+  getVC: Vc;
   whoami: Scalars['String'];
 };
 
@@ -80,6 +81,11 @@ export type QueryGetUserVCsArgs = {
   count?: InputMaybe<Scalars['Int']>;
   role?: InputMaybe<AgentsRoles>;
   startIndex?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryGetVcArgs = {
+  vcDid: Scalars['String'];
 };
 
 export type Vc = {
