@@ -6,14 +6,19 @@ import {ReactElement} from 'react';
 
 interface IAuthProvider {
     protectedRoutes: string[];
+    publicRoutes: string[];
     children: ReactElement;
 }
 
 
 export const AuthProvider = (props: IAuthProvider) => {
+
+    const authTokenConstant = 'authorization-token';
+
     const router = useRouter();
 
-    const pathIsProtected = props.protectedRoutes.includes(router.pathname);
+    const pathIsProtected = props.protectedRoutes.includes(router.pathname.split('/')[1]);
+    const pathIsPublic = props.publicRoutes.includes(router.pathname);
 
     const [whoami] = useWhoamiLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
@@ -31,14 +36,19 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
+                            localStorage.removeItem(authTokenConstant);
                             redirect('/');
                         }
                     } else {
+                        localStorage.removeItem(authTokenConstant);
                         redirect('/');
                     }
                 } catch (e) {
+                    localStorage.removeItem(authTokenConstant);
                     redirect('/');
                 }
+            } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
+                redirect('vc-wallet');
             }
         })();
     }, [pathIsProtected]);
