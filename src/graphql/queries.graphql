@@ -26,6 +26,23 @@ query getUserVCsIssuer($role: AgentsRoles, $startIndex: Int, $count: Int) {
   }
 }
 
+query getVC($vcDid: String!) {
+  getVC(vcDid: $vcDid) {
+    vcDid
+        vcTypeDid
+        vcParams
+        vcRawText
+        issuerDid
+        holderDid
+        createdAt
+        updatedAt
+        verificationCases {
+            verifierDid
+            status
+        }
+  }
+}
+
 query checkAccountExists($did: String!) {
     checkAccountExists(did: $did)
 }

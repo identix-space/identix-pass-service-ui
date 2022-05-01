@@ -4,6 +4,8 @@ import Header from './Header';
 import SidePanel from './SidePanel';
 import styled from 'styled-components';
 import {SearchBar} from '../elements';
+import {ApolloProvider} from '@apollo/client';
+import {getApolloClient} from '../../utils/ApolloClient';
 
 type Props = {
     children: ReactNode;
@@ -22,13 +24,15 @@ const Layout = ({children, title = 'Identix.Pass'}: Props) => {
             <Main>
                 <Header/>
                 <div className="container">
-                    <Workplace>
-                        <SidePanel/>
-                        <Content>
-                            <SearchBar/>
-                            {children}
-                        </Content>
-                    </Workplace>
+                    <ApolloProvider client={getApolloClient}>
+                        <Workplace>
+                            <SidePanel/>
+                            <Content>
+                                <SearchBar/>
+                                {children}
+                            </Content>
+                        </Workplace>
+                    </ApolloProvider>
                 </div>
             </Main>
         </>

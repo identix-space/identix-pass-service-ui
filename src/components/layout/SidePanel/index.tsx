@@ -11,6 +11,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {Body2} from '../../../utils/typography';
 import {SidePanelProps} from './SidePanel.props';
+import {useWhoamiQuery} from '../../../generated/graphql';
 
 const menuItems = [
     {
@@ -72,9 +73,20 @@ const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
     }
 };
 
+function startAndEnd(str: string) {
+    const lngth = 35;
+    const gapMin = 0;
+    const gapMax = 7;
+    if (str && str.length > lngth) {
+        return `${str.substr(gapMin, gapMax)}...${str.substr(str.length - gapMax, str.length)}`;
+    }
+    return str;
+}
+
 const SidePanel = (): JSX.Element => {
     const [opened, setOpened] = useState(false);
     const router = useRouter();
+    const {data} = useWhoamiQuery();
 
     return (
         <Panel open={opened}>
@@ -83,8 +95,8 @@ const SidePanel = (): JSX.Element => {
                     <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
                 </Avatar>
                 <UserTexts open={opened}>
-                    <Body2 margin="14px 0 0">did-ekjfebjfbbf</Body2>
-                    <PublicKey>Public key:1812ab...bde0cd</PublicKey>
+                    <Body2 margin="14px 0 0">{data && startAndEnd(data.whoami)}</Body2>
+                    {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
                 </UserTexts>
             </UserInfo>
             <nav>
@@ -226,10 +238,10 @@ const Avatar = styled.div`
   overflow: hidden;
 `;
 
-const PublicKey = styled.span`
-  font-size: 10px;
-  color: #0BCDED;
-`;
+// const PublicKey = styled.span`
+//   font-size: 10px;
+//   color: #0BCDED;
+// `;
 
 const UserTexts = styled.div<SidePanelProps>`
   display: ${(props) => props.open ? 'inline' : 'none'};

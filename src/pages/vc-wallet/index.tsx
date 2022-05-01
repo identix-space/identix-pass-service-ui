@@ -19,7 +19,7 @@ export default function VcWalletPage(): ReactNode {
                     {data && data.getUserVCs.length > 0
                         ? <>
                             {data.getUserVCs.map((vc, index) => (
-                                <Link href="/vc-wallet/vc" passHref key={index}>
+                                <Link href={'/vc-wallet/[id]'} as={`/vc-wallet/${vc.vcDid}`} passHref key={index}>
                                     <a>
                                         <SmallVCCard citizenship="Everscale.Land" title="State ID" status="Active" did={vc.vcDid} img="/assets/everscale-land-logo.svg"/>
                                     </a>

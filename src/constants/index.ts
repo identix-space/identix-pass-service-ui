@@ -1,2 +1,2 @@
-export const privateRoutes = ['issue-a-vc', 'marketplace', 'services', 'vc-wallet', 'verifier', 'event-logs'];
+export const privateRoutes = ['issue-a-[id]', 'marketplace', 'services', '[id]-wallet', 'verifier', 'event-logs'];
 export const publicRoutes = ['/'];

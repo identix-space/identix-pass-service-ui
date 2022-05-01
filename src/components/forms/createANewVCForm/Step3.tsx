@@ -2,39 +2,53 @@ import React, {FC} from 'react';
 import styled from 'styled-components';
 import {Title2} from '../../../utils/typography';
 import {LargeVCCard} from '../../cards';
-import {Button} from '../../elements';
+import {Button, Loader} from '../../elements';
 import {useIssuerVCStore} from '../../../store/store';
 import {useIssuerVcMutation} from '../../../generated/graphql';
+import {useModal} from '../../elements/Modal/useModal';
+import {Modal} from '../../elements/Modal';
 
 export const StepThree: FC = (): JSX.Element => {
+    const {isShown, toggle} = useModal();
     const {holderDid, vcTypeDid, vcTypeTitle, vcParams} = useIssuerVCStore();
-    const [issuerVc, {loading, error}] = useIssuerVcMutation({variables: {holderDid: holderDid, vcTypeDid: vcTypeDid, vcParams: vcParams}});
+    const [issuerVc, {loading, error}] = useIssuerVcMutation({
+        variables: {
+            holderDid: holderDid,
+            vcTypeDid: vcTypeDid,
+            vcParams: vcParams
+        },
+        onCompleted: () => {
+            toggle();
+        }
+    });
 
-    console.log(vcTypeDid);
-    if (loading) {
-        return <p>Submitting...</p>;
-    }
     if (error) {
         return <p>{`Submission error! ${error.message}`}</p>;
     }
 
     return (
-        <FinalForm>
-            <Title2 margin="0 0 45px">{vcTypeTitle}</Title2>
-            <LargeVCCard
-                citizenship={JSON.parse(vcParams).citizenship}
-                did={holderDid}
-                issued={JSON.parse(vcParams).dateOfIssuance}
-                status="Review"
-                img="/assets/everscale-land-logo.svg"
-                firstName={JSON.parse(vcParams).firstName}
-                lastName={JSON.parse(vcParams).lastName}
-                dateOfBirth={JSON.parse(vcParams).dateOfBirth}
-                id={JSON.parse(vcParams).id}/>
-            <ButtonWrapper>
-                <Button onClick={() => issuerVc()}>Sign and issue</Button>
-            </ButtonWrapper>
-        </FinalForm>
+        <>
+            {loading ? <Loader/>
+                : <FinalForm>
+                    <Title2 margin="0 0 45px">{vcTypeTitle}</Title2>
+                    <LargeVCCard
+                        citizenship={JSON.parse(vcParams).citizenship}
+                        did={holderDid}
+                        issued={JSON.parse(vcParams).dateOfIssuance}
+                        status="Review"
+                        img="/assets/everscale-land-logo.svg"
+                        firstName={JSON.parse(vcParams).firstName}
+                        lastName={JSON.parse(vcParams).lastName}
+                        dateOfBirth={JSON.parse(vcParams).dateOfBirth}
+                        id={JSON.parse(vcParams).id}/>
+                    <ButtonWrapper>
+                        <Button onClick={() => issuerVc()}>Sign and issue</Button>
+                    </ButtonWrapper>
+                </FinalForm>
+            }
+            <Modal headerText="Congrats" isShown={isShown} hide={toggle}
+                modalContent={`${vcTypeTitle} for ${holderDid} has been issued!`}/>
+        </>
     );
 };
 

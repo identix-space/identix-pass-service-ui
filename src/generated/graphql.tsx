@@ -131,6 +131,13 @@ export type GetUserVCsIssuerQueryVariables = Exact<{
 
 export type GetUserVCsIssuerQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string }> };
 
+export type GetVcQueryVariables = Exact<{
+  vcDid: Scalars['String'];
+}>;
+
+
+export type GetVcQuery = { __typename?: 'Query', getVC: { __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> } };
+
 export type CheckAccountExistsQueryVariables = Exact<{
   did: Scalars['String'];
 }>;
@@ -267,6 +274,52 @@ export function useGetUserVCsIssuerLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetUserVCsIssuerQueryHookResult = ReturnType<typeof useGetUserVCsIssuerQuery>;
 export type GetUserVCsIssuerLazyQueryHookResult = ReturnType<typeof useGetUserVCsIssuerLazyQuery>;
 export type GetUserVCsIssuerQueryResult = Apollo.QueryResult<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>;
+export const GetVcDocument = gql`
+    query getVC($vcDid: String!) {
+  getVC(vcDid: $vcDid) {
+    vcDid
+    vcTypeDid
+    vcParams
+    vcRawText
+    issuerDid
+    holderDid
+    createdAt
+    updatedAt
+    verificationCases {
+      verifierDid
+      status
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetVcQuery__
+ *
+ * To run a query within a React component, call `useGetVcQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVcQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVcQuery({
+ *   variables: {
+ *      vcDid: // value for 'vcDid'
+ *   },
+ * });
+ */
+export function useGetVcQuery(baseOptions: Apollo.QueryHookOptions<GetVcQuery, GetVcQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetVcQuery, GetVcQueryVariables>(GetVcDocument, options);
+      }
+export function useGetVcLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetVcQuery, GetVcQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetVcQuery, GetVcQueryVariables>(GetVcDocument, options);
+        }
+export type GetVcQueryHookResult = ReturnType<typeof useGetVcQuery>;
+export type GetVcLazyQueryHookResult = ReturnType<typeof useGetVcLazyQuery>;
+export type GetVcQueryResult = Apollo.QueryResult<GetVcQuery, GetVcQueryVariables>;
 export const CheckAccountExistsDocument = gql`
     query checkAccountExists($did: String!) {
   checkAccountExists(did: $did)
