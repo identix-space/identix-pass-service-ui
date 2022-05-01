@@ -1,10 +1,12 @@
 import React, {ReactNode, ReactElement} from 'react';
 import Layout from '../../components/layout';
 import {Title2} from '../../utils/typography';
-import data from '../../components/tables/tableEventsLog/data.json';
 import {EventsLogTable} from '../../components/tables';
+import {useGetEventLogEntriesQuery} from '../../generated/graphql';
 
 export default function EventLogsPage(): ReactNode {
+
+    const data = useGetEventLogEntriesQuery({variables: {startIndex: 0, count: 10}});
 
     return (
         <>
