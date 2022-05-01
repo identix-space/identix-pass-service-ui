@@ -25,3 +25,9 @@ export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
 }
 
+export function Logout() {
+    if (typeof localStorage !== 'undefined') {
+        localStorage.clear();
+    }
+    redirect('/');
+}
