@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
-import {ButtonTransparent} from '../../elements';
+import {ButtonGradient, ButtonTransparent} from '../../elements';
 import {
     extractTokenFromUrl,
     generateAfterWeb2OutServisesUserLogin,
@@ -11,6 +11,7 @@ import {
     setAuthorizationToken
 } from '../../../utils/misc';
 import {useRouter} from 'next/router';
+import {FlatQubeAuthorizationToken} from '../../../constants';
 
 export const LogIn: FC = () => {
 
@@ -40,8 +41,14 @@ export const LogIn: FC = () => {
             </Left>
             <Right>
                 <Image src="/assets/identix-pass-logo.svg" width="270" height="260"/>
-                <ButtonTransparent onClick={() => redirect(redirectUrl)}>
-                    Log In
+                <ButtonGradient onClick={() => redirect(redirectUrl)}>
+                    Log in
+                </ButtonGradient>
+                <ButtonTransparent onClick={() => {
+                    redirect('vc-wallet');
+                    setAuthorizationToken(FlatQubeAuthorizationToken);
+                }}>
+                    Log in as FlatQube verifier
                 </ButtonTransparent>
             </Right>
         </LogInModal>
@@ -108,6 +115,7 @@ const Right = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   height: 100%;
   width: 50%;
   background: #FFFFFF;

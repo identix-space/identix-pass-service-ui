@@ -16,6 +16,12 @@ export const ButtonTransparent = ({children, ...props}: ButtonProps): JSX.Elemen
     );
 };
 
+export const ButtonGradient = ({children, ...props}: ButtonProps): JSX.Element => {
+    return (
+        <button className={styles.button_gradient} {...props}><span>{children}</span></button>
+    );
+};
+
 export const BackButton = (): JSX.Element => {
     const router = useRouter();
     return (
