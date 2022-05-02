@@ -31,3 +31,12 @@ export function Logout() {
     }
     redirect('/');
 }
+
+export function startAndEnd(str: string, gap: number) {
+    const lngth = 35;
+    const gapMin = 0;
+    if (str && str.length > lngth) {
+        return `${str.substr(gapMin, gap)}...${str.substr(str.length - gap, str.length)}`;
+    }
+    return str;
+}

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 
@@ -124,7 +125,11 @@ export function IssueAVCTable({data}: { data: any }) {
                             <td className={styles.body_td}>{startAndEnd(vc.holderDid)}</td>
                             <td className={styles.body_td}>{startAndEnd(vc.createdAt)}</td>
                             <td className={styles.body_td}>
-                                Details
+                                <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
+                                    <a>
+                                        Details
+                                    </a>
+                                </Link>
                             </td>
                         </tr>
                     );

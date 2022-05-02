@@ -8,6 +8,7 @@ export interface LargeVCCardProps {
     citizenship: string;
     dateOfBirth: string;
     id: string;
+    rawData?: string;
 }
 
 export interface Status {

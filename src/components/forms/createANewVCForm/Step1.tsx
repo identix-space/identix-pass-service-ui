@@ -14,7 +14,7 @@ export const StepOne: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     const {setHolderDid} = useIssuerVCStore();
 
     const goNextStep = () => {
-        if (value.match(/^did:ever:*/)) {
+        if (value.match(/^did:ever:*/) && value !== '') {
             setMatch(true);
             setHolderDid(value);
             nextStep();

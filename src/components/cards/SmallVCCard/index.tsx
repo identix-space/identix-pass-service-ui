@@ -3,16 +3,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import {Body2, Label1, Label2} from '../../../utils/typography';
 import {SmallVCCardProps} from './SmallVCCard.props';
-
-function startAndEnd(str: string) {
-    const lngth = 35;
-    const gapMin = 0;
-    const gapMax = 9;
-    if (str && str.length > lngth) {
-        return `${str.substr(gapMin, gapMax)}...${str.substr(str.length - gapMax, str.length)}`;
-    }
-    return str;
-}
+import {startAndEnd} from '../../../utils/misc';
 
 export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus}: SmallVCCardProps): JSX.Element => {
 
@@ -30,7 +21,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img, verificationS
                 <Label2 fontWeight="600">{status}</Label2>
             </TopRightLabel>
             <BottomLeftLabel>
-                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did)}</u></Label2>
+                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 7)}</u></Label2>
             </BottomLeftLabel>
             {/*<SendToVerifier>*/}
             {/*    <Body3 fontWeight="700" color="black">Send to verifier</Body3>*/}
@@ -52,7 +43,6 @@ const Card = styled.div`
 
   &:hover {
     filter: drop-shadow(0px 4px 12px rgb(5, 5, 5));
-    transform: scale(0.99)
   }
 
   @media (min-width: 1400px) {

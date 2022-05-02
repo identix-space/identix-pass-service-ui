@@ -154,6 +154,7 @@ export const Label2 = styled.p<TextProps>`
 `;
 
 export const TextGradient = styled.div<TextProps>`
+  display: inline;
   font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
   background: -webkit-linear-gradient(0, #8F5AE0 -10.04%, #37B9C6 116.12%);
   -webkit-background-clip: text;

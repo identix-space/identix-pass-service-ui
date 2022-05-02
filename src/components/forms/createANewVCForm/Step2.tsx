@@ -9,6 +9,7 @@ import Select, {StylesConfig} from 'react-select';
 export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     const [value, setValue] = useState('');
     const [title, setTitle] = useState('');
+    const [match, setMatch] = useState(true);
     const {holderDid, setVcParams, setVcTypeDid, setVcTypeTitle} = useIssuerVCStore();
     const [fields, handleFieldChange] = useFormFields({
         firstName: '',
@@ -24,7 +25,11 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
         setVcTypeDid(value);
         setVcTypeTitle(title);
         setVcParams(JSON.stringify(fields));
-        nextStep();
+        if (Object.values(fields).every(item => item !== '') && value !== '') {
+            nextStep();
+        } else {
+            setMatch(false);
+        }
     };
 
     type MyOptionType = {
@@ -101,7 +106,11 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
                     <Input id="dateOfExpiry" type="text" placeholder="Date of expiry" onChange={handleFieldChange}/>
                 </InputCol>
                 <ButtonWrapper>
-                    <Button onClick={() => goNextStep()}>Continue</Button>
+                    {!match ? <Error>Please, fill in all fields</Error> : <></>}
+                    <Button onClick={(event) => {
+                        goNextStep();
+                        event.preventDefault();
+                    }}>Continue</Button>
                 </ButtonWrapper>
             </Form>
         </>
@@ -182,5 +191,16 @@ const Label = styled.label`
 
 const ButtonWrapper = styled.div`
   width: 100%;
-  margin-top: 70px;
+  margin-top: 60px;
+`;
+
+const Error = styled.div`
+  width: 100%;
+  display: block;
+  color: #FF0000;
+  background: #FFFFFF;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 13px;
+  margin-bottom: 15px;
 `;

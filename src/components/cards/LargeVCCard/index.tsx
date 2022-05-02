@@ -3,43 +3,48 @@ import styled from 'styled-components';
 import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/typography';
 import Image from 'next/image';
 import {LargeVCCardProps, Status} from './LargeVCCard.props';
-import {Modal} from '../../elements/Modal';
-import {useModal} from '../../elements/Modal/useModal';
+import {RawDataModal} from '../../elements/RawDataModal';
+import {useModal} from '../../hooks/useModal';
+import {startAndEnd} from '../../../utils/misc';
 
-export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, id}: LargeVCCardProps): JSX.Element => {
+export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, id, rawData}: LargeVCCardProps): JSX.Element => {
     const {isShown, toggle} = useModal();
-    const content = {
-        glossary: {
-            title: 'example glossary',
-            GlossDiv: {
-                title: 'S',
-                GlossList: {
-                    GlossEntry: {
-                        ID: 'SGML',
-                        SortAs: 'SGML',
-                        GlossTerm: 'Standard Generalized Markup Language',
-                        Acronym: 'SGML',
-                        Abbrev: 'ISO 8879:1986'
-                    }
-                }
-            }
-        },
-        glosssary: {
-            title: 'example glossary',
-            GlossDiv: {
-                title: 'S',
-                GlossList: {
-                    GlossEntry: {
-                        ID: 'SGML',
-                        SortAs: 'SGML',
-                        GlossTerm: 'Standard Generalized Markup Language',
-                        Acronym: 'SGML',
-                        Abbrev: 'ISO 8879:1986'
-                    }
-                }
-            }
-        }
-    };
+    // const content = {
+    //     glossary: {
+    //         title: 'example glossary',
+    //         GlossDiv: {
+    //             title: 'S',
+    //             GlossList: {
+    //                 GlossEntry: {
+    //                     ID: 'SGML',
+    //                     SortAs: 'SGML',
+    //                     GlossTerm: 'Standard Generalized Markup Language',
+    //                     Acronym: 'SGML',
+    //                     Abbrev: 'ISO 8879:1986'
+    //                 }
+    //             }
+    //         }
+    //     },
+    //     glosssary: {
+    //         title: 'example glossary',
+    //         GlossDiv: {
+    //             title: 'S',
+    //             GlossList: {
+    //                 GlossEntry: {
+    //                     ID: 'SGML',
+    //                     SortAs: 'SGML',
+    //                     GlossTerm: 'Standard Generalized Markup Language',
+    //                     Acronym: 'SGML',
+    //                     Abbrev: 'ISO 8879:1986'
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
+
+    function getJSON(json: string) {
+        return JSON.stringify(JSON.parse(json), undefined, 2);
+    }
 
     return (<>
         <Card status={status}>
@@ -47,7 +52,7 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
                 <Image src={img} width="92" height="92"/>
                 <MainInfo>
                     <Title3 fontWeight="700" color="black" margin="3px 0 0">{citizenship}</Title3>
-                    <TextGradient fontSize="16px" color="black">{did}</TextGradient>
+                    <TextGradient fontSize="16px" color="black">{startAndEnd(did, 15)}</TextGradient>
                     <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {issued}</Body1>
                 </MainInfo>
             </TopInfo>
@@ -81,13 +86,13 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
                 <Body5 fontWeight="700">{status}</Body5>
             </TopRightLabel>
             <BottomLeftLabel status={status}>
-                <Body2 fontWeight="700">VC DID: {did}</Body2>
+                <Body2 fontWeight="700">VC DID: {startAndEnd(did, 12)}</Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
             </RawData>
         </Card>
-        <Modal headerText="Raw Data" isShown={isShown} hide={toggle} modalContent={JSON.stringify(content, undefined, 2)}/>
+        {rawData && <RawDataModal headerText="Raw Data" isShown={isShown} hide={toggle} modalContent={getJSON(rawData)}/>}
     </>
     );
 };
@@ -163,9 +168,9 @@ const BottomLeftLabel = styled.div<Status>`
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: ${(props) => props.status === 'Review' ? '-3px' : '-2px'};
-  left: ${(props) => props.status === 'Review' ? '-3px' : '-1px'};
-  width: ${(props) => props.status === 'Review' ? '364px' : '400px'};
+  bottom: ${(props) => props.status === 'Review' ? '-1px' : '-2px'};
+  left: -1px;
+  width: 400px;
   height: 55px;
   padding-left: 18px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};

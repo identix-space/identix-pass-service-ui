@@ -20,6 +20,15 @@
       &:last-of-type {
         padding-right: 30px;
       }
+
+      a {
+        color: white;
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
     }
   }
 }
@@ -70,7 +79,7 @@
 }
 
 .body_row {
-  cursor: pointer;
+  //cursor: pointer;
 
   &:nth-of-type(odd) {
     background: #334275;

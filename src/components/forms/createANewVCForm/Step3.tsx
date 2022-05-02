@@ -5,8 +5,9 @@ import {LargeVCCard} from '../../cards';
 import {Button, Loader} from '../../elements';
 import {useIssuerVCStore} from '../../../store/store';
 import {useIssuerVcMutation} from '../../../generated/graphql';
-import {useModal} from '../../elements/Modal/useModal';
+import {useModal} from '../../hooks/useModal';
 import {Modal} from '../../elements/Modal';
+import {startAndEnd} from '../../../utils/misc';
 
 export const StepThree: FC = (): JSX.Element => {
     const {isShown, toggle} = useModal();
@@ -46,8 +47,8 @@ export const StepThree: FC = (): JSX.Element => {
                     </ButtonWrapper>
                 </FinalForm>
             }
-            <Modal headerText="Congrats" isShown={isShown} hide={toggle}
-                modalContent={`${vcTypeTitle} for ${holderDid} has been issued!`}/>
+            <Modal modalTitle={`${vcTypeTitle}`} isShown={isShown} hide={toggle}
+                modalContent={`${startAndEnd(holderDid, 7)}`}/>
         </>
     );
 };

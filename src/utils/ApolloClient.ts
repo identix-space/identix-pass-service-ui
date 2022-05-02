@@ -19,20 +19,26 @@ const httpLink = new HttpLink({
 });
 
 const authLink = setContext((_, {headers}) => {
-    const token = localStorage.getItem('authorization-token');
-    if (token) {
-        return {
-            headers: {
-                ...headers,
-                authorization: `${token}`
-            }
-        };
+    if (typeof localStorage !== 'undefined') {
+        const token = localStorage.getItem('authorization-token');
+
+        if (token) {
+            return {
+                headers: {
+                    ...headers,
+                    authorization: `${token}`
+                }
+            };
+        } else {
+            return {
+                headers
+            };
+        }
     } else {
         return {
             headers
         };
     }
-
 });
 
 export const getApolloClient = new ApolloClient({

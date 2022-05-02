@@ -1,38 +1,27 @@
 import React, {FunctionComponent} from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import {Body4, TextGradient, Title3} from '../../../utils/typography';
+import {Button} from '../Buttons';
 
 export interface ModalProps {
     isShown: boolean;
     hide: () => void;
     modalContent: string;
-    headerText: string;
+    modalTitle: string;
 }
 
-const exportData = (data: any) => {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-        JSON.stringify(data)
-    )}`;
-    const link = document.createElement('a');
-    link.href = jsonString;
-    link.download = 'vc_raw_data.json';
-    link.click();
-};
 
-
-export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalContent, headerText}) => {
+export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalContent, modalTitle}) => {
     const modal = (
         <React.Fragment>
             <Backdrop onClick={hide}/>
             <Wrapper>
-                <Header>
-                    <HeaderText>{headerText}</HeaderText>
-                    <div>
-                        <DownloadButton onClick={() => exportData(JSON.parse(modalContent))}/>
-                        <CloseButton onClick={hide}/>
-                    </div>
-                </Header>
-                <Content><pre>{modalContent}</pre></Content>
+                <Content>
+                    <Title3 color="black" textAlign="center">{modalTitle}</Title3>
+                    <Body4 color="black" textAlign="center" margin="10px 0 50px">for <TextGradient>{modalContent}</TextGradient><br/> has been issued!</Body4>
+                    <Button onClick={hide}>Ok</Button>
+                </Content>
             </Wrapper>
         </React.Fragment>
     );
@@ -46,16 +35,13 @@ const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 700;
-  width: 700px;
-  height: 400px;
+  width: 470px;
+  height: 320px;
   background: white;
+  border: 4px solid #53A9FD;
   border-radius: 8px;
   outline: 0;
-  
-  @media(min-width: 1400px) {
-    width: 900px;
-    height: 500px;
-  }
+  padding: 20px 40px 0;
 `;
 
 const Backdrop = styled.div`
@@ -70,65 +56,9 @@ const Backdrop = styled.div`
   cursor: pointer;
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 14.92%, rgba(255, 255, 255, 0) 105.67%), linear-gradient(-90deg, #8F5AE0 -10.04%, #37B9C6 116.12%);
-  padding: 0 20px;
-  height: 44px;
-  border-radius: 8px 8px 0 0;
-  font-weight: 700;
-
-  @media(min-width: 1400px) {
-    height: 48px;
-  }
-`;
-
-const HeaderText = styled.div`
-  color: #fff;
-  align-self: center;
-`;
-
-const CloseButton = styled.button`
-  font-size: 0.8rem;
-  border: none;
-  border-radius: 3px;
-  margin-left: 25px;
-  width: 16px;
-  height: 16px;
-  background: url('/assets/close-icon.svg') center/contain no-repeat;
-  :hover {
-    cursor: pointer;
-    opacity: .8;
-  }
-
-  @media (min-width: 1400px) {
-    width: 19px;
-    height: 19px;
-  }
-`;
-
-const DownloadButton = styled.button`
-  font-size: 0.8rem;
-  border: none;
-  border-radius: 3px;
-  margin-left: 0.5rem;
-  width: 17px;
-  height: 17px;
-  background: url('/assets/download-icon.svg') center/contain no-repeat;
-  :hover {
-    cursor: pointer;
-    opacity: .8;
-  }
-
-  @media (min-width: 1400px) {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   height: calc(100% - 44px);
   overflow-x: hidden;
@@ -146,11 +76,6 @@ const Content = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: rgba(141, 141, 141, 0.23);
-  }
-
-  pre {
-    margin: 0;
-    font-size: 12px;
   }
 
   @media (min-width: 1400px) {
