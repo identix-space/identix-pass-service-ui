@@ -26,9 +26,8 @@ export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
 }
 
 export function Logout() {
-    if (typeof localStorage !== 'undefined') {
-        localStorage.clear();
-    }
+    localStorage.clear();
+    console.log('asdasdsadasd');
     redirect('/');
 }
 

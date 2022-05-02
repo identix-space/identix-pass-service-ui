@@ -6,13 +6,18 @@ import ServicesIcon from '../../../../public/assets/services-icon.svg';
 import IssueAVCIcon from '../../../../public/assets/issue-a-vc-icon.svg';
 import VerifierIcon from '../../../../public/assets/verifier-icon.svg';
 import EventLogsIcon from '../../../../public/assets/event-logs-icon.svg';
+import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {Body2} from '../../../utils/typography';
 import {SidePanelProps} from './SidePanel.props';
 import {useWhoamiQuery} from '../../../generated/graphql';
-import {startAndEnd} from '../../../utils/misc';
+import {Logout, startAndEnd} from '../../../utils/misc';
+
+function returnNothing() {
+    return;
+}
 
 const menuItems = [
     {
@@ -38,9 +43,15 @@ const menuItems = [
     {
         href: '/event-logs',
         title: 'Event Logs'
+    },
+    {
+        href: '/',
+        title: 'Logout',
+        onClick: Logout
     }
 ];
 
+// eslint-disable-next-line complexity
 const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
     switch (title) {
         case 'VC Wallet':
@@ -67,6 +78,10 @@ const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
             return (
                 <EventLogsIcon className="stroke"/>
             );
+        case 'Logout':
+            return (
+                <LogoutIcon className="fill"/>
+            );
         default:
             return (
                 <></>
@@ -92,17 +107,23 @@ const SidePanel = (): JSX.Element => {
             </UserInfo>
             <nav>
                 <ul>
-                    {menuItems.map(({href, title}) => (
-                        <Link href={href} key={title}>
-                            <a>
-                                <li className={`${
-                                    router.asPath === href ? 'active-link' : ''
-                                }`}>
-                                    <ChooseIcon title={title}/>
-                                    <Title open={opened}>{title}</Title>
-                                </li>
-                            </a>
-                        </Link>
+                    {menuItems.map(({href, title, onClick}) => (
+                        <div key={title} onClick={
+                            onClick
+                                ? () => onClick()
+                                : () => returnNothing()
+                        }>
+                            <Link href={href}>
+                                <a>
+                                    <li className={`${
+                                        router.asPath === href ? 'active-link' : ''
+                                    }`}>
+                                        <ChooseIcon title={title}/>
+                                        <Title open={opened}>{title}</Title>
+                                    </li>
+                                </a>
+                            </Link>
+                        </div>
                     ))}
                 </ul>
             </nav>
