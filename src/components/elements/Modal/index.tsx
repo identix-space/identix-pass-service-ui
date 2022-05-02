@@ -19,7 +19,7 @@ export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalConten
             <Wrapper>
                 <Content>
                     <Title3 color="black" textAlign="center">{modalTitle}</Title3>
-                    <Body4 color="black" textAlign="center" margin="10px 0 50px">for <TextGradient>{modalContent}</TextGradient><br/> has been issued!</Body4>
+                    <Body4 color="black" textAlign="center" margin="10px 0 50px"><TextGradient>{modalContent}</TextGradient></Body4>
                     <Button onClick={hide}>Ok</Button>
                 </Content>
             </Wrapper>

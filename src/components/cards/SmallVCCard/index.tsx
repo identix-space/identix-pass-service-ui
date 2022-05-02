@@ -1,32 +1,57 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import {Body2, Label1, Label2} from '../../../utils/typography';
 import {SmallVCCardProps} from './SmallVCCard.props';
 import {startAndEnd} from '../../../utils/misc';
+import {useRequestVcVerificationMutation} from '../../../generated/graphql';
+import {Modal} from '../../elements/Modal';
+import {useModal} from '../../hooks/useModal';
 
-export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus}: SmallVCCardProps): JSX.Element => {
+export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus, verificationCases}: SmallVCCardProps): JSX.Element => {
+    const [requestVCVerification] = useRequestVcVerificationMutation({variables: {verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did}});
+    const {isShown, toggle} = useModal();
+    const [modalContent, setModalContent] = useState('');
 
     return (
-        <Card>
-            <Label1 color="black">{citizenship}</Label1>
-            <ImageTitleBlock>
-                <Image src={img} width="62" height="62"/>
-                <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
-            </ImageTitleBlock>
-            {verificationStatus && <VerificationLabel>
-                <Label2 fontWeight="600" color={verificationStatus === 'approved' ? '#7EF606' : verificationStatus === 'rejected' ? '#FF0000' : verificationStatus === 'pendingApproval' ? '#999999' : '#FFFFFF'}>{verificationStatus === 'pendingApproval' ? 'Pending' : verificationStatus}</Label2>
-            </VerificationLabel>}
-            <TopRightLabel>
-                <Label2 fontWeight="600">{status}</Label2>
-            </TopRightLabel>
-            <BottomLeftLabel>
-                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 7)}</u></Label2>
-            </BottomLeftLabel>
-            {/*<SendToVerifier>*/}
-            {/*    <Body3 fontWeight="700" color="black">Send to verifier</Body3>*/}
-            {/*</SendToVerifier>*/}
-        </Card>
+        <>
+            <Card>
+                <Label1 color="black">{citizenship}</Label1>
+                <ImageTitleBlock>
+                    <Image src={img} width="62" height="62"/>
+                    <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
+                </ImageTitleBlock>
+                {verificationStatus && <VerificationLabel>
+                    <Label2 fontWeight="600" color={verificationStatus === 'approved' ? '#7EF606' : verificationStatus === 'rejected' ? '#FF0000' : verificationStatus === 'pendingApproval' ? '#999999' : '#FFFFFF'}>{verificationStatus === 'pendingApproval' ? 'Pending' : verificationStatus}</Label2>
+                </VerificationLabel>}
+                <TopRightLabel>
+                    <Label2 fontWeight="600">{status}</Label2>
+                </TopRightLabel>
+                <BottomLeftLabel>
+                    <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 7)}</u></Label2>
+                </BottomLeftLabel>
+                {!verificationCases
+                    ? <SendToVerifier onClick={() => {
+                        requestVCVerification({
+                            onCompleted: () => {
+                                setModalContent('has been sent to verifier!');
+                                toggle();
+                            },
+                            onError: (error) => {
+                                console.log(error.message);
+                                setModalContent(`${error.message}`);
+                                toggle();
+                            }
+                        });
+                    }}>
+                    Send to verifier
+                    </SendToVerifier>
+                    : <></>
+                }
+            </Card>
+            <Modal modalTitle={title} isShown={isShown} hide={toggle}
+                modalContent={modalContent}/>
+        </>
     );
 };
 
@@ -98,14 +123,23 @@ const BottomLeftLabel = styled.div`
   background: url('/assets/card-label-left-sm.svg') center/contain no-repeat;
 `;
 
-// const SendToVerifier = styled.div`
-//   position: absolute;
-//   bottom: 0;
-//   right: 16px;
-//   color: black;
-//   text-decoration: underline;
-//
-//   &:hover {
-//     text-decoration: none;
-//   }
-// `;
+const SendToVerifier = styled.button`
+  position: absolute;
+  bottom: 16px;
+  right: 12px;
+  color: black;
+  text-decoration: underline;
+  border: none;
+  outline: 0;
+  background: 0;
+  font-family: 'Gilroy', sans-serif;
+  
+  p {
+    margin: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+`;

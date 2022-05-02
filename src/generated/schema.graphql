@@ -19,14 +19,16 @@ type EventLogEntry {
 type Mutation {
   issuerVC(holderDid: String!, vcParams: String!, vcTypeDid: String!): Boolean!
   requestVcVerification(vcDid: String!, verifierDid: String!): Boolean!
-  verifyVC(vcDid: String!, verificationStatus: VerificationStatuses!): Boolean!
+  verifyVC(vcDid: String!, verificationStatus: String!): Boolean!
 }
 
 type Query {
   checkAccountExists(did: String!): Boolean!
+  getAllAccounts: [String!]!
   getEventLogEntries(count: Int, startIndex: Int): [EventLogEntry!]!
   getUserVCs(count: Int, role: AgentsRoles, startIndex: Int): [VC!]!
   getVC(vcDid: String!): VC!
+  getVcTypes: [VcTypeInfo!]!
   whoami: String!
 }
 
@@ -40,6 +42,11 @@ type VC {
   vcRawText: String!
   vcTypeDid: String!
   verificationCases: [VerificationCase!]!
+}
+
+type VcTypeInfo {
+  vcTypeDid: String!
+  vcTypeTag: String!
 }
 
 type VerificationCase {

@@ -49,3 +49,25 @@ a {
     box-shadow: 1px 0 9px rgba(255, 255, 255, 0.42);
   }
 }
+
+.DatePicker {
+  width: 100%;
+}
+.DatePicker__input {
+  width: 100%;
+  height: 56px;
+  padding: 15px 22px !important;
+  font-size: 16px !important;
+  font-weight: 700;
+  text-align: left !important;
+  border: none !important;
+  border-radius: 5px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::placeholder {
+    font-weight: 400;
+  }
+}

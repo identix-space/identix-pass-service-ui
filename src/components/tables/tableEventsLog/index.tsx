@@ -1,10 +1,8 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
-// import data from './data.json';
 // import {FetchResult} from "@apollo/client";
 import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
-
-// type Data = typeof data;
+import {Body5} from '../../../utils/typography';
 //
 // type SortKeys = keyof Data[0];
 //
@@ -111,13 +109,13 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                     </thead>
 
                     <tbody>
-                        {data && data.data?.getEventLogEntries.map((person: EventLogEntry) => {
+                        {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
                             return (
-                                <tr key={person.id} className={styles.body_row}>
-                                    <td className={styles.body_td}>#{person.id}</td>
-                                    <td className={styles.body_td}>{person.created}</td>
-                                    <td className={styles.body_td}>{person.owner}</td>
-                                    <td className={styles.body_td}>{person.message}</td>
+                                <tr key={log.id} className={styles.body_row}>
+                                    <td className={styles.body_td}>#{log.id}</td>
+                                    <td className={styles.body_td}>{log.created}</td>
+                                    <td className={styles.body_td}>{log.owner}</td>
+                                    <td className={styles.body_td}>{log.message}</td>
                                     {/*<td className={styles.body_td}>{person.event_date}</td>*/}
                                     {/*<td className={styles.body_td}>{person.credential}</td>*/}
                                     {/*<td className={styles.body_td}>{person.event_type}</td>*/}
@@ -131,7 +129,7 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                     </tbody>
                 </table>
                 : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                    <p style={{color: 'white', fontSize: '1.5vw'}}>Nothing here yet.</p>
+                    <Body5 margin="100px 0 80px">Nothing here yet.</Body5>
                 </div>
             }
         </>

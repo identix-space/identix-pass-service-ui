@@ -53,15 +53,17 @@ export type MutationRequestVcVerificationArgs = {
 
 export type MutationVerifyVcArgs = {
   vcDid: Scalars['String'];
-  verificationStatus: VerificationStatuses;
+  verificationStatus: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   checkAccountExists: Scalars['Boolean'];
+  getAllAccounts: Array<Scalars['String']>;
   getEventLogEntries: Array<EventLogEntry>;
   getUserVCs: Array<Vc>;
   getVC: Vc;
+  getVcTypes: Array<VcTypeInfo>;
   whoami: Scalars['String'];
 };
 
@@ -101,6 +103,12 @@ export type Vc = {
   verificationCases: Array<VerificationCase>;
 };
 
+export type VcTypeInfo = {
+  __typename?: 'VcTypeInfo';
+  vcTypeDid: Scalars['String'];
+  vcTypeTag: Scalars['String'];
+};
+
 export type VerificationCase = {
   __typename?: 'VerificationCase';
   status: VerificationStatuses;
@@ -130,6 +138,15 @@ export type GetUserVCsIssuerQueryVariables = Exact<{
 
 
 export type GetUserVCsIssuerQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string }> };
+
+export type GetUserVCsVerifierQueryVariables = Exact<{
+  role?: InputMaybe<AgentsRoles>;
+  startIndex?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetUserVCsVerifierQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> }> };
 
 export type GetVcQueryVariables = Exact<{
   vcDid: Scalars['String'];
@@ -177,7 +194,7 @@ export type RequestVcVerificationMutation = { __typename?: 'Mutation', requestVc
 
 export type VerifyVcMutationVariables = Exact<{
   vcDid: Scalars['String'];
-  verificationStatus: VerificationStatuses;
+  verificationStatus: Scalars['String'];
 }>;
 
 
@@ -274,6 +291,52 @@ export function useGetUserVCsIssuerLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetUserVCsIssuerQueryHookResult = ReturnType<typeof useGetUserVCsIssuerQuery>;
 export type GetUserVCsIssuerLazyQueryHookResult = ReturnType<typeof useGetUserVCsIssuerLazyQuery>;
 export type GetUserVCsIssuerQueryResult = Apollo.QueryResult<GetUserVCsIssuerQuery, GetUserVCsIssuerQueryVariables>;
+export const GetUserVCsVerifierDocument = gql`
+    query getUserVCsVerifier($role: AgentsRoles, $startIndex: Int, $count: Int) {
+  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+    vcDid
+    vcTypeDid
+    vcParams
+    issuerDid
+    holderDid
+    createdAt
+    verificationCases {
+      verifierDid
+      status
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserVCsVerifierQuery__
+ *
+ * To run a query within a React component, call `useGetUserVCsVerifierQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserVCsVerifierQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserVCsVerifierQuery({
+ *   variables: {
+ *      role: // value for 'role'
+ *      startIndex: // value for 'startIndex'
+ *      count: // value for 'count'
+ *   },
+ * });
+ */
+export function useGetUserVCsVerifierQuery(baseOptions?: Apollo.QueryHookOptions<GetUserVCsVerifierQuery, GetUserVCsVerifierQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserVCsVerifierQuery, GetUserVCsVerifierQueryVariables>(GetUserVCsVerifierDocument, options);
+      }
+export function useGetUserVCsVerifierLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserVCsVerifierQuery, GetUserVCsVerifierQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserVCsVerifierQuery, GetUserVCsVerifierQueryVariables>(GetUserVCsVerifierDocument, options);
+        }
+export type GetUserVCsVerifierQueryHookResult = ReturnType<typeof useGetUserVCsVerifierQuery>;
+export type GetUserVCsVerifierLazyQueryHookResult = ReturnType<typeof useGetUserVCsVerifierLazyQuery>;
+export type GetUserVCsVerifierQueryResult = Apollo.QueryResult<GetUserVCsVerifierQuery, GetUserVCsVerifierQueryVariables>;
 export const GetVcDocument = gql`
     query getVC($vcDid: String!) {
   getVC(vcDid: $vcDid) {
@@ -490,7 +553,7 @@ export type RequestVcVerificationMutationHookResult = ReturnType<typeof useReque
 export type RequestVcVerificationMutationResult = Apollo.MutationResult<RequestVcVerificationMutation>;
 export type RequestVcVerificationMutationOptions = Apollo.BaseMutationOptions<RequestVcVerificationMutation, RequestVcVerificationMutationVariables>;
 export const VerifyVcDocument = gql`
-    mutation verifyVC($vcDid: String!, $verificationStatus: VerificationStatuses!) {
+    mutation verifyVC($vcDid: String!, $verificationStatus: String!) {
   verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
 }
     `;

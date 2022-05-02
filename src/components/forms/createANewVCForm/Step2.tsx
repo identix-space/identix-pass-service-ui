@@ -5,8 +5,13 @@ import {NextStepProps} from './createANewVCForm.props';
 import {useIssuerVCStore} from '../../../store/store';
 import {useFormFields} from './useFormHook';
 import Select, {StylesConfig} from 'react-select';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
+import DatePicker, {DayValue, Day, utils} from '@hassanmojab/react-modern-calendar-datepicker';
 
 export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
+    const [dayOfBirth, setDayOfBirth] = useState<DayValue>(null);
+    const [dayOfIssuance, setDayOfIssuance] = useState<DayValue>(null);
+    const [dayOfExpiry, setDayOfExpiry] = useState<DayValue>(null);
     const [value, setValue] = useState('');
     const [title, setTitle] = useState('');
     const [match, setMatch] = useState(true);
@@ -22,14 +27,25 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     });
 
     const goNextStep = () => {
+        console.log(fields);
         setVcTypeDid(value);
         setVcTypeTitle(title);
-        setVcParams(JSON.stringify(fields));
-        if (Object.values(fields).every(item => item !== '') && value !== '') {
-            nextStep();
-        } else {
-            setMatch(false);
+        //setVcParams(JSON.stringify(fields));
+        if (dayOfBirth && dayOfIssuance && dayOfExpiry) {
+            fields.dateOfBirth = convertDate(dayOfBirth);
+            fields.dateOfIssuance = convertDate(dayOfIssuance);
+            fields.dateOfExpiry = convertDate(dayOfExpiry);
+            if (Object.values(fields).every(item => item !== '') && value !== '') {
+                setVcParams(JSON.stringify(fields));
+                nextStep();
+            } else {
+                setMatch(false);
+            }
         }
+    };
+
+    const convertDate = (date: Day) => {
+        return new Date(date.year, date.month - 1, date.day);
     };
 
     type MyOptionType = {
@@ -38,8 +54,8 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     };
 
     const options: MyOptionType[] = [
-        {value: 'did:ever:88888', label: 'State ID'},
-        {value: 'did:ever:99999', label: 'Proof of Residency'}
+        {value: 'did:ever:state-id-fd5das7hdh3h455t', label: 'State ID'},
+        {value: 'did:ever:proof-of-residency-jd4345hwd8383d33d', label: 'Proof of Residency'}
     ];
 
     type IsMulti = false;
@@ -100,10 +116,26 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
                     <Input id="firstName" type="text" placeholder="Name" onChange={handleFieldChange}/>
                     <Input id="lastName" type="text" placeholder="Last Name" onChange={handleFieldChange}/>
                     <Input id="citizenship" type="text" placeholder="Citizenship" onChange={handleFieldChange}/>
-                    <Input id="dateOfBirth" type="text" placeholder="Date of birth" onChange={handleFieldChange}/>
+                    <DatePicker
+                        value={dayOfBirth}
+                        colorPrimary="#0BCDED"
+                        onChange={setDayOfBirth}
+                        maximumDate={utils('en').getToday()}
+                        inputPlaceholder="Date of birth"
+                    />
                     <Input id="id" type="text" placeholder="ID" onChange={handleFieldChange}/>
-                    <Input id="dateOfIssuance" type="text" placeholder="Date of issuance" onChange={handleFieldChange}/>
-                    <Input id="dateOfExpiry" type="text" placeholder="Date of expiry" onChange={handleFieldChange}/>
+                    <DatePicker
+                        value={dayOfIssuance}
+                        colorPrimary="#0BCDED"
+                        onChange={setDayOfIssuance}
+                        inputPlaceholder="Date of issuance"
+                    />
+                    <DatePicker
+                        value={dayOfExpiry}
+                        colorPrimary="#0BCDED"
+                        onChange={setDayOfExpiry}
+                        inputPlaceholder="Date of expiry"
+                    />
                 </InputCol>
                 <ButtonWrapper>
                     {!match ? <Error>Please, fill in all fields</Error> : <></>}
@@ -164,6 +196,7 @@ const Input = styled.input`
   height: 56px;
   padding: 15px 22px;
   background: #FFFFFF;
+  font-family: 'Gilroy', sans-serif;
   font-size: 16px;
   font-weight: 700;
   border: none;

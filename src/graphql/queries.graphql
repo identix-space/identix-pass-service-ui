@@ -26,6 +26,21 @@ query getUserVCsIssuer($role: AgentsRoles, $startIndex: Int, $count: Int) {
   }
 }
 
+query getUserVCsVerifier($role: AgentsRoles, $startIndex: Int, $count: Int) {
+  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+    vcDid
+    vcTypeDid
+    vcParams
+    issuerDid
+    holderDid
+    createdAt
+    verificationCases {
+        verifierDid
+        status
+    }
+  }
+}
+
 query getVC($vcDid: String!) {
   getVC(vcDid: $vcDid) {
     vcDid
@@ -68,6 +83,6 @@ mutation requestVcVerification($verifierDid: String!, $vcDid: String!) {
     requestVcVerification(verifierDid: $verifierDid, vcDid: $vcDid)
 }
 
-mutation verifyVC($vcDid: String!, $verificationStatus: VerificationStatuses!) {
+mutation verifyVC($vcDid: String!, $verificationStatus: String!) {
     verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
 }

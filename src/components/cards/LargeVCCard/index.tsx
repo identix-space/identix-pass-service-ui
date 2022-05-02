@@ -5,42 +5,10 @@ import Image from 'next/image';
 import {LargeVCCardProps, Status} from './LargeVCCard.props';
 import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
-import {startAndEnd} from '../../../utils/misc';
+import {formatDate, startAndEnd} from '../../../utils/misc';
 
-export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, id, rawData}: LargeVCCardProps): JSX.Element => {
+export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, dateOfExpiry, id, rawData}: LargeVCCardProps): JSX.Element => {
     const {isShown, toggle} = useModal();
-    // const content = {
-    //     glossary: {
-    //         title: 'example glossary',
-    //         GlossDiv: {
-    //             title: 'S',
-    //             GlossList: {
-    //                 GlossEntry: {
-    //                     ID: 'SGML',
-    //                     SortAs: 'SGML',
-    //                     GlossTerm: 'Standard Generalized Markup Language',
-    //                     Acronym: 'SGML',
-    //                     Abbrev: 'ISO 8879:1986'
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     glosssary: {
-    //         title: 'example glossary',
-    //         GlossDiv: {
-    //             title: 'S',
-    //             GlossList: {
-    //                 GlossEntry: {
-    //                     ID: 'SGML',
-    //                     SortAs: 'SGML',
-    //                     GlossTerm: 'Standard Generalized Markup Language',
-    //                     Acronym: 'SGML',
-    //                     Abbrev: 'ISO 8879:1986'
-    //                 }
-    //             }
-    //         }
-    //     }
-    // };
 
     function getJSON(json: string) {
         return JSON.stringify(JSON.parse(json), undefined, 2);
@@ -53,7 +21,7 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
                 <MainInfo>
                     <Title3 fontWeight="700" color="black" margin="3px 0 0">{citizenship}</Title3>
                     <TextGradient fontSize="16px" color="black">{startAndEnd(did, 15)}</TextGradient>
-                    <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {issued}</Body1>
+                    <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {formatDate(issued)}</Body1>
                 </MainInfo>
             </TopInfo>
             <BottomInfo>
@@ -74,11 +42,21 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
                     </ColItem>
                     <ColItem>
                         <Label2 color="#9E9E9E">Date of birth</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{dateOfBirth}</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfBirth)}</Body1>
                     </ColItem>
+                </Column>
+                <Column>
                     <ColItem>
                         <Label2 color="#9E9E9E">ID</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{id}</Body1>
+                    </ColItem>
+                    <ColItem>
+                        <Label2 color="#9E9E9E">Date of issuance</Label2>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(issued)}</Body1>
+                    </ColItem>
+                    <ColItem>
+                        <Label2 color="#9E9E9E">Date of expiry</Label2>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfExpiry)}</Body1>
                     </ColItem>
                 </Column>
             </BottomInfo>

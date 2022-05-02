@@ -5,13 +5,14 @@ import {Body2, Body4, Title2} from '../../../utils/typography';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {AgentsRoles, useGetUserVCsHolderQuery} from '../../../generated/graphql';
-import {Button, Loader} from '../../../components/elements';
+import {BackButton, Button, Loader} from '../../../components/elements';
 
 export default function FlatQubeServicePage(): ReactNode {
     const {data, loading} = useGetUserVCsHolderQuery({variables: {role: AgentsRoles.Holder}});
 
     return (
         <>
+            <BackButton/>
             <Title2>FlatQube</Title2>
             <Body2 margin="30px 0">Leading DeFi platform for Everscale. DEX, liquidity and farming pools - all within one platform.</Body2>
             {loading ? <Loader/>
@@ -19,11 +20,7 @@ export default function FlatQubeServicePage(): ReactNode {
                     {data && data.getUserVCs.length > 0
                         ? <>
                             {data.getUserVCs.map((vc, index) => (
-                                <Link href="/vc-wallet/vc" passHref key={index}>
-                                    <a>
-                                        <SmallVCCard verificationStatus={vc.verificationCases[0].status} citizenship="Everscale.Land" title="State ID" status="Active" did={vc.vcDid} img="/assets/everscale-land-logo.svg"/>
-                                    </a>
-                                </Link>
+                                <SmallVCCard key={index} verificationStatus={vc.verificationCases[0] && vc.verificationCases[0].status} citizenship="Everscale.Land" title="State ID" status="Active" did={vc.vcDid} img="/assets/everscale-land-logo.svg" verificationCases={!vc.verificationCases}/>
                             ))}
                         </>
                         : <NoVCs>

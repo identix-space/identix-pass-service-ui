@@ -1,15 +1,15 @@
 import React, {ReactElement, ReactNode, useEffect} from 'react';
 import {LargeVCCard} from '../../../components/cards';
 import Layout from '../../../components/layout';
-import {Body2, Title2} from '../../../utils/typography';
-import {BackButton, Loader} from '../../../components/elements';
+import {Body2, Body3, Title2} from '../../../utils/typography';
+import {BackButton, Button, Loader} from '../../../components/elements';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
-import {useGetVcLazyQuery} from '../../../generated/graphql';
+import {useGetVcLazyQuery, useVerifyVcMutation} from '../../../generated/graphql';
 import {startAndEnd} from '../../../utils/misc';
 
-export default function IssuerVCPage(): ReactNode {
-
+export default function RequestPage(): ReactNode {
+    const [verifyVC] = useVerifyVcMutation();
     const router = useRouter();
     const [getVC, {data, loading}] = useGetVcLazyQuery();
 
@@ -30,6 +30,7 @@ export default function IssuerVCPage(): ReactNode {
                         <StatusCard>
                             <Date>19 Nov 2022 19:55</Date>
                         </StatusCard>
+                        <Status>{data.getVC.verificationCases[0] && data.getVC.verificationCases[0].status}</Status>
                         <LargeVCCard
                             citizenship={JSON.parse(data.getVC.vcParams).citizenship}
                             did={data.getVC.holderDid}
@@ -42,6 +43,12 @@ export default function IssuerVCPage(): ReactNode {
                             dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry}
                             id={JSON.parse(data.getVC.vcParams).id}
                             rawData={data.getVC.vcRawText}/>
+                        <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'ACCEPTED', vcDid: data.getVC.vcDid}})}>
+                            <Button>Accept</Button>
+                        </ButtonWrapper>
+                        <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'REJECTED', vcDid: data.getVC.vcDid}})}>
+                            <Button>Reject</Button>
+                        </ButtonWrapper>
                     </> : null
                     }
                 </>
@@ -67,8 +74,20 @@ const Date = styled(Body2)`
   color: #FFFFFF;
 `;
 
+const Status = styled(Body3)`
+  color: #999999 !important;
+`;
 
-IssuerVCPage.getLayout = function getLayout(page: ReactElement) {
+const ButtonWrapper = styled.div`
+  width: 60%;
+  margin: 30px auto 0;
+  
+  &:nth-of-type(2) {
+    margin: 60px auto 0;
+  }
+`;
+
+RequestPage.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
             {page}

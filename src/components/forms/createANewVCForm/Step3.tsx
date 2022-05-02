@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import styled from 'styled-components';
-import {Title2} from '../../../utils/typography';
+import {Body2, Title2} from '../../../utils/typography';
 import {LargeVCCard} from '../../cards';
 import {Button, Loader} from '../../elements';
 import {useIssuerVCStore} from '../../../store/store';
@@ -10,6 +10,7 @@ import {Modal} from '../../elements/Modal';
 import {startAndEnd} from '../../../utils/misc';
 
 export const StepThree: FC = (): JSX.Element => {
+    const [status, setStatus] = useState('Review');
     const {isShown, toggle} = useModal();
     const {holderDid, vcTypeDid, vcTypeTitle, vcParams} = useIssuerVCStore();
     const [issuerVc, {loading, error}] = useIssuerVcMutation({
@@ -20,8 +21,11 @@ export const StepThree: FC = (): JSX.Element => {
         },
         onCompleted: () => {
             toggle();
+            setStatus('Active');
         }
     });
+
+    console.log(vcParams);
 
     if (error) {
         return <p>{`Submission error! ${error.message}`}</p>;
@@ -36,15 +40,20 @@ export const StepThree: FC = (): JSX.Element => {
                         citizenship={JSON.parse(vcParams).citizenship}
                         did={holderDid}
                         issued={JSON.parse(vcParams).dateOfIssuance}
-                        status="Review"
+                        status={status}
                         img="/assets/everscale-land-logo.svg"
                         firstName={JSON.parse(vcParams).firstName}
                         lastName={JSON.parse(vcParams).lastName}
                         dateOfBirth={JSON.parse(vcParams).dateOfBirth}
-                        id={JSON.parse(vcParams).id}/>
-                    <ButtonWrapper>
-                        <Button onClick={() => issuerVc()}>Sign and issue</Button>
-                    </ButtonWrapper>
+                        dateOfExpiry={JSON.parse(vcParams).dateOfExpiry}
+                        id={JSON.parse(vcParams).id}
+                        rawData={vcParams}/>
+                    {status !== 'Review'
+                        ? <ButtonWrapper>
+                            <Button onClick={() => issuerVc()}>Sign and issue</Button>
+                        </ButtonWrapper>
+                        : <Body2 fontWeight="700" margin="50px 0 0">`The VC has been issued to user <u>{startAndEnd(holderDid, 11)}</u></Body2>
+                    }
                 </FinalForm>
             }
             <Modal modalTitle={`${vcTypeTitle}`} isShown={isShown} hide={toggle}
