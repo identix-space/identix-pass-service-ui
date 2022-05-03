@@ -1,3 +1,5 @@
+import {AgentsRoles} from '../generated/graphql';
+
 export function redirect(url: string): void {
     if (typeof window !== 'undefined') {
         window.location.href = url;
@@ -46,3 +48,16 @@ export function formatDate(date: string) {
     const month = (d.getMonth() - 1).toString().padStart(2, '0');
     return `${day}.${month}.${d.getFullYear()}`;
 }
+
+export const checkOfPermission = async (did: string, userDid: string, role: AgentsRoles) => {
+    if (role === AgentsRoles.Holder) {
+        return did === userDid;
+    }
+    if (role === AgentsRoles.Issuer) {
+        return did === userDid;
+    }
+    if (role === AgentsRoles.Verifier) {
+        return did === userDid;
+    }
+    return false;
+};
