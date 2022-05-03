@@ -130,7 +130,7 @@ export function VerificationRequestsTable({data}: { data: any }) {
                                     <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 7)}</td>
                                     <td className={styles.body_td}>{startAndEnd(vc.holderDid, 7)}</td>
                                     <td className={styles.body_td}>{vc.createdAt}</td>
-                                    <td className={styles.body_td}>{vc.verificationCases[0] && vc.verificationCases[0].status}</td>
+                                    <td className={styles.body_td}>{vc.verificationCases[0] && vc.verificationCases[0].verificationStatus}</td>
                                     <td className={styles.body_td}>
                                         <Link href={'/verifier/[id]'} as={`/verifier/${vc.vcDid}`} passHref>
                                             <a>

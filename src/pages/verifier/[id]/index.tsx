@@ -25,16 +25,16 @@ export default function RequestPage(): ReactNode {
                 : <>
                     {data ? <>
                         <BackButton/>
-                        <Title2 margin="0 0 30px">State ID/did:ever:12345...abcd</Title2>
+                        <Title2 margin="0 0 30px">{data.getVC.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID/did:ever:12345...abcd' : 'VC'}</Title2>
                         <Body2 style={{textDecoration: 'underline'}}>Holder/{startAndEnd(data.getVC.holderDid, 12)}</Body2>
                         <StatusCard>
                             <Date>19 Nov 2022 19:55</Date>
                         </StatusCard>
-                        <Status>{data.getVC.verificationCases[0] && data.getVC.verificationCases[0].status}</Status>
+                        <Status>{data.getVC.verificationCases[0] && data.getVC.verificationCases[0].verificationStatus}</Status>
                         <LargeVCCard
                             citizenship={JSON.parse(data.getVC.vcParams).citizenship}
-                            did={data.getVC.holderDid}
-                            status={data.getVC.verificationCases[0] ? data.getVC.verificationCases[0].status : ''}
+                            did={data.getVC.vcDid}
+                            status="Active"
                             issued={JSON.parse(data.getVC.vcParams).dateOfIssuance}
                             img="/assets/everscale-land-logo.svg"
                             firstName={JSON.parse(data.getVC.vcParams).firstName}

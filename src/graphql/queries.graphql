@@ -10,7 +10,7 @@ query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
     updatedAt
     verificationCases {
         verifierDid
-        status
+        verificationStatus
     }
   }
 }
@@ -36,7 +36,7 @@ query getUserVCsVerifier($role: AgentsRoles, $startIndex: Int, $count: Int) {
     createdAt
     verificationCases {
         verifierDid
-        status
+        verificationStatus
     }
   }
 }
@@ -53,7 +53,7 @@ query getVC($vcDid: String!) {
         updatedAt
         verificationCases {
             verifierDid
-            status
+            verificationStatus
         }
   }
 }

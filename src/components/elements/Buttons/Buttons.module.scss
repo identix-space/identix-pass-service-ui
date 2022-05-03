@@ -30,6 +30,7 @@
   border: 0;
   width: 100%;
   height: 40px;
+  font-family: 'Gilroy', sans-serif;
   font-weight: 700;
   font-size: 15px;
   color: #FFFFFF;
@@ -46,7 +47,7 @@
   }
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(0.99);
   }
 
   &[disabled] {
@@ -60,6 +61,7 @@
   border: 0;
   width: 100%;
   height: 40px;
+  font-family: 'Gilroy', sans-serif;
   font-weight: 700;
   font-size: 15px;
   color: #FFFFFF;
@@ -76,7 +78,7 @@
   }
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(0.99);
   }
 
   &[disabled] {

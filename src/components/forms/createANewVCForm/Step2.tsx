@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
-import {useIssuerVCStore} from '../../../store/store';
+import {useStateIdVCStore} from '../../../store/store';
 import {useFormFields} from './useFormHook';
 import Select, {StylesConfig} from 'react-select';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
@@ -15,7 +15,7 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     const [value, setValue] = useState('');
     const [title, setTitle] = useState('');
     const [match, setMatch] = useState(true);
-    const {holderDid, setVcParams, setVcTypeDid, setVcTypeTitle} = useIssuerVCStore();
+    const {holderDid, setVcParams, setVcTypeDid, setVcTypeTitle} = useStateIdVCStore();
     const [fields, handleFieldChange] = useFormFields({
         firstName: '',
         lastName: '',
@@ -54,8 +54,8 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     };
 
     const options: MyOptionType[] = [
-        {value: 'did:ever:state-id-fd5das7hdh3h455t', label: 'State ID'},
-        {value: 'did:ever:proof-of-residency-jd4345hwd8383d33d', label: 'Proof of Residency'}
+        {value: 'did:ever:state-id-fd5das7hdh3h455t', label: 'State ID'}
+        // {value: 'did:ever:proof-of-residency-jd4345hwd8383d33d', label: 'Proof of Residency'}
     ];
 
     type IsMulti = false;
@@ -176,6 +176,7 @@ const InputReadOnly = styled.input`
   height: 56px;
   padding: 15px 22px;
   background: transparent;
+  font-family: 'Gilroy', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: #FFFFFF;

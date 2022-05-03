@@ -1,15 +1,6 @@
 import create from 'zustand';
 
-interface VC {
-    vcDid: string;
-    vcTypeDid: string;
-    vcParams: string;
-    vcRawText: string;
-    issuerDid: string;
-    holderDid: string;
-}
-
-interface issuerVC {
+interface StateIdVC {
     holderDid: string;
     vcTypeDid: string;
     vcTypeTitle: string;
@@ -20,23 +11,7 @@ interface issuerVC {
     setVcParams: (vcParams: string) => void;
 }
 
-interface VCState {
-    vcs: VC[];
-    addVC: (vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string) => void;
-}
-
-export const useVCStore = create<VCState>((set) => ({
-    vcs: [],
-    addVC: (vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string) =>
-        set((state) => ({
-            vcs: [
-                ...state.vcs,
-                {vcDid: vcDid, vcTypeDid: vcTypeDid, vcParams: vcParams, vcRawText: vcRawText, issuerDid: issuerDid, holderDid: holderDid}
-            ]
-        }))
-}));
-
-export const useIssuerVCStore = create<issuerVC>((set) => ({
+export const useStateIdVCStore = create<StateIdVC>((set) => ({
     holderDid: '',
     setHolderDid: (holderDid) =>
         set((state) => ({

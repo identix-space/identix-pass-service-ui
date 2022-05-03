@@ -80,7 +80,7 @@ const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
             );
         case 'Logout':
             return (
-                <LogoutIcon className="fill"/>
+                <LogoutIcon className="fillstroke"/>
             );
         default:
             return (

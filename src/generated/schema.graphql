@@ -50,12 +50,12 @@ type VcTypeInfo {
 }
 
 type VerificationCase {
-  status: VerificationStatuses!
+  verificationStatus: VerificationStatuses!
   verifierDid: String!
 }
 
 enum VerificationStatuses {
-  approved
-  pendingApproval
-  rejected
+  ACCEPTED
+  PENDING_VERIFY
+  REJECTED
 }

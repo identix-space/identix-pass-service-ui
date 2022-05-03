@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
-import {useIssuerVCStore} from '../../../store/store';
+import {useStateIdVCStore} from '../../../store/store';
 
 interface InputProps {
     match: boolean;
@@ -11,7 +11,7 @@ interface InputProps {
 export const StepOne: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     const [value, setValue] = useState('');
     const [match, setMatch] = useState(true);
-    const {setHolderDid} = useIssuerVCStore();
+    const {setHolderDid} = useStateIdVCStore();
 
     const goNextStep = () => {
         if (value.match(/^did:ever:*/) && value !== '') {
@@ -70,6 +70,7 @@ const Input = styled.input<InputProps>`
   padding: 15px 22px;
   background: #FFFFFF;
   border: ${(props) => props.match ? '2px solid #FFFFFF' : '2px solid #FF0000'};
+  font-family: 'Gilroy', sans-serif;
   font-size: 16px;
   font-weight: 700;
   border-radius: 3px;

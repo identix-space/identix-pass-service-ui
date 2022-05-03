@@ -21,6 +21,13 @@ a {
   }
 }
 
+nav {
+  div:nth-last-of-type(1) {
+    a {
+        margin-top: 7vh;
+    }
+  }
+}
 .active-link {
   position: relative;
   color: #FFFFFF !important;
@@ -52,6 +59,10 @@ a {
 
 .DatePicker {
   width: 100%;
+  z-index: 9998 !important;
+}
+.DatePicker__calendarContainer {
+  z-index: 9999 !important;
 }
 .DatePicker__input {
   width: 100%;
@@ -62,6 +73,7 @@ a {
   text-align: left !important;
   border: none !important;
   border-radius: 5px;
+  z-index: 9998 !important;
 
   &:focus {
     outline: 0;

@@ -111,14 +111,14 @@ export type VcTypeInfo = {
 
 export type VerificationCase = {
   __typename?: 'VerificationCase';
-  status: VerificationStatuses;
+  verificationStatus: VerificationStatuses;
   verifierDid: Scalars['String'];
 };
 
 export enum VerificationStatuses {
-  Approved = 'approved',
-  PendingApproval = 'pendingApproval',
-  Rejected = 'rejected'
+  Accepted = 'ACCEPTED',
+  PendingVerify = 'PENDING_VERIFY',
+  Rejected = 'REJECTED'
 }
 
 export type GetUserVCsHolderQueryVariables = Exact<{
@@ -128,7 +128,7 @@ export type GetUserVCsHolderQueryVariables = Exact<{
 }>;
 
 
-export type GetUserVCsHolderQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> }> };
+export type GetUserVCsHolderQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> }> };
 
 export type GetUserVCsIssuerQueryVariables = Exact<{
   role?: InputMaybe<AgentsRoles>;
@@ -146,14 +146,14 @@ export type GetUserVCsVerifierQueryVariables = Exact<{
 }>;
 
 
-export type GetUserVCsVerifierQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> }> };
+export type GetUserVCsVerifierQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, issuerDid: string, holderDid: string, createdAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> }> };
 
 export type GetVcQueryVariables = Exact<{
   vcDid: Scalars['String'];
 }>;
 
 
-export type GetVcQuery = { __typename?: 'Query', getVC: { __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, status: VerificationStatuses }> } };
+export type GetVcQuery = { __typename?: 'Query', getVC: { __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> } };
 
 export type CheckAccountExistsQueryVariables = Exact<{
   did: Scalars['String'];
@@ -214,7 +214,7 @@ export const GetUserVCsHolderDocument = gql`
     updatedAt
     verificationCases {
       verifierDid
-      status
+      verificationStatus
     }
   }
 }
@@ -302,7 +302,7 @@ export const GetUserVCsVerifierDocument = gql`
     createdAt
     verificationCases {
       verifierDid
-      status
+      verificationStatus
     }
   }
 }
@@ -350,7 +350,7 @@ export const GetVcDocument = gql`
     updatedAt
     verificationCases {
       verifierDid
-      status
+      verificationStatus
     }
   }
 }

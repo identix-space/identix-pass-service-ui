@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {Body2, Title2} from '../../../utils/typography';
 import {LargeVCCard} from '../../cards';
 import {Button, Loader} from '../../elements';
-import {useIssuerVCStore} from '../../../store/store';
+import {useStateIdVCStore} from '../../../store/store';
 import {useIssuerVcMutation} from '../../../generated/graphql';
 import {useModal} from '../../hooks/useModal';
 import {Modal} from '../../elements/Modal';
@@ -12,7 +12,7 @@ import {startAndEnd} from '../../../utils/misc';
 export const StepThree: FC = (): JSX.Element => {
     const [status, setStatus] = useState('Review');
     const {isShown, toggle} = useModal();
-    const {holderDid, vcTypeDid, vcTypeTitle, vcParams} = useIssuerVCStore();
+    const {holderDid, vcTypeDid, vcTypeTitle, vcParams} = useStateIdVCStore();
     const [issuerVc, {loading, error}] = useIssuerVcMutation({
         variables: {
             holderDid: holderDid,
@@ -48,16 +48,16 @@ export const StepThree: FC = (): JSX.Element => {
                         dateOfExpiry={JSON.parse(vcParams).dateOfExpiry}
                         id={JSON.parse(vcParams).id}
                         rawData={vcParams}/>
-                    {status !== 'Review'
+                    {status === 'Review'
                         ? <ButtonWrapper>
                             <Button onClick={() => issuerVc()}>Sign and issue</Button>
                         </ButtonWrapper>
-                        : <Body2 fontWeight="700" margin="50px 0 0">`The VC has been issued to user <u>{startAndEnd(holderDid, 11)}</u></Body2>
+                        : <Body2 fontWeight="700" margin="50px 0 0">The VC has been issued to user <u>{startAndEnd(holderDid, 11)}</u></Body2>
                     }
                 </FinalForm>
             }
             <Modal modalTitle={`${vcTypeTitle}`} isShown={isShown} hide={toggle}
-                modalContent={`${startAndEnd(holderDid, 7)}`}/>
+                modalContent={`for ${startAndEnd(holderDid, 7)} has been issued!`}/>
         </>
     );
 };
