@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery} from '../../generated/graphql';
 import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
+import {useMyDidStore} from '../../store/store';
 
 interface IAuthProvider {
     protectedRoutes: string[];
@@ -23,6 +24,8 @@ export const AuthProvider = (props: IAuthProvider) => {
     const [whoami] = useWhoamiLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
 
+    const {setMyDid} = useMyDidStore();
+
     useEffect(() => {
         (async () => {
             if (pathIsProtected) {
@@ -30,6 +33,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                     const userDid = await whoami();
                     console.log(userDid.data?.whoami);
                     if (userDid.data?.whoami) {
+                        setMyDid(userDid.data?.whoami);
                         const isAccountExist = await checkAccountExist({
                             variables: {
                                 did: userDid.data?.whoami

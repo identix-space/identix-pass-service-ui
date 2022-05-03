@@ -1,5 +1,19 @@
 import create from 'zustand';
 
+interface MyDid {
+    myDid: string;
+    setMyDid: (myDid: string) => void;
+}
+
+export const useMyDidStore = create<MyDid>((set) => ({
+    myDid: '',
+    setMyDid: (myDid) =>
+        set((state) => ({
+            ...state,
+            myDid
+        }))
+}));
+
 interface StateIdVC {
     holderDid: string;
     vcTypeDid: string;

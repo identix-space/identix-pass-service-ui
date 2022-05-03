@@ -7,11 +7,17 @@ import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import {useGetVcLazyQuery, useVerifyVcMutation} from '../../../generated/graphql';
 import {startAndEnd} from '../../../utils/misc';
+import {useMyDidStore} from '../../../store/store';
+
+type StatusType = {
+    status: string;
+}
 
 export default function RequestPage(): ReactNode {
     const [verifyVC] = useVerifyVcMutation();
     const router = useRouter();
     const [getVC, {data, loading}] = useGetVcLazyQuery();
+    const {myDid} = useMyDidStore();
 
     useEffect(() => {
         if (router.query.id) {
@@ -29,8 +35,8 @@ export default function RequestPage(): ReactNode {
                         <Body2 style={{textDecoration: 'underline'}}>Holder/{startAndEnd(data.getVC.holderDid, 12)}</Body2>
                         <StatusCard>
                             <Date>19 Nov 2022 19:55</Date>
+                            <Status status={data.getVC.verificationCases[0].verificationStatus}>{data.getVC.verificationCases[0] && data.getVC.verificationCases[0].verificationStatus}</Status>
                         </StatusCard>
-                        <Status>{data.getVC.verificationCases[0] && data.getVC.verificationCases[0].verificationStatus}</Status>
                         <LargeVCCard
                             citizenship={JSON.parse(data.getVC.vcParams).citizenship}
                             did={data.getVC.vcDid}
@@ -43,12 +49,16 @@ export default function RequestPage(): ReactNode {
                             dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry}
                             id={JSON.parse(data.getVC.vcParams).id}
                             rawData={data.getVC.vcRawText}/>
-                        <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'ACCEPTED', vcDid: data.getVC.vcDid}})}>
-                            <Button>Accept</Button>
-                        </ButtonWrapper>
-                        <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'REJECTED', vcDid: data.getVC.vcDid}})}>
-                            <Button>Reject</Button>
-                        </ButtonWrapper>
+                        {data.getVC.verificationCases[0].verifierDid === myDid && data.getVC.verificationCases[0].verificationStatus === 'PENDING_VERIFY'
+                            ? <>
+                                <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'ACCEPTED', vcDid: data.getVC.vcDid}})}>
+                                    <Button>Accept</Button>
+                                </ButtonWrapper>
+                                <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'REJECTED', vcDid: data.getVC.vcDid}})}>
+                                    <Button>Reject</Button>
+                                </ButtonWrapper>
+                            </> : null
+                        }
                     </> : null
                     }
                 </>
@@ -57,7 +67,7 @@ export default function RequestPage(): ReactNode {
     );
 }
 
-const StatusCard = styled(Body2)`
+const StatusCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,8 +84,8 @@ const Date = styled(Body2)`
   color: #FFFFFF;
 `;
 
-const Status = styled(Body3)`
-  color: #999999 !important;
+const Status = styled(Body3)<StatusType>`
+  color: ${(props) => props.status === 'REJECTED' ? '#FF0000 !important' : props.status === 'ACCEPTED' ? '#7EF606 !important' : '#999999 !important'};
 `;
 
 const ButtonWrapper = styled.div`
