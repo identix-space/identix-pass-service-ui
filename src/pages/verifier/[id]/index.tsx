@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactNode, useEffect} from 'react';
 import {LargeVCCard} from '../../../components/cards';
 import Layout from '../../../components/layout';
-import {Body2, Body3, Title2} from '../../../utils/typography';
+import {Body2, Body3, Body5, Title2} from '../../../utils/typography';
 import {BackButton, Button, Loader} from '../../../components/elements';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
@@ -57,9 +57,13 @@ export default function RequestPage(): ReactNode {
                                 <ButtonWrapper onClick={() => verifyVC({variables: {verificationStatus: 'REJECTED', vcDid: data.getVC.vcDid}})}>
                                     <Button>Reject</Button>
                                 </ButtonWrapper>
-                            </> : null
+                            </> : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                                <Body5 margin="100px 0 80px">You have not get permission to this DID.</Body5>
+                            </div>
                         }
-                    </> : null
+                    </> : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Body5 margin="100px 0 80px">You do not have permission to this DID.</Body5>
+                    </div>
                     }
                 </>
             }

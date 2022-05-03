@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactNode, useEffect} from 'react';
 import {LargeVCCard} from '../../../components/cards';
 import Layout from '../../../components/layout';
-import {Body2, Title2} from '../../../utils/typography';
+import {Body2, Title2, Body5} from '../../../utils/typography';
 import {BackButton, Loader} from '../../../components/elements';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
@@ -42,7 +42,9 @@ export default function IssuerVCPage(): ReactNode {
                             dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry}
                             id={JSON.parse(data.getVC.vcParams).id}
                             rawData={data.getVC.vcRawText}/>
-                    </> : null
+                    </> : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Body5 margin="100px 0 80px">You do not have permission to this DID.</Body5>
+                    </div>
                     }
                 </>
             }

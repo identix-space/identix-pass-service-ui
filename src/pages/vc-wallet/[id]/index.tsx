@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactNode, useEffect} from 'react';
 import {LargeVCCard} from '../../../components/cards';
 import Layout from '../../../components/layout';
-import {Title2} from '../../../utils/typography';
+import {Body5, Title2} from '../../../utils/typography';
 import {BackButton, Loader} from '../../../components/elements';
 import {ServicesBlock} from '../../../components/cards/ServicesBlock';
 import {useRouter} from 'next/router';
@@ -28,7 +28,9 @@ export default function VcCardPage(): ReactNode {
                         <Title2 margin="0 0 40px">{data.getVC.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID' : 'VC Wallet'}</Title2>
                         <LargeVCCard citizenship={JSON.parse(data.getVC.vcParams).citizenship} did={data.getVC.vcDid} issued={JSON.parse(data.getVC.vcParams).dateOfIssuance} status="Active" img="/assets/everscale-land-logo.svg" firstName={JSON.parse(data.getVC.vcParams).firstName} lastName={JSON.parse(data.getVC.vcParams).lastName} dateOfBirth={JSON.parse(data.getVC.vcParams).dateOfBirth} dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry} id={JSON.parse(data.getVC.vcParams).id} rawData={data.getVC.vcRawText}/>
                         <ServicesBlock/>
-                    </> : null
+                    </> : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Body5 margin="100px 0 80px">You do not have permission to this DID.</Body5>
+                    </div>
                     }
                 </>
             }
