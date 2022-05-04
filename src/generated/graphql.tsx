@@ -14,6 +14,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: any;
 };
 
 export enum AgentsRoles {
@@ -24,10 +26,12 @@ export enum AgentsRoles {
 
 export type EventLogEntry = {
   __typename?: 'EventLogEntry';
-  created: Scalars['String'];
-  id: Scalars['Float'];
+  eventDate: Scalars['DateTime'];
+  eventType: Scalars['String'];
+  id: Scalars['Int'];
   message: Scalars['String'];
-  owner: Scalars['String'];
+  ownerDid: Scalars['String'];
+  vcDid: Scalars['String'];
 };
 
 export type Mutation = {
@@ -168,7 +172,7 @@ export type GetEventLogEntriesQueryVariables = Exact<{
 }>;
 
 
-export type GetEventLogEntriesQuery = { __typename?: 'Query', getEventLogEntries: Array<{ __typename?: 'EventLogEntry', id: number, owner: string, created: string, message: string }> };
+export type GetEventLogEntriesQuery = { __typename?: 'Query', getEventLogEntries: Array<{ __typename?: 'EventLogEntry', id: number, ownerDid: string, eventType: string, vcDid: string, message: string, eventDate: any }> };
 
 export type GetVcTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -430,9 +434,11 @@ export const GetEventLogEntriesDocument = gql`
     query getEventLogEntries($startIndex: Int, $count: Int) {
   getEventLogEntries(startIndex: $startIndex, count: $count) {
     id
-    owner
-    created
+    ownerDid
+    eventType
+    vcDid
     message
+    eventDate
   }
 }
     `;

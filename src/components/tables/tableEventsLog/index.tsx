@@ -3,7 +3,12 @@ import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
 import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
+import {startAndEnd} from '../../../utils/misc';
 //
+
+const didSliceCenter = 10;
+const dataSliceBack = -5;
+
 // type SortKeys = keyof Data[0];
 //
 // type SortOrder = 'ascn' | 'desc';
@@ -58,12 +63,16 @@ import {Body5} from '../../../utils/typography';
 export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
+    console.log(data.data?.getEventLogEntries[0].eventDate);
+
 
     const headers: { key: keyof EventLogEntry; label: string }[] = [
         {key: 'id', label: 'Event ID'},
-        {key: 'created', label: 'Event date'},
-        {key: 'owner', label: 'Event owner'},
-        {key: 'message', label: 'Event message'}
+        {key: 'eventDate', label: 'Event date'},
+        {key: 'eventType', label: 'Event type'},
+        {key: 'ownerDid', label: 'Did owner'},
+        {key: 'message', label: 'Event message'},
+        {key: 'vcDid', label: 'VCDid'}
         // {key: 'event_date', label: 'Event date'},
         // {key: 'credential', label: 'Credential(s)'},
         // {key: 'event_type', label: 'Event type'},
@@ -87,47 +96,51 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
     return (
         <>
             {data.data?.getEventLogEntries.length !== 0
-                ? <table className={styles.table_wide}>
-                    <thead className={styles.thead}>
-                        <tr>
-                            {headers.map((row) => {
+                ? <div className={styles.border_wrap}>
+                    <table className={styles.table_wide}>
+                        <thead className={styles.thead}>
+                            <tr>
+                                {headers.map((row) => {
+                                    return (
+                                        <td key={row.key} className={styles.head_td}>
+                                            {row.label}{' '}
+                                            {/*<SortButton*/}
+                                            {/*    columnKey={row.key}*/}
+                                            {/*    onClick={() => changeSort(row.key)}*/}
+                                            {/*    {...{*/}
+                                            {/*        sortOrder,*/}
+                                            {/*        sortKey*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                        </td>
+                                    );
+                                })}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
                                 return (
-                                    <td key={row.key} className={styles.head_td}>
-                                        {row.label}{' '}
-                                        {/*<SortButton*/}
-                                        {/*    columnKey={row.key}*/}
-                                        {/*    onClick={() => changeSort(row.key)}*/}
-                                        {/*    {...{*/}
-                                        {/*        sortOrder,*/}
-                                        {/*        sortKey*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-                                    </td>
+                                    <tr key={log.id} className={styles.body_row}>
+                                        <td className={styles.body_td}>#{log.id}</td>
+                                        <td className={styles.body_td}>{log.eventDate.replace('T', ' ').slice(0, dataSliceBack)}</td>
+                                        <td className={styles.body_td}>{log.eventType}</td>
+                                        <td className={styles.body_td}>{startAndEnd(log.ownerDid, didSliceCenter)}</td>
+                                        <td className={styles.body_td}>{log.message.split('.')[0]}.</td>
+                                        <td className={styles.body_td}>{startAndEnd(log.vcDid, didSliceCenter)}</td>
+                                        {/*<td className={styles.body_td}>{person.event_date}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.credential}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.event_type}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.src_did}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.dst_did}</td>*/}
+                                        {/*<td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.status_updated}</td>*/}
+                                    </tr>
                                 );
                             })}
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
-                            return (
-                                <tr key={log.id} className={styles.body_row}>
-                                    <td className={styles.body_td}>#{log.id}</td>
-                                    <td className={styles.body_td}>{log.created}</td>
-                                    <td className={styles.body_td}>{log.owner}</td>
-                                    <td className={styles.body_td}>{log.message}</td>
-                                    {/*<td className={styles.body_td}>{person.event_date}</td>*/}
-                                    {/*<td className={styles.body_td}>{person.credential}</td>*/}
-                                    {/*<td className={styles.body_td}>{person.event_type}</td>*/}
-                                    {/*<td className={styles.body_td}>{person.src_did}</td>*/}
-                                    {/*<td className={styles.body_td}>{person.dst_did}</td>*/}
-                                    {/*<td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>*/}
-                                    {/*<td className={styles.body_td}>{person.status_updated}</td>*/}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                     <Body5 margin="100px 0 80px">Nothing here yet.</Body5>
                 </div>
