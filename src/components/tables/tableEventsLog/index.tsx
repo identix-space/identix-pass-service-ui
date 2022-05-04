@@ -1,9 +1,17 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
-import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
+import {EventLogEntry} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 //
+
+type Data = {
+    id: string;
+    ownerDid: string;
+    eventDate: string;
+    message: string;
+};
+
 // type SortKeys = keyof Data[0];
 //
 // type SortOrder = 'ascn' | 'desc';
@@ -55,14 +63,14 @@ import {Body5} from '../../../utils/typography';
 //     );
 // }
 //GetEventLogEntriesQueryHookResult
-export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
+export function EventsLogTable({data}: { data: any }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
     const headers: { key: keyof EventLogEntry; label: string }[] = [
         {key: 'id', label: 'Event ID'},
-        {key: 'created', label: 'Event date'},
-        {key: 'owner', label: 'Event owner'},
+        {key: 'eventDate', label: 'Event date'},
+        {key: 'ownerDid', label: 'Event owner'},
         {key: 'message', label: 'Event message'}
         // {key: 'event_date', label: 'Event date'},
         // {key: 'credential', label: 'Credential(s)'},
@@ -109,12 +117,12 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                     </thead>
 
                     <tbody>
-                        {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
+                        {data && data.data?.getEventLogEntries.map((log: Data) => {
                             return (
                                 <tr key={log.id} className={styles.body_row}>
                                     <td className={styles.body_td}>#{log.id}</td>
-                                    <td className={styles.body_td}>{log.created}</td>
-                                    <td className={styles.body_td}>{log.owner}</td>
+                                    <td className={styles.body_td}>{log.eventDate}</td>
+                                    <td className={styles.body_td}>{log.ownerDid}</td>
                                     <td className={styles.body_td}>{log.message}</td>
                                     {/*<td className={styles.body_td}>{person.event_date}</td>*/}
                                     {/*<td className={styles.body_td}>{person.credential}</td>*/}

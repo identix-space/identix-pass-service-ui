@@ -9,11 +9,18 @@ enum AgentsRoles {
   verifier
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type EventLogEntry {
-  created: String!
-  id: Float!
+  eventDate: DateTime!
+  eventType: String!
+  id: Int!
   message: String!
-  owner: String!
+  ownerDid: String!
+  vcDid: String!
 }
 
 type Mutation {

@@ -65,8 +65,8 @@ query checkAccountExists($did: String!) {
 query getEventLogEntries($startIndex: Int, $count: Int) {
     getEventLogEntries(startIndex: $startIndex, count: $count) {
         id
-        owner
-        created
+        ownerDid
+        eventDate
         message
     }
 }
