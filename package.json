@@ -1,6 +1,6 @@
 {
-    "name": "lite-front",
-    "version": "1.0.0",
+    "name": "identix-pass ui",
+    "version": "0.0.1",
     "license": "MIT",
     "scripts": {
         "dev": "next",
