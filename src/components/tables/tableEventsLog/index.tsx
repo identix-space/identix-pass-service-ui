@@ -63,7 +63,6 @@ const dataSliceBack = -5;
 export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
-    console.log(data.data?.getEventLogEntries[0].eventDate);
 
 
     const headers: { key: keyof EventLogEntry; label: string }[] = [
@@ -124,9 +123,9 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                                     <tr key={log.id} className={styles.body_row}>
                                         <td className={styles.body_td}>#{log.id}</td>
                                         <td className={styles.body_td}>{log.eventDate.replace('T', ' ').slice(0, dataSliceBack)}</td>
-                                        <td className={styles.body_td}>{log.eventType}</td>
+                                        <td className={styles.body_td}>{log.eventType && log.eventType === 'ISSUER_VC' ? 'Issue credential' : log.eventType === 'REQUEST_VC_VERIFICATION' ? 'Incoming issue request' : log.eventType === 'VERIFICATED' ? 'Verify credentials' : ' '}</td>
                                         <td className={styles.body_td}>{startAndEnd(log.ownerDid, didSliceCenter)}</td>
-                                        <td className={styles.body_td}>{log.message.split('.')[0]}.</td>
+                                        <td className={styles.body_td}>{log.message.split('.')[0]}</td>
                                         <td className={styles.body_td}>{startAndEnd(log.vcDid, didSliceCenter)}</td>
                                         {/*<td className={styles.body_td}>{person.event_date}</td>*/}
                                         {/*<td className={styles.body_td}>{person.credential}</td>*/}
