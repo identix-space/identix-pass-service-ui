@@ -4,6 +4,7 @@ import styles from '../tableIssueAVC.module.scss';
 import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 import {startAndEnd} from '../../../utils/misc';
+import Link from 'next/link';
 //
 
 const didSliceCenter = 10;
@@ -71,14 +72,9 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
         {key: 'eventType', label: 'Event type'},
         {key: 'ownerDid', label: 'Did owner'},
         {key: 'message', label: 'Event message'},
-        {key: 'vcDid', label: 'VCDid'}
-        // {key: 'event_date', label: 'Event date'},
-        // {key: 'credential', label: 'Credential(s)'},
-        // {key: 'event_type', label: 'Event type'},
-        // {key: 'src_did', label: 'Rst DID'},
-        // {key: 'dst_did', label: 'Dst DID'},
-        // {key: 'status', label: 'Status'},
-        // {key: 'status_updated', label: 'Status updated'}
+        {key: 'vcDid', label: 'VCDid'},
+        {key: '__typename', label: ' '}
+
     ];
 
     // const sortedData = useCallback(
@@ -127,13 +123,13 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                                         <td className={styles.body_td}>{startAndEnd(log.ownerDid, didSliceCenter)}</td>
                                         <td className={styles.body_td}>{log.message.split('.')[0]}</td>
                                         <td className={styles.body_td}>{startAndEnd(log.vcDid, didSliceCenter)}</td>
-                                        {/*<td className={styles.body_td}>{person.event_date}</td>*/}
-                                        {/*<td className={styles.body_td}>{person.credential}</td>*/}
-                                        {/*<td className={styles.body_td}>{person.event_type}</td>*/}
-                                        {/*<td className={styles.body_td}>{person.src_did}</td>*/}
-                                        {/*<td className={styles.body_td}>{person.dst_did}</td>*/}
-                                        {/*<td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>*/}
-                                        {/*<td className={styles.body_td}>{person.status_updated}</td>*/}
+                                        <td className={styles.body_td}>
+                                            <Link href={'/event-logs/[id]'} as={`/event-logs/${log.vcDid}`} passHref>
+                                                <a>
+                                                    Details
+                                                </a>
+                                            </Link>
+                                        </td>
                                     </tr>
                                 );
                             })}
