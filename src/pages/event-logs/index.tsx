@@ -12,6 +12,7 @@ export default function EventLogsPage(): ReactNode {
         <>
             <Title2 margin="0 0 40px">Event Logs</Title2>
             <EventsLogTable data={data} />
+            {/*Comment*/}
         </>
     );
 }
