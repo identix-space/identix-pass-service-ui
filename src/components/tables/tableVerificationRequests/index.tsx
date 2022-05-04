@@ -100,49 +100,51 @@ export function VerificationRequestsTable({data}: { data: any }) {
     return (
         <>
             {data && data.getUserVCs.length !== 0
-                ? <table className={styles.table}>
-                    <thead className={styles.thead}>
-                        <tr>
-                            {headers.map((row) => {
+                ? <div className={styles.border_wrap}>
+                    <table className={styles.table}>
+                        <thead className={styles.thead}>
+                            <tr>
+                                {headers.map((row) => {
+                                    return (
+                                        <td key={row.key} className={styles.head_td}>
+                                            {row.label}{' '}
+                                            {/*<SortButton*/}
+                                            {/*    columnKey={row.key}*/}
+                                            {/*    onClick={() => changeSort(row.key)}*/}
+                                            {/*    {...{*/}
+                                            {/*        sortOrder,*/}
+                                            {/*        sortKey*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                        </td>
+                                    );
+                                })}
+                                <td/>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {data && data.getUserVCs.map((vc: Data, key: number) => {
                                 return (
-                                    <td key={row.key} className={styles.head_td}>
-                                        {row.label}{' '}
-                                        {/*<SortButton*/}
-                                        {/*    columnKey={row.key}*/}
-                                        {/*    onClick={() => changeSort(row.key)}*/}
-                                        {/*    {...{*/}
-                                        {/*        sortOrder,*/}
-                                        {/*        sortKey*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-                                    </td>
+                                    <tr key={key} className={styles.body_row}>
+                                        <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
+                                        <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 10)}</td>
+                                        <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
+                                        <td className={styles.body_td} style={{width: '15%'}}>{formatDate(vc.createdAt)}</td>
+                                        <td className={styles.body_td} style={{width: '12%'}}><Label1 fontWeight="600" color={vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? '#7EF606' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? '#FF0000' : '#999999'}>{vc.verificationCases[0].verificationStatus && vc.verificationCases[0].verificationStatus === 'PENDING_VERIFY' ? 'Pending' : vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? 'Verified' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? 'Rejected' : ' '}</Label1></td>
+                                        <td className={styles.body_td}>
+                                            <Link href={'/verifier/[id]'} as={`/verifier/${vc.vcDid}`} passHref>
+                                                <a>
+                                                Details
+                                                </a>
+                                            </Link>
+                                        </td>
+                                    </tr>
                                 );
                             })}
-                            <td/>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {data && data.getUserVCs.map((vc: Data, key: number) => {
-                            return (
-                                <tr key={key} className={styles.body_row}>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 10)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
-                                    <td className={styles.body_td} style={{width: '15%'}}>{formatDate(vc.createdAt)}</td>
-                                    <td className={styles.body_td} style={{width: '12%'}}><Label1 fontWeight="600" color={vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? '#7EF606' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? '#FF0000' : '#999999'}>{vc.verificationCases[0].verificationStatus && vc.verificationCases[0].verificationStatus === 'PENDING_VERIFY' ? 'Pending' : vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? 'Verified' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? 'Rejected' : ' '}</Label1></td>
-                                    <td className={styles.body_td}>
-                                        <Link href={'/verifier/[id]'} as={`/verifier/${vc.vcDid}`} passHref>
-                                            <a>
-                                                Details
-                                            </a>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                     <Body5 margin="100px 0 80px">Nothing here yet.</Body5>
                 </div>
