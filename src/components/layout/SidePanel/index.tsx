@@ -101,7 +101,11 @@ const SidePanel = (): JSX.Element => {
                     <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
                 </Avatar>
                 <UserTexts open={opened}>
-                    <Body2 margin="14px 0 0">{data && startAndEnd(data.whoami, 7)}</Body2>
+                    {data &&
+                    <Body2 margin="14px 0 0" onClick={() => {
+                        navigator.clipboard.writeText(data.whoami);
+                    }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Body2>
+                    }
                     {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
                 </UserTexts>
             </UserInfo>

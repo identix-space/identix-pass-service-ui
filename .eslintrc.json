@@ -57,6 +57,7 @@
         "prefer-spread": "error",
         "prefer-arrow-callback": "error",
         "no-var": "error",
-        "arrow-spacing": "error"
+        "arrow-spacing": "error",
+        "complexity": ["warn", 15]
     }
 }

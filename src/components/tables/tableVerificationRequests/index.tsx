@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 import {Vc, VerificationCase} from '../../../generated/graphql';
-import {startAndEnd} from '../../../utils/misc';
+import {formatDate, startAndEnd} from '../../../utils/misc';
 import Link from 'next/link';
-import {Body5} from '../../../utils/typography';
+import {Body5, Label1} from '../../../utils/typography';
 
 // type verificationCasesType = {
 //     verifierDid: VerificationCase;
@@ -83,8 +83,7 @@ export function VerificationRequestsTable({data}: { data: any }) {
         {key: 'issuerDid', label: 'Issuer'},
         {key: 'holderDid', label: 'Holder'},
         {key: 'createdAt', label: 'Request date'},
-        {key: 'verificationCases', label: 'Status'},
-        {key: 'updatedAt', label: 'Request processed'}
+        {key: 'verificationCases', label: 'Status'}
     ];
 
     // const sortedData = useCallback(
@@ -119,6 +118,7 @@ export function VerificationRequestsTable({data}: { data: any }) {
                                     </td>
                                 );
                             })}
+                            <td/>
                         </tr>
                     </thead>
 
@@ -126,11 +126,11 @@ export function VerificationRequestsTable({data}: { data: any }) {
                         {data && data.getUserVCs.map((vc: Data, key: number) => {
                             return (
                                 <tr key={key} className={styles.body_row}>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 7)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 7)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 7)}</td>
-                                    <td className={styles.body_td}>{vc.createdAt}</td>
-                                    <td className={styles.body_td}>{vc.verificationCases[0] && vc.verificationCases[0].verificationStatus}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
+                                    <td className={styles.body_td} style={{width: '15%'}}>{formatDate(vc.createdAt)}</td>
+                                    <td className={styles.body_td} style={{width: '12%'}}><Label1 fontWeight="600" color={vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? '#7EF606' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? '#FF0000' : '#999999'}>{vc.verificationCases[0].verificationStatus && vc.verificationCases[0].verificationStatus === 'PENDING_VERIFY' ? 'Pending' : vc.verificationCases[0].verificationStatus === 'ACCEPTED' ? 'Verified' : vc.verificationCases[0].verificationStatus === 'REJECTED' ? 'Rejected' : ' '}</Label1></td>
                                     <td className={styles.body_td}>
                                         <Link href={'/verifier/[id]'} as={`/verifier/${vc.vcDid}`} passHref>
                                             <a>

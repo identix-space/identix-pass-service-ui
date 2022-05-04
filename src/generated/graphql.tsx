@@ -170,10 +170,20 @@ export type GetEventLogEntriesQueryVariables = Exact<{
 
 export type GetEventLogEntriesQuery = { __typename?: 'Query', getEventLogEntries: Array<{ __typename?: 'EventLogEntry', id: number, owner: string, created: string, message: string }> };
 
+export type GetVcTypesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetVcTypesQuery = { __typename?: 'Query', getVcTypes: Array<{ __typename?: 'VcTypeInfo', vcTypeDid: string, vcTypeTag: string }> };
+
 export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WhoamiQuery = { __typename?: 'Query', whoami: string };
+
+export type GetAllAccountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllAccountsQuery = { __typename?: 'Query', getAllAccounts: Array<string> };
 
 export type IssuerVcMutationVariables = Exact<{
   holderDid: Scalars['String'];
@@ -455,6 +465,41 @@ export function useGetEventLogEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetEventLogEntriesQueryHookResult = ReturnType<typeof useGetEventLogEntriesQuery>;
 export type GetEventLogEntriesLazyQueryHookResult = ReturnType<typeof useGetEventLogEntriesLazyQuery>;
 export type GetEventLogEntriesQueryResult = Apollo.QueryResult<GetEventLogEntriesQuery, GetEventLogEntriesQueryVariables>;
+export const GetVcTypesDocument = gql`
+    query getVcTypes {
+  getVcTypes {
+    vcTypeDid
+    vcTypeTag
+  }
+}
+    `;
+
+/**
+ * __useGetVcTypesQuery__
+ *
+ * To run a query within a React component, call `useGetVcTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVcTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVcTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetVcTypesQuery(baseOptions?: Apollo.QueryHookOptions<GetVcTypesQuery, GetVcTypesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetVcTypesQuery, GetVcTypesQueryVariables>(GetVcTypesDocument, options);
+      }
+export function useGetVcTypesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetVcTypesQuery, GetVcTypesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetVcTypesQuery, GetVcTypesQueryVariables>(GetVcTypesDocument, options);
+        }
+export type GetVcTypesQueryHookResult = ReturnType<typeof useGetVcTypesQuery>;
+export type GetVcTypesLazyQueryHookResult = ReturnType<typeof useGetVcTypesLazyQuery>;
+export type GetVcTypesQueryResult = Apollo.QueryResult<GetVcTypesQuery, GetVcTypesQueryVariables>;
 export const WhoamiDocument = gql`
     query whoami {
   whoami
@@ -487,6 +532,38 @@ export function useWhoamiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Who
 export type WhoamiQueryHookResult = ReturnType<typeof useWhoamiQuery>;
 export type WhoamiLazyQueryHookResult = ReturnType<typeof useWhoamiLazyQuery>;
 export type WhoamiQueryResult = Apollo.QueryResult<WhoamiQuery, WhoamiQueryVariables>;
+export const GetAllAccountsDocument = gql`
+    query getAllAccounts {
+  getAllAccounts
+}
+    `;
+
+/**
+ * __useGetAllAccountsQuery__
+ *
+ * To run a query within a React component, call `useGetAllAccountsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllAccountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllAccountsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllAccountsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAccountsQuery, GetAllAccountsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllAccountsQuery, GetAllAccountsQueryVariables>(GetAllAccountsDocument, options);
+      }
+export function useGetAllAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAccountsQuery, GetAllAccountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllAccountsQuery, GetAllAccountsQueryVariables>(GetAllAccountsDocument, options);
+        }
+export type GetAllAccountsQueryHookResult = ReturnType<typeof useGetAllAccountsQuery>;
+export type GetAllAccountsLazyQueryHookResult = ReturnType<typeof useGetAllAccountsLazyQuery>;
+export type GetAllAccountsQueryResult = Apollo.QueryResult<GetAllAccountsQuery, GetAllAccountsQueryVariables>;
 export const IssuerVcDocument = gql`
     mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
   issuerVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)

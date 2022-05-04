@@ -7,7 +7,7 @@ import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 
-export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, dateOfExpiry, id, rawData}: LargeVCCardProps): JSX.Element => {
+export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, lastName, dateOfBirth, dateOfExpiry, id, rawData, country, city, address}: LargeVCCardProps): JSX.Element => {
     const {isShown, toggle} = useModal();
 
     function getJSON(json: string) {
@@ -19,45 +19,57 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
             <TopInfo>
                 <Image src={img} width="92" height="92"/>
                 <MainInfo>
-                    <Title3 fontWeight="700" color="black" margin="3px 0 0">{citizenship}</Title3>
+                    <Title3 fontWeight="700" color="black" margin="3px 0 0">Everscale.id</Title3>
                     <TextGradient fontSize="16px" color="black">{startAndEnd(did, 15)}</TextGradient>
-                    <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {formatDate(issued)}</Body1>
+                    {!city && !country && !address && <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {formatDate(issued!)}</Body1>}
                 </MainInfo>
             </TopInfo>
             <BottomInfo>
                 <Column>
-                    <ColItem>
+                    {firstName && <ColItem>
                         <Label2 color="#9E9E9E">Name</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{firstName}</Body1>
-                    </ColItem>
-                    <ColItem>
+                    </ColItem>}
+                    {lastName && <ColItem>
                         <Label2 color="#9E9E9E">Last Name</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{lastName}</Body1>
-                    </ColItem>
+                    </ColItem>}
+                    {country && <ColItem>
+                        <Label2 color="#9E9E9E">Country</Label2>
+                        <Body1 color="black" fontWeight="700" margin="0">{country}</Body1>
+                    </ColItem>}
                 </Column>
                 <Column>
-                    <ColItem>
+                    {citizenship && <ColItem>
                         <Label2 color="#9E9E9E">Citizenship</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{citizenship}</Body1>
-                    </ColItem>
-                    <ColItem>
+                    </ColItem>}
+                    {dateOfBirth && <ColItem>
                         <Label2 color="#9E9E9E">Date of birth</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfBirth)}</Body1>
-                    </ColItem>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfBirth!)}</Body1>
+                    </ColItem>}
+                    {city && <ColItem>
+                        <Label2 color="#9E9E9E">City</Label2>
+                        <Body1 color="black" fontWeight="700" margin="0">{city}</Body1>
+                    </ColItem>}
                 </Column>
                 <Column>
-                    <ColItem>
+                    {id && <ColItem>
                         <Label2 color="#9E9E9E">ID</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{id}</Body1>
-                    </ColItem>
-                    <ColItem>
+                    </ColItem>}
+                    {issued && <ColItem>
                         <Label2 color="#9E9E9E">Date of issuance</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(issued)}</Body1>
-                    </ColItem>
-                    <ColItem>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(issued!)}</Body1>
+                    </ColItem>}
+                    {dateOfExpiry && <ColItem>
                         <Label2 color="#9E9E9E">Date of expiry</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfExpiry)}</Body1>
-                    </ColItem>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(dateOfExpiry!)}</Body1>
+                    </ColItem>}
+                    {address && <ColItem>
+                        <Label2 color="#9E9E9E">Address</Label2>
+                        <Body1 color="black" fontWeight="700" margin="0">{address}</Body1>
+                    </ColItem>}
                 </Column>
             </BottomInfo>
             <TopRightLabel status={status}>

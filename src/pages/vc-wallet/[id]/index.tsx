@@ -25,10 +25,35 @@ export default function VcCardPage(): ReactNode {
                 : <>
                     {data ? <>
                         <BackButton/>
-                        <Title2 margin="0 0 40px">{data.getVC.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID' : 'VC Wallet'}</Title2>
-                        <LargeVCCard citizenship={JSON.parse(data.getVC.vcParams).citizenship} did={data.getVC.vcDid} issued={JSON.parse(data.getVC.vcParams).dateOfIssuance} status="Active" img="/assets/everscale-land-logo.svg" firstName={JSON.parse(data.getVC.vcParams).firstName} lastName={JSON.parse(data.getVC.vcParams).lastName} dateOfBirth={JSON.parse(data.getVC.vcParams).dateOfBirth} dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry} id={JSON.parse(data.getVC.vcParams).id} rawData={data.getVC.vcRawText}/>
+                        <Title2
+                            margin="0 0 40px">{data.getVC.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID' : data.getVC.vcTypeDid === 'did:ever:proof-of-residency-jd4345hwd8383d33d' ? 'Proof of Residency' : 'VC Wallet'}</Title2>
+                        {data.getVC.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' &&
+                        <LargeVCCard citizenship={JSON.parse(data.getVC.vcParams).citizenship} did={data.getVC.vcDid}
+                            issued={JSON.parse(data.getVC.vcParams).dateOfIssuance} status="Active"
+                            img="/assets/everscale-land-logo.svg"
+                            firstName={JSON.parse(data.getVC.vcParams).firstName}
+                            lastName={JSON.parse(data.getVC.vcParams).lastName}
+                            dateOfBirth={JSON.parse(data.getVC.vcParams).dateOfBirth}
+                            dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry}
+                            id={JSON.parse(data.getVC.vcParams).id} rawData={data.getVC.vcRawText}/>
+                        }
+                        {data.getVC.vcTypeDid === 'did:ever:proof-of-residency-jd4345hwd8383d33d' &&
+                        <LargeVCCard
+                            did={data.getVC.vcDid}
+                            status="Active"
+                            img="/assets/everscale-land-logo.svg"
+                            country={JSON.parse(data.getVC.vcParams).country}
+                            city={JSON.parse(data.getVC.vcParams).city}
+                            address={JSON.parse(data.getVC.vcParams).address}
+                            rawData={data.getVC.vcRawText}/>
+                        }
                         <ServicesBlock/>
-                    </> : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                    </> : <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
                         <Body5 margin="100px 0 80px">You do not have permission to this DID.</Body5>
                     </div>
                     }

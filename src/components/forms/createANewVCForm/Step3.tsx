@@ -35,7 +35,8 @@ export const StepThree: FC = (): JSX.Element => {
         <>
             {loading ? <Loader/>
                 : <FinalForm>
-                    <Title2 margin="0 0 45px">{vcTypeTitle}</Title2>
+                    <Title2 margin="0 0 45px" style={{textTransform: 'capitalize'}}>{vcTypeTitle}</Title2>
+                    {vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' &&
                     <LargeVCCard
                         citizenship={JSON.parse(vcParams).citizenship}
                         did={holderDid}
@@ -47,7 +48,16 @@ export const StepThree: FC = (): JSX.Element => {
                         dateOfBirth={JSON.parse(vcParams).dateOfBirth}
                         dateOfExpiry={JSON.parse(vcParams).dateOfExpiry}
                         id={JSON.parse(vcParams).id}
-                        rawData={vcParams}/>
+                        rawData={vcParams}/>}
+                    {vcTypeDid === 'did:ever:proof-of-residency-jd4345hwd8383d33d' &&
+                    <LargeVCCard
+                        did={holderDid}
+                        status={status}
+                        img="/assets/everscale-land-logo.svg"
+                        country={JSON.parse(vcParams).country}
+                        city={JSON.parse(vcParams).city}
+                        address={JSON.parse(vcParams).address}
+                        rawData={vcParams}/>}
                     {status === 'Review'
                         ? <ButtonWrapper>
                             <Button onClick={() => issuerVc()}>Sign and issue</Button>

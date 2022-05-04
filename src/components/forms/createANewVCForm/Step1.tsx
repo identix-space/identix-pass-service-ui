@@ -1,41 +1,95 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
 import {useStateIdVCStore} from '../../../store/store';
-
-interface InputProps {
-    match: boolean;
-}
+import Select, {StylesConfig} from 'react-select';
+import {useGetAllAccountsQuery} from '../../../generated/graphql';
 
 export const StepOne: FC<NextStepProps> = ({nextStep}): JSX.Element => {
     const [value, setValue] = useState('');
-    const [match, setMatch] = useState(true);
+    const [options, setOptions] = useState<MyOptionType[]>();
+    const {data} = useGetAllAccountsQuery();
     const {setHolderDid} = useStateIdVCStore();
 
     const goNextStep = () => {
-        if (value.match(/^did:ever:*/) && value !== '') {
-            setMatch(true);
-            setHolderDid(value);
+        setHolderDid(value);
+        if (value) {
             nextStep();
-        } else {
-            setMatch(false);
         }
+    };
+
+    type MyOptionType = {
+        value: string;
+        label: string;
+    };
+
+    type IsMulti = false;
+
+    useEffect(() => {
+        if (data) {
+            const values: MyOptionType[] = [];
+            data.getAllAccounts.forEach((account: string) => {
+                values.push({value: account, label: account});
+            });
+            setOptions(values);
+        }
+    }, [data]);
+
+    const customStyles: StylesConfig<MyOptionType, IsMulti> = {
+        option: (provided, state) => ({
+            ...provided,
+            color: 'black',
+            padding: 20,
+            backgroundColor: state.isSelected ? 'rgba(143, 90, 224, 0.15)' : '#FFFFFF'
+        }),
+        control: (provided) => ({
+            ...provided,
+            height: '55px'
+        }),
+        container: (provided) => ({
+            ...provided,
+            width: '60%'
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            fontWeight: '700'
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            padding: '2px 22px'
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            color: '#0BCDED'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'black'
+        }),
+        indicatorSeparator: (provided) => ({
+            ...provided,
+            display: 'none'
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: 'black',
+            fontWeight: '700'
+        })
     };
 
     return (
         <>
             <Form>
                 <InputRow>
-                    <Input match={match} id="did" type="text" value={value} onChange={(event) => {
-                        setValue(event.target.value);
+                    <Select styles={customStyles} options={options} placeholder="Choose did" onChange={(option) => {
+                        setValue(option!.value);
                     }}/>
                     <Label htmlFor="did">Insert the DID of the VC holder here.<br/>
                         Currently only <strong>did:ever</strong> method is supported.</Label>
                 </InputRow>
-                {!match ? <Error>Wrong DID string. Please, match the “did:method:xyz123” format</Error> : <></>}
                 <ButtonWrapper>
-                    <Button onClick={(event) => {
+                    <Button style={{zIndex: 'unset'}} onClick={(event) => {
                         goNextStep();
                         event.preventDefault();
                     }}>Continue</Button>
@@ -64,26 +118,6 @@ const InputRow = styled.div`
   }
 `;
 
-const Input = styled.input<InputProps>`
-  width: 60%;
-  height: 56px;
-  padding: 15px 22px;
-  background: #FFFFFF;
-  border: ${(props) => props.match ? '2px solid #FFFFFF' : '2px solid #FF0000'};
-  font-family: 'Gilroy', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 3px;
-
-  :active {
-    outline: 0;
-  }
-
-  :focus {
-    outline: 0;
-  }
-`;
-
 const Label = styled.label`
   width: 40%;
   padding-left: 35px;
@@ -93,14 +127,4 @@ const Label = styled.label`
 
 const ButtonWrapper = styled.div`
   width: 60%;
-`;
-
-const Error = styled.div`
-  width: fit-content;
-  display: block;
-  color: #FF0000;
-  background: #FFFFFF;
-  padding: 5px 15px;
-  border-radius: 5px;
-  font-size: 13px;
 `;

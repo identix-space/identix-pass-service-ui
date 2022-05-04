@@ -7,14 +7,14 @@ import {Button} from '../Buttons';
 export interface ModalProps {
     isShown: boolean;
     hide: () => void;
-    modalContent: string;
-    modalTitle: string;
+    modalContent?: string;
+    modalTitle?: string;
 }
 
 
 export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalContent, modalTitle}) => {
     const modal = (
-        <React.Fragment>
+        <>
             <Backdrop onClick={hide}/>
             <Wrapper>
                 <Content>
@@ -23,7 +23,7 @@ export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalConten
                     <Button onClick={hide}>Ok</Button>
                 </Content>
             </Wrapper>
-        </React.Fragment>
+        </>
     );
 
     return isShown ? ReactDOM.createPortal(modal, document.body) : null;
@@ -36,7 +36,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   z-index: 700;
   width: 470px;
-  height: 320px;
+  height: 300px;
   background: white;
   border: 4px solid #53A9FD;
   border-radius: 8px;
@@ -59,6 +59,7 @@ const Backdrop = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 10px;
   height: calc(100% - 44px);
   overflow-x: hidden;

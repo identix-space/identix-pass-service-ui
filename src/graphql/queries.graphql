@@ -71,8 +71,19 @@ query getEventLogEntries($startIndex: Int, $count: Int) {
     }
 }
 
+query getVcTypes {
+    getVcTypes {
+        vcTypeDid
+        vcTypeTag
+    }
+}
+
 query whoami {
     whoami
+}
+
+query getAllAccounts {
+    getAllAccounts
 }
 
 mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {

@@ -8,7 +8,7 @@ import {useRequestVcVerificationMutation} from '../../../generated/graphql';
 import {Modal} from '../../elements/Modal';
 import {useModal} from '../../hooks/useModal';
 
-export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus, verificationCases}: SmallVCCardProps): JSX.Element => {
+export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus, sendToVerifier}: SmallVCCardProps): JSX.Element => {
     const [requestVCVerification] = useRequestVcVerificationMutation({variables: {verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did}});
     const {isShown, toggle} = useModal();
     const [modalContent, setModalContent] = useState('');
@@ -22,7 +22,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img, verificationS
                     <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
                 </ImageTitleBlock>
                 {verificationStatus && <VerificationLabel>
-                    <Label2 fontWeight="600" color={verificationStatus === 'approved' ? '#7EF606' : verificationStatus === 'rejected' ? '#FF0000' : verificationStatus === 'pendingApproval' ? '#999999' : '#FFFFFF'}>{verificationStatus === 'pendingApproval' ? 'Pending' : verificationStatus}</Label2>
+                    <Label2 fontWeight="600" color={verificationStatus === 'ACCEPTED' ? '#7EF606' : verificationStatus === 'REJECTED' ? '#FF0000' : '#999999'}>{verificationStatus === 'PENDING_VERIFY' ? 'Pending' : verificationStatus === 'ACCEPTED' ? 'Verified' : verificationStatus === 'REJECTED' ? 'Rejected' : ' '}</Label2>
                 </VerificationLabel>}
                 <TopRightLabel>
                     <Label2 fontWeight="600">{status}</Label2>
@@ -30,7 +30,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img, verificationS
                 <BottomLeftLabel>
                     <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 7)}</u></Label2>
                 </BottomLeftLabel>
-                {!verificationCases
+                {sendToVerifier && !verificationStatus
                     ? <SendToVerifier onClick={() => {
                         requestVCVerification({
                             onCompleted: () => {
@@ -49,7 +49,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img, verificationS
                     : <></>
                 }
             </Card>
-            <Modal modalTitle={title} isShown={isShown} hide={toggle}
+            <Modal modalTitle={`${title} VC`} isShown={isShown} hide={toggle}
                 modalContent={modalContent}/>
         </>
     );

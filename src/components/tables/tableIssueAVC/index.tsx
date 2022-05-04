@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import {startAndEnd} from '../../../utils/misc';
+import {formatDate, startAndEnd} from '../../../utils/misc';
 import styles from '../tableIssueAVC.module.scss';
 import {Vc, GetUserVCsIssuerQueryHookResult} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
@@ -116,10 +116,10 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult })
                         {data && data.data?.getUserVCs.map((vc: Data, key: number) => {
                             return (
                                 <tr key={key} className={styles.body_row}>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 7)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 7)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 7)}</td>
-                                    <td className={styles.body_td}>{vc.createdAt}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
+                                    <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
                                     <td className={styles.body_td}>
                                         <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
                                             <a>

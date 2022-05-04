@@ -1,73 +1,43 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
 import {useStateIdVCStore} from '../../../store/store';
-import {useFormFields} from './useFormHook';
 import Select, {StylesConfig} from 'react-select';
-import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
-import DatePicker, {DayValue, Day, utils} from '@hassanmojab/react-modern-calendar-datepicker';
+import {StateId} from './StateId';
+import {ProofOfResidency} from './ProofOfResidency';
+import {useGetVcTypesQuery} from '../../../generated/graphql';
 
 export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
-    const [dayOfBirth, setDayOfBirth] = useState<DayValue>(null);
-    const [dayOfIssuance, setDayOfIssuance] = useState<DayValue>(null);
-    const [dayOfExpiry, setDayOfExpiry] = useState<DayValue>(null);
     const [value, setValue] = useState('');
     const [title, setTitle] = useState('');
-    const [match, setMatch] = useState(true);
-    const {holderDid, setVcParams, setVcTypeDid, setVcTypeTitle} = useStateIdVCStore();
-    const [fields, handleFieldChange] = useFormFields({
-        firstName: '',
-        lastName: '',
-        citizenship: '',
-        dateOfBirth: '',
-        id: '',
-        dateOfIssuance: '',
-        dateOfExpiry: ''
-    });
-
-    const goNextStep = () => {
-        console.log(fields);
-        setVcTypeDid(value);
-        setVcTypeTitle(title);
-        //setVcParams(JSON.stringify(fields));
-        if (dayOfBirth && dayOfIssuance && dayOfExpiry) {
-            fields.dateOfBirth = convertDate(dayOfBirth);
-            fields.dateOfIssuance = convertDate(dayOfIssuance);
-            fields.dateOfExpiry = convertDate(dayOfExpiry);
-            if (Object.values(fields).every(item => item !== '') && value !== '') {
-                setVcParams(JSON.stringify(fields));
-                nextStep();
-            } else {
-                setMatch(false);
-            }
-        }
-    };
-
-    const convertDate = (date: Day) => {
-        return new Date(date.year, date.month - 1, date.day);
-    };
+    const [options, setOptions] = useState<MyOptionType[]>();
+    const {holderDid} = useStateIdVCStore();
+    const {data} = useGetVcTypesQuery();
 
     type MyOptionType = {
         label: string;
         value: string;
     };
 
-    const options: MyOptionType[] = [
-        {value: 'did:ever:state-id-fd5das7hdh3h455t', label: 'State ID'}
-        // {value: 'did:ever:proof-of-residency-jd4345hwd8383d33d', label: 'Proof of Residency'}
-    ];
+    useEffect(() => {
+        if (data) {
+            const values: MyOptionType[] = [];
+            data.getVcTypes.forEach((type: any) => {
+                values.push({value: type.vcTypeDid, label: type.vcTypeTag.replace(/_/g, ' ').toLowerCase()});
+            });
+            setOptions(values);
+        }
+    }, [data]);
 
     type IsMulti = false;
-
 
     const customStyles: StylesConfig<MyOptionType, IsMulti> = {
         option: (provided, state) => ({
             ...provided,
-            borderBottom: '1px dotted pink',
             color: 'black',
             padding: 20,
-            backgroundColor: state.isSelected ? 'rgba(143, 90, 224, 0.1)' : '#FFFFFF'
+            backgroundColor: state.isSelected ? 'rgba(143, 90, 224, 0.15)' : '#FFFFFF',
+            textTransform: 'capitalize'
         }),
         control: (provided) => ({
             ...provided,
@@ -82,7 +52,8 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
         singleValue: (provided) => ({
             ...provided,
             color: '#FFFFFF',
-            fontWeight: '700'
+            fontWeight: '700',
+            textTransform: 'capitalize'
         }),
         valueContainer: (provided) => ({
             ...provided,
@@ -91,6 +62,10 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
         indicatorsContainer: (provided) => ({
             ...provided,
             color: '#0BCDED'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'white'
         }),
         indicatorSeparator: (provided) => ({
             ...provided,
@@ -112,38 +87,9 @@ export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
                         setValue(option!.value);
                         setTitle(option!.label);
                     }}/>
-                    <Label>Fill in all fields of the VC</Label>
-                    <Input id="firstName" type="text" placeholder="Name" onChange={handleFieldChange}/>
-                    <Input id="lastName" type="text" placeholder="Last Name" onChange={handleFieldChange}/>
-                    <Input id="citizenship" type="text" placeholder="Citizenship" onChange={handleFieldChange}/>
-                    <DatePicker
-                        value={dayOfBirth}
-                        colorPrimary="#0BCDED"
-                        onChange={setDayOfBirth}
-                        maximumDate={utils('en').getToday()}
-                        inputPlaceholder="Date of birth"
-                    />
-                    <Input id="id" type="text" placeholder="ID" onChange={handleFieldChange}/>
-                    <DatePicker
-                        value={dayOfIssuance}
-                        colorPrimary="#0BCDED"
-                        onChange={setDayOfIssuance}
-                        inputPlaceholder="Date of issuance"
-                    />
-                    <DatePicker
-                        value={dayOfExpiry}
-                        colorPrimary="#0BCDED"
-                        onChange={setDayOfExpiry}
-                        inputPlaceholder="Date of expiry"
-                    />
+                    {value === 'did:ever:state-id-fd5das7hdh3h455t' && <StateId typeDid={value} typeTitle={title} nextStep={nextStep}/>}
+                    {value === 'did:ever:proof-of-residency-jd4345hwd8383d33d' && <ProofOfResidency typeDid={value} typeTitle={title} nextStep={nextStep}/>}
                 </InputCol>
-                <ButtonWrapper>
-                    {!match ? <Error>Please, fill in all fields</Error> : <></>}
-                    <Button onClick={(event) => {
-                        goNextStep();
-                        event.preventDefault();
-                    }}>Continue</Button>
-                </ButtonWrapper>
             </Form>
         </>
     );
@@ -192,49 +138,3 @@ const InputReadOnly = styled.input`
   }
 `;
 
-const Input = styled.input`
-  width: 100%;
-  height: 56px;
-  padding: 15px 22px;
-  background: #FFFFFF;
-  font-family: 'Gilroy', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 5px;
-  
-  ::placeholder {
-    font-weight: 400;
-  }
-  
-  :active {
-    outline: 0;
-  }
-  
-  :focus {
-    outline: 0;
-  }
-`;
-
-const Label = styled.label`
-  align-self: flex-start;
-  color: #FFFFFF;
-  margin: 18px 0 0 18px;
-  font-size: 16px;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  margin-top: 60px;
-`;
-
-const Error = styled.div`
-  width: 100%;
-  display: block;
-  color: #FF0000;
-  background: #FFFFFF;
-  padding: 5px 15px;
-  border-radius: 5px;
-  font-size: 13px;
-  margin-bottom: 15px;
-`;

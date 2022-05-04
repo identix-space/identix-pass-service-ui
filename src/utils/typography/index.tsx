@@ -153,10 +153,12 @@ export const Label2 = styled.p<TextProps>`
   }
 `;
 
-export const TextGradient = styled.div<TextProps>`
+export const TextGradient = styled.p<TextProps>`
   display: inline;
   font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
   background: -webkit-linear-gradient(0, #8F5AE0 -10.04%, #37B9C6 116.12%);
+  text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
+  margin: ${(props) => (props.margin ? props.margin : '0')};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
