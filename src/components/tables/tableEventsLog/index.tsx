@@ -1,16 +1,13 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
-import {EventLogEntry} from '../../../generated/graphql';
+import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
+import {startAndEnd} from '../../../utils/misc';
 //
 
-type Data = {
-    id: string;
-    ownerDid: string;
-    eventDate: string;
-    message: string;
-};
+const didSliceCenter = 10;
+const dataSliceBack = -5;
 
 // type SortKeys = keyof Data[0];
 //
@@ -63,15 +60,19 @@ type Data = {
 //     );
 // }
 //GetEventLogEntriesQueryHookResult
-export function EventsLogTable({data}: { data: any }) {
+export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
+    console.log(data.data?.getEventLogEntries[0].eventDate);
+
 
     const headers: { key: keyof EventLogEntry; label: string }[] = [
         {key: 'id', label: 'Event ID'},
         {key: 'eventDate', label: 'Event date'},
-        {key: 'ownerDid', label: 'Event owner'},
-        {key: 'message', label: 'Event message'}
+        {key: 'eventType', label: 'Event type'},
+        {key: 'ownerDid', label: 'Did owner'},
+        {key: 'message', label: 'Event message'},
+        {key: 'vcDid', label: 'VCDid'}
         // {key: 'event_date', label: 'Event date'},
         // {key: 'credential', label: 'Credential(s)'},
         // {key: 'event_type', label: 'Event type'},
@@ -117,13 +118,15 @@ export function EventsLogTable({data}: { data: any }) {
                     </thead>
 
                     <tbody>
-                        {data && data.data?.getEventLogEntries.map((log: Data) => {
+                        {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
                             return (
                                 <tr key={log.id} className={styles.body_row}>
                                     <td className={styles.body_td}>#{log.id}</td>
-                                    <td className={styles.body_td}>{log.eventDate}</td>
-                                    <td className={styles.body_td}>{log.ownerDid}</td>
-                                    <td className={styles.body_td}>{log.message}</td>
+                                    <td className={styles.body_td}>{log.eventDate.replace('T', ' ').slice(0, dataSliceBack)}</td>
+                                    <td className={styles.body_td}>{log.eventType}</td>
+                                    <td className={styles.body_td}>{startAndEnd(log.ownerDid, didSliceCenter)}</td>
+                                    <td className={styles.body_td}>{log.message.split('.')[0]}.</td>
+                                    <td className={styles.body_td}>{startAndEnd(log.vcDid, didSliceCenter)}</td>
                                     {/*<td className={styles.body_td}>{person.event_date}</td>*/}
                                     {/*<td className={styles.body_td}>{person.credential}</td>*/}
                                     {/*<td className={styles.body_td}>{person.event_type}</td>*/}
