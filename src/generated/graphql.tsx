@@ -172,7 +172,7 @@ export type GetEventLogEntriesQueryVariables = Exact<{
 }>;
 
 
-export type GetEventLogEntriesQuery = { __typename?: 'Query', getEventLogEntries: Array<{ __typename?: 'EventLogEntry', id: number, ownerDid: string, eventDate: any, message: string }> };
+export type GetEventLogEntriesQuery = { __typename?: 'Query', getEventLogEntries: Array<{ __typename?: 'EventLogEntry', id: number, ownerDid: string, eventType: string, vcDid: string, message: string, eventDate: any }> };
 
 export type GetVcTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -435,8 +435,10 @@ export const GetEventLogEntriesDocument = gql`
   getEventLogEntries(startIndex: $startIndex, count: $count) {
     id
     ownerDid
-    eventDate
+    eventType
+    vcDid
     message
+    eventDate
   }
 }
     `;

@@ -66,8 +66,10 @@ query getEventLogEntries($startIndex: Int, $count: Int) {
     getEventLogEntries(startIndex: $startIndex, count: $count) {
         id
         ownerDid
-        eventDate
+        eventType
+        vcDid
         message
+        eventDate
     }
 }
 
