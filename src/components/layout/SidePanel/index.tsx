@@ -14,6 +14,7 @@ import {Body2} from '../../../utils/typography';
 import {SidePanelProps} from './SidePanel.props';
 import {useWhoamiQuery} from '../../../generated/graphql';
 import {Logout, startAndEnd} from '../../../utils/misc';
+import ReactTooltip from 'react-tooltip';
 
 function returnNothing() {
     return;
@@ -95,44 +96,47 @@ const SidePanel = (): JSX.Element => {
     const {data} = useWhoamiQuery();
 
     return (
-        <Panel open={opened}>
-            <UserInfo open={opened}>
-                <Avatar>
-                    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
-                </Avatar>
-                <UserTexts open={opened}>
-                    {data &&
-                    <Body2 margin="14px 0 0" onClick={() => {
-                        navigator.clipboard.writeText(data.whoami);
-                    }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Body2>
-                    }
-                    {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
-                </UserTexts>
-            </UserInfo>
-            <nav>
-                <ul>
-                    {menuItems.map(({href, title, onClick}) => (
-                        <div key={title} onClick={
-                            onClick
-                                ? () => onClick()
-                                : () => returnNothing()
-                        }>
-                            <Link href={href}>
-                                <a>
-                                    <li className={`${
-                                        router.asPath === href ? 'active-link' : ''
-                                    }`}>
-                                        <ChooseIcon title={title}/>
-                                        <Title open={opened}>{title}</Title>
-                                    </li>
-                                </a>
-                            </Link>
-                        </div>
-                    ))}
-                </ul>
-            </nav>
-            <BgClick onClick={() => setOpened(!opened)}/>
-        </Panel>
+        <>
+            <Panel open={opened}>
+                <UserInfo open={opened}>
+                    <Avatar>
+                        <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
+                    </Avatar>
+                    <UserTexts open={opened}>
+                        {data &&
+                        <Did data-tip="Click to copy" margin="14px 0 0" onClick={() => {
+                            navigator.clipboard.writeText(data.whoami);
+                        }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Did>
+                        }
+                        {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
+                    </UserTexts>
+                </UserInfo>
+                <nav>
+                    <ul>
+                        {menuItems.map(({href, title, onClick}) => (
+                            <div key={title} onClick={
+                                onClick
+                                    ? () => onClick()
+                                    : () => returnNothing()
+                            }>
+                                <Link href={href}>
+                                    <a>
+                                        <li className={`${
+                                            router.asPath === href ? 'active-link' : ''
+                                        }`}>
+                                            <ChooseIcon title={title}/>
+                                            <Title open={opened}>{title}</Title>
+                                        </li>
+                                    </a>
+                                </Link>
+                            </div>
+                        ))}
+                    </ul>
+                </nav>
+                <BgClick onClick={() => setOpened(!opened)}/>
+            </Panel>
+            <ReactTooltip/>
+        </>
     );
 };
 
@@ -209,6 +213,15 @@ const Title = styled.span<SidePanelProps>`
 
   @media (min-width: 1400px) {
     margin-left: 16px;
+  }
+`;
+
+const Did = styled(Body2)`
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
   }
 `;
 

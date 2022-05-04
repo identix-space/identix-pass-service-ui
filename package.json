@@ -28,6 +28,7 @@
         "react-dom": "^18.0.0",
         "react-json-formatter": "^0.2.1",
         "react-select": "^5.3.1",
+        "react-tooltip": "^4.2.21",
         "sharp": "^0.30.3",
         "styled-components": "^5.3.5",
         "zustand": "^4.0.0-rc.0",
