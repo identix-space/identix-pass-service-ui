@@ -48,7 +48,7 @@ pipeline {
                           sh('''#!/bin/bash
                           echo Branch Name: $BRANCH_NAME
                           cd /var/www/identix-pass/$BRANCH_NAME
-                          docker-compose up -d --force-recreate
+                          docker-compose up -d
                         ''')
                     }
                 post {
@@ -62,7 +62,7 @@ pipeline {
         }
 
     }
-    post { 
+    post {
         success {
              node('master'){
                  withCredentials([string(credentialsId: 'TELEGRAM_BOT_ID', variable: 'TELEGRAM_BOT_ID'),
@@ -71,9 +71,9 @@ pipeline {
                         String message = "Build #${currentBuild.number} ${SHORTCOMMIT} completed successful on identix-pass-frontend ${env.BRANCH_NAME}"
                         sendMessageToTelegramChanel(env.TELEGRAM_CHAT_ID, env.TELEGRAM_BOT_ID, env.TELEGRAM_BOT_TOKEN, message)
                     }
- 
+
                 }
-             }    
+             }
         }
         failure {
             node('master'){
@@ -83,7 +83,7 @@ pipeline {
                         String message = "Build #${currentBuild.number} ${SHORTCOMMIT} completed failure on identix-pass-frontend ${env.BRANCH_NAME}"
                         sendMessageToTelegramChanel(env.TELEGRAM_CHAT_ID, env.TELEGRAM_BOT_ID, env.TELEGRAM_BOT_TOKEN, message)
                  }
-               } 
+               }
         }
       }
     }
