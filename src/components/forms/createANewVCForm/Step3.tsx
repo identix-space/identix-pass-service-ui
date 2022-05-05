@@ -4,7 +4,7 @@ import {Body2, Title2} from '../../../utils/typography';
 import {LargeVCCard} from '../../cards';
 import {Button, Loader} from '../../elements';
 import {useStateIdVCStore} from '../../../store/store';
-import {useIssuerVcMutation} from '../../../generated/graphql';
+import {GetUserVCsIssuerDocument, useIssuerVcMutation} from '../../../generated/graphql';
 import {useModal} from '../../hooks/useModal';
 import {Modal} from '../../elements/Modal';
 import {startAndEnd} from '../../../utils/misc';
@@ -22,6 +22,19 @@ export const StepThree: FC = (): JSX.Element => {
         onCompleted: () => {
             toggle();
             setStatus('Active');
+        },
+        update(cache, {data: getIssuerVc}) {
+            cache.modify({
+                fields: {
+                    names(Vcs = []) {
+                        const newVcs = cache.writeQuery({
+                            query: GetUserVCsIssuerDocument,
+                            data: getIssuerVc
+                        });
+                        return [...Vcs, newVcs];
+                    }
+                }
+            });
         }
     });
 

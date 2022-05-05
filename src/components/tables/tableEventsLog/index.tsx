@@ -7,6 +7,7 @@ import {
 } from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 import {startAndEnd} from '../../../utils/misc';
+import Link from 'next/link';
 //
 
 const didSliceCenter = 10;
@@ -74,7 +75,8 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) 
         {key: 'eventType', label: 'Event type'},
         {key: 'ownerDid', label: 'Did owner'},
         {key: 'message', label: 'Event message'},
-        {key: 'vcDid', label: 'VCDid'}
+        {key: 'vcDid', label: 'VCDid'},
+        {key: '__typename', label: ' '}
         // {key: 'event_date', label: 'Event date'},
         // {key: 'credential', label: 'Credential(s)'},
         // {key: 'event_type', label: 'Event type'},
@@ -126,10 +128,17 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) 
                                     <tr key={log.id} className={styles.body_row}>
                                         <td className={styles.body_td}>#{log.id}</td>
                                         <td className={styles.body_td}>{log.eventDate.replace('T', ' ').slice(0, dataSliceBack)}</td>
-                                        <td className={styles.body_td}>{log.eventType}</td>
+                                        <td className={styles.body_td}>{log.eventType && log.eventType === 'ISSUER_VC' ? 'Issue credential' : log.eventType === 'REQUEST_VC_VERIFICATION' ? 'Incoming issue request' : log.eventType === 'VERIFICATED' ? 'Verify credentials' : ' '}</td>
                                         <td className={styles.body_td}>{startAndEnd(log.ownerDid, didSliceCenter)}</td>
-                                        <td className={styles.body_td}>{log.message.split('.')[0]}.</td>
+                                        <td className={styles.body_td}>{log.message.split('.')[0]}</td>
                                         <td className={styles.body_td}>{startAndEnd(log.vcDid, didSliceCenter)}</td>
+                                        <td className={styles.body_td}>
+                                            <Link href={'/event-logs/[id]'} as={`/event-logs/${log.vcDid}`} passHref>
+                                                <a>
+                                                    Details
+                                                </a>
+                                            </Link>
+                                        </td>
                                         {/*<td className={styles.body_td}>{person.event_date}</td>*/}
                                         {/*<td className={styles.body_td}>{person.credential}</td>*/}
                                         {/*<td className={styles.body_td}>{person.event_type}</td>*/}

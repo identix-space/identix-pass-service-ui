@@ -3,13 +3,14 @@
   padding: 0.3vw;
   background: linear-gradient(92.25deg, #37B9C6 -10.04%, #8F5AE0 116.12%);
   border-radius: 8px;
-  width: fit-content;
+  width: 100%;
 }
 
 .table, .table_wide {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 12px;
   border-spacing: 0;
+  width: 100%;
 
   tbody {
     tr {
