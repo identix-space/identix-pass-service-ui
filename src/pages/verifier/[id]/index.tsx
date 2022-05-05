@@ -6,7 +6,6 @@ import {BackButton, Button, Loader} from '../../../components/elements';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import {
-    GetUserVCsIssuerDocument,
     GetUserVCsVerifierDocument,
     useGetVcLazyQuery,
     useVerifyVcMutation

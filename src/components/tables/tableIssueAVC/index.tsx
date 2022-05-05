@@ -90,48 +90,50 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQuery }) {
     return (
         <>
             {data && data?.getUserVCs.length !== 0
-                ? <table className={styles.table}>
-                    <thead className={styles.thead}>
-                        <tr>
-                            {headers.map((row) => {
+                ? <div className={styles.border_wrap}>
+                    <table className={styles.table}>
+                        <thead className={styles.thead}>
+                            <tr>
+                                {headers.map((row) => {
+                                    return (
+                                        <td key={row.key} className={styles.head_td}>
+                                            {row.label}{' '}
+                                            {/*<SortButton*/}
+                                            {/*    columnKey={row.key}*/}
+                                            {/*    onClick={() => changeSort(row.key)}*/}
+                                            {/*    {...{*/}
+                                            {/*        sortOrder,*/}
+                                            {/*        sortKey*/}
+                                            {/*    }}*/}
+                                            {/*/>*/}
+                                        </td>
+                                    );
+                                })}
+                                <td/>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {data && data?.getUserVCs.map((vc, key: number) => {
                                 return (
-                                    <td key={row.key} className={styles.head_td}>
-                                        {row.label}{' '}
-                                        {/*<SortButton*/}
-                                        {/*    columnKey={row.key}*/}
-                                        {/*    onClick={() => changeSort(row.key)}*/}
-                                        {/*    {...{*/}
-                                        {/*        sortOrder,*/}
-                                        {/*        sortKey*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-                                    </td>
+                                    <tr key={key} className={styles.body_row}>
+                                        <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
+                                        <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
+                                        <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
+                                        <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
+                                        <td className={styles.body_td}>
+                                            <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
+                                                <a>
+                                        Details
+                                                </a>
+                                            </Link>
+                                        </td>
+                                    </tr>
                                 );
                             })}
-                            <td/>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {data && data?.getUserVCs.map((vc, key: number) => {
-                            return (
-                                <tr key={key} className={styles.body_row}>
-                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
-                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
-                                    <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
-                                    <td className={styles.body_td}>
-                                        <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
-                                            <a>
-                                        Details
-                                            </a>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                     <Body5 margin="100px 0 80px">Nothing here yet.</Body5>
                 </div>
