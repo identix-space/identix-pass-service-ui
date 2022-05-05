@@ -1,4 +1,4 @@
-import React, {useState, FC} from 'react';
+import React, {useState, FC, useEffect} from 'react';
 import Image from 'next/image';
 import VCWalletIcon from '../../../../public/assets/vc-wallet-icon.svg';
 import MarketplaceIcon from '../../../../public/assets/marketplace-icon.svg';
@@ -15,6 +15,8 @@ import {SidePanelProps} from './SidePanel.props';
 import {useWhoamiQuery} from '../../../generated/graphql';
 import {Logout, startAndEnd} from '../../../utils/misc';
 import ReactTooltip from 'react-tooltip';
+import {createAvatar} from '@dicebear/avatars';
+import * as style from '@dicebear/avatars-bottts-sprites';
 
 function returnNothing() {
     return;
@@ -51,6 +53,10 @@ const menuItems = [
         onClick: Logout
     }
 ];
+
+const avatar = createAvatar(style, {
+    dataUri: true
+});
 
 // eslint-disable-next-line complexity
 const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
@@ -92,51 +98,54 @@ const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
 
 const SidePanel = (): JSX.Element => {
     const [opened, setOpened] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
     const {data} = useWhoamiQuery();
 
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     return (
-        <>
-            <Panel open={opened}>
-                <UserInfo open={opened}>
-                    <Avatar>
-                        <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
-                    </Avatar>
-                    <UserTexts open={opened}>
-                        {data &&
+        <Panel open={opened}>
+            <UserInfo open={opened}>
+                <Avatar>
+                    <Image src={avatar} layout="fill" objectFit="cover"/>
+                </Avatar>
+                <UserTexts open={opened}>
+                    {data &&
                         <Did data-tip="Click to copy" margin="14px 0 0" onClick={() => {
                             navigator.clipboard.writeText(data.whoami);
                         }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Did>
-                        }
-                        {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
-                    </UserTexts>
-                </UserInfo>
-                <nav>
-                    <ul>
-                        {menuItems.map(({href, title, onClick}) => (
-                            <div key={title} onClick={
-                                onClick
-                                    ? () => onClick()
-                                    : () => returnNothing()
-                            }>
-                                <Link href={href}>
-                                    <a>
-                                        <li className={`${
-                                            router.asPath === href ? 'active-link' : ''
-                                        }`}>
-                                            <ChooseIcon title={title}/>
-                                            <Title open={opened}>{title}</Title>
-                                        </li>
-                                    </a>
-                                </Link>
-                            </div>
-                        ))}
-                    </ul>
-                </nav>
-                <BgClick onClick={() => setOpened(!opened)}/>
-            </Panel>
-            <ReactTooltip/>
-        </>
+                    }
+                    {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
+                </UserTexts>
+            </UserInfo>
+            <nav>
+                <ul>
+                    {menuItems.map(({href, title, onClick}) => (
+                        <div key={title} onClick={
+                            onClick
+                                ? () => onClick()
+                                : () => returnNothing()
+                        }>
+                            <Link href={href}>
+                                <a>
+                                    <li className={`${
+                                        router.asPath === href ? 'active-link' : ''
+                                    }`}>
+                                        <ChooseIcon title={title}/>
+                                        <Title open={opened}>{title}</Title>
+                                    </li>
+                                </a>
+                            </Link>
+                        </div>
+                    ))}
+                </ul>
+            </nav>
+            <BgClick onClick={() => setOpened(!opened)}/>
+            {isMounted && <ReactTooltip/>}
+        </Panel>
     );
 };
 

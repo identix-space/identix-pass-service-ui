@@ -8,7 +8,7 @@ import Link from 'next/link';
 import {AgentsRoles, useGetUserVCsIssuerQuery} from '../../generated/graphql';
 
 export default function IssueAVCPage(): ReactNode {
-    const {data, loading} = useGetUserVCsIssuerQuery({variables: {role: AgentsRoles.Issuer}, fetchPolicy: 'cache-and-network'});
+    const {data, loading} = useGetUserVCsIssuerQuery({variables: {role: AgentsRoles.Issuer}});
 
     return (
         <>

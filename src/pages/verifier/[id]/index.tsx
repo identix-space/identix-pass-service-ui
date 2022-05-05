@@ -29,7 +29,7 @@ export default function RequestPage(): ReactNode {
         update(cache, {data: setVerifyVc}) {
             cache.modify({
                 fields: {
-                    names(Vcs = []) {
+                    getUserVCs(Vcs = []) {
                         const newVcs = cache.writeQuery({
                             query: GetUserVCsVerifierDocument,
                             data: setVerifyVc
