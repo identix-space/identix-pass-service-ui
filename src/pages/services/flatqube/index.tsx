@@ -20,7 +20,7 @@ export default function FlatQubeServicePage(): ReactNode {
                     {data && data.getUserVCs.length > 0
                         ? <>
                             {data.getUserVCs.map((vc, index) => (
-                                <SmallVCCard key={index} verificationStatus={vc.verificationCases[0] && vc.verificationCases[0].verificationStatus} citizenship={JSON.parse(vc.vcParams).citizenship} title={vc.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID' : vc.vcTypeDid === 'did:ever:proof-of-residency-jd4345hwd8383d33d' ? 'Proof of Residency' : 'VC Wallet'} status="Active" did={vc.vcDid} img="/assets/everscale-land-logo.svg" sendToVerifier={true}/>
+                                <SmallVCCard key={index} verificationStatus={vc.verificationCases[0] && vc.verificationCases[0].verificationStatus} title={vc.vcTypeDid === 'did:ever:state-id-fd5das7hdh3h455t' ? 'State ID' : vc.vcTypeDid === 'did:ever:proof-of-residency-jd4345hwd8383d33d' ? 'Proof of Residency' : 'VC Wallet'} status="Active" did={vc.vcDid} img="/assets/everscale-land-logo.svg" sendToVerifier={true}/>
                             ))}
                         </>
                         : <NoVCs>

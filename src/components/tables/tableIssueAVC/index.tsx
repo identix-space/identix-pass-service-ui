@@ -118,7 +118,7 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQuery }) {
                                 return (
                                     <tr key={key} className={styles.body_row}>
                                         <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
-                                        <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
+                                        <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 10)}</td>
                                         <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
                                         <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
                                         <td className={styles.body_td}>

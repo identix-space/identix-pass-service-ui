@@ -45,7 +45,7 @@ export function startAndEnd(str: string, gap: number) {
 export function formatDate(date: string) {
     const d = new Date(date);
     const day = d.getDate();
-    const month = d.toLocaleString('default', {month: 'short'});
+    const month = d.toLocaleString('en-US', {month: 'short'});
     return `${day} ${month} ${d.getFullYear()}`;
 }
 

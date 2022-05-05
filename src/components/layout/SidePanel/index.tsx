@@ -106,6 +106,10 @@ const SidePanel = (): JSX.Element => {
         setIsMounted(true);
     }, []);
 
+    useEffect(() => {
+        ReactTooltip.rebuild();
+    }, [data]);
+
     return (
         <Panel open={opened}>
             <UserInfo open={opened}>

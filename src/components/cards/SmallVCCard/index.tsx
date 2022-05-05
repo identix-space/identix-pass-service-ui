@@ -8,7 +8,7 @@ import {GetUserVCsHolderDocument, useRequestVcVerificationMutation} from '../../
 import {Modal} from '../../elements/Modal';
 import {useModal} from '../../hooks/useModal';
 
-export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus, sendToVerifier}: SmallVCCardProps): JSX.Element => {
+export const SmallVCCard = ({title, did, status, img, verificationStatus, sendToVerifier}: SmallVCCardProps): JSX.Element => {
     const [requestVCVerification] = useRequestVcVerificationMutation({
         variables: {
             verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did
@@ -33,7 +33,7 @@ export const SmallVCCard = ({citizenship, title, did, status, img, verificationS
     return (
         <>
             <Card>
-                <Label1 color="black">{citizenship}</Label1>
+                <Label1 color="black">Everscale.Land</Label1>
                 <ImageTitleBlock>
                     <Image src={img} width="62" height="62"/>
                     <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
