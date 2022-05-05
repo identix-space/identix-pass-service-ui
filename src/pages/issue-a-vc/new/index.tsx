@@ -8,15 +8,6 @@ import {StepOne, StepTwo, StepThree} from '../../../components/forms';
 export default function CreateNewVCPage(): ReactNode {
     const [step, setStep] = useState(1);
 
-    //state for form data
-    // const [formData, setFormData] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     age: '',
-    //     email: ''
-    // });
-    //
-
     const nextStep = () => {
         setStep(step + 1);
         console.log(step);
@@ -25,18 +16,6 @@ export default function CreateNewVCPage(): ReactNode {
     // // function for going to previous step by decreasing step state by 1
     // const prevStep = () => {
     //     setstep(step - 1);
-    // };
-    //
-    // // handling form input data by taking onchange value and updating our previous form data state
-    // const handleInputData = input => e => {
-    //     // input value from the form
-    //     const {value} = e.target;
-    //
-    //     //updating for data state taking previous state and then adding new value to create new object
-    //     setFormData(prevState => ({
-    //         ...prevState,
-    //         [input]: value
-    //     }));
     // };
 
     return (

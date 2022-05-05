@@ -1,29 +1,54 @@
 import create from 'zustand';
 
-export type VCType = {
-    citizenship: string;
-    title: string;
-    did: string;
-    status: 'Active' | 'Expired';
-    img: string;
-    setCitizenship: (citizenship: string) => void;
-    setTitle: (title: string) => void;
-    setDid: (did: string) => void;
-    setStatus: (status: 'Active' | 'Expired') => void;
-    setImg: (img: string) => void;
+interface MyDid {
+    myDid: string;
+    setMyDid: (myDid: string) => void;
 }
 
-const useStore = create<VCType>((set) => ({
-    citizenship: 'Belarus',
-    title: 'State ID',
-    did: '31253313412',
-    status: 'Active',
-    img: '/assets/identix-pass-logo.svg',
-    setCitizenship: (citizenship) => set({citizenship}),
-    setTitle: (title) => set({title}),
-    setDid: (did) => set({did}),
-    setStatus: (status) => set({status}),
-    setImg: (img) => set({img})
+export const useMyDidStore = create<MyDid>((set) => ({
+    myDid: '',
+    setMyDid: (myDid) =>
+        set((state) => ({
+            ...state,
+            myDid
+        }))
 }));
 
-export default useStore;
+interface StateIdVC {
+    holderDid: string;
+    vcTypeDid: string;
+    vcTypeTitle: string;
+    vcParams: string;
+    setHolderDid: (holderDid: string) => void;
+    setVcTypeDid: (vcTypeDid: string) => void;
+    setVcTypeTitle: (vcTypeTitle: string) => void;
+    setVcParams: (vcParams: string) => void;
+}
+
+export const useStateIdVCStore = create<StateIdVC>((set) => ({
+    holderDid: '',
+    setHolderDid: (holderDid) =>
+        set((state) => ({
+            ...state,
+            holderDid
+        })),
+    vcTypeDid: '',
+    vcTypeTitle: '',
+    setVcTypeDid: (vcTypeDid) =>
+        set((state) => ({
+            ...state,
+            vcTypeDid
+        })),
+    setVcTypeTitle: (vcTypeTitle) =>
+        set((state) => ({
+            ...state,
+            vcTypeTitle
+        })),
+    vcParams: '',
+    setVcParams: (vcParams) =>
+        set((state) => ({
+            ...state,
+            vcParams
+        }))
+}));
+

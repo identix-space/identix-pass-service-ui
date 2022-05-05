@@ -1,19 +1,98 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
+import {useStateIdVCStore} from '../../../store/store';
+import Select, {StylesConfig} from 'react-select';
+import {useGetAllAccountsQuery} from '../../../generated/graphql';
 
 export const StepOne: FC<NextStepProps> = ({nextStep}): JSX.Element => {
+    const [value, setValue] = useState('');
+    const [options, setOptions] = useState<MyOptionType[]>();
+    const {data} = useGetAllAccountsQuery();
+    const {setHolderDid} = useStateIdVCStore();
+
+    const goNextStep = () => {
+        setHolderDid(value);
+        if (value) {
+            nextStep();
+        }
+    };
+
+    type MyOptionType = {
+        value: string;
+        label: string;
+    };
+
+    type IsMulti = false;
+
+    useEffect(() => {
+        if (data) {
+            const values: MyOptionType[] = [];
+            data.getAllAccounts.forEach((account: string) => {
+                values.push({value: account, label: account});
+            });
+            setOptions(values);
+        }
+    }, [data]);
+
+    const customStyles: StylesConfig<MyOptionType, IsMulti> = {
+        option: (provided, state) => ({
+            ...provided,
+            color: 'black',
+            padding: 20,
+            backgroundColor: state.isSelected ? 'rgba(143, 90, 224, 0.15)' : '#FFFFFF'
+        }),
+        control: (provided) => ({
+            ...provided,
+            height: '55px'
+        }),
+        container: (provided) => ({
+            ...provided,
+            width: '60%'
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            fontWeight: '700'
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            padding: '2px 22px'
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            color: '#0BCDED'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'black'
+        }),
+        indicatorSeparator: (provided) => ({
+            ...provided,
+            display: 'none'
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: 'black',
+            fontWeight: '700'
+        })
+    };
+
     return (
         <>
             <Form>
                 <InputRow>
-                    <Input id="did" type="text"/>
+                    <Select styles={customStyles} options={options} placeholder="Choose did" onChange={(option) => {
+                        setValue(option!.value);
+                    }}/>
                     <Label htmlFor="did">Insert the DID of the VC holder here.<br/>
-                    Currently only <strong>did:ever</strong> method is supported.</Label>
+                        Currently only <strong>did:ever</strong> method is supported.</Label>
                 </InputRow>
                 <ButtonWrapper>
-                    <Button onClick={() => nextStep()}>Continue</Button>
+                    <Button style={{zIndex: 'unset'}} onClick={(event) => {
+                        goNextStep();
+                        event.preventDefault();
+                    }}>Continue</Button>
                 </ButtonWrapper>
             </Form>
         </>
@@ -33,28 +112,9 @@ const InputRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  
+
   & > * {
     flex: 0 0 auto;
-  }
-`;
-
-const Input = styled.input`
-  width: 60%;
-  height: 56px;
-  padding: 15px 22px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 3px;
-  
-  :active {
-    outline: 0;
-  }
-  
-  :focus {
-    outline: 0;
   }
 `;
 

@@ -1,27 +1,95 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {Button} from '../../elements';
 import {NextStepProps} from './createANewVCForm.props';
+import {useStateIdVCStore} from '../../../store/store';
+import Select, {StylesConfig} from 'react-select';
+import {StateId} from './StateId';
+import {ProofOfResidency} from './ProofOfResidency';
+import {useGetVcTypesQuery} from '../../../generated/graphql';
 
 export const StepTwo: FC<NextStepProps> = ({nextStep}): JSX.Element => {
+    const [value, setValue] = useState('');
+    const [title, setTitle] = useState('');
+    const [options, setOptions] = useState<MyOptionType[]>();
+    const {holderDid} = useStateIdVCStore();
+    const {data} = useGetVcTypesQuery();
+
+    type MyOptionType = {
+        label: string;
+        value: string;
+    };
+
+    useEffect(() => {
+        if (data) {
+            const values: MyOptionType[] = [];
+            data.getVcTypes.forEach((type: any) => {
+                values.push({value: type.vcTypeDid, label: type.vcTypeTag.replace(/_/g, ' ').toLowerCase()});
+            });
+            setOptions(values);
+        }
+    }, [data]);
+
+    type IsMulti = false;
+
+    const customStyles: StylesConfig<MyOptionType, IsMulti> = {
+        option: (provided, state) => ({
+            ...provided,
+            color: 'black',
+            padding: 20,
+            backgroundColor: state.isSelected ? 'rgba(143, 90, 224, 0.15)' : '#FFFFFF',
+            textTransform: 'capitalize'
+        }),
+        control: (provided) => ({
+            ...provided,
+            backgroundColor: 'transparent',
+            height: '55px',
+            border: '2px solid #0BCDED'
+        }),
+        container: (provided) => ({
+            ...provided,
+            width: '100%'
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: '#FFFFFF',
+            fontWeight: '700',
+            textTransform: 'capitalize'
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            padding: '2px 22px'
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            color: '#0BCDED'
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: 'white'
+        }),
+        indicatorSeparator: (provided) => ({
+            ...provided,
+            display: 'none'
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: '#0BCDED',
+            fontWeight: '700'
+        })
+    };
+
     return (
         <>
             <Form>
                 <InputCol>
-                    <InputReadOnly id="did" type="text" value="did:ever:12345" readOnly/>
-                    <Input id="VCType" type="text" placeholder="Choose VC Type" readOnly/>
-                    <Label>Fill in all fields of the VC</Label>
-                    <Input id="firstName" type="text" placeholder="Name"/>
-                    <Input id="lastName" type="text" placeholder="Last Name"/>
-                    <Input id="citizenship" type="text" placeholder="Citizenship"/>
-                    <Input id="dateOfBirth" type="text" placeholder="Date of birth"/>
-                    <Input id="id" type="text" placeholder="ID"/>
-                    <Input id="dateOfIssuance" type="text" placeholder="Date of issuance"/>
-                    <Input id="dateOfExpiry" type="text" placeholder="Date of expiry"/>
+                    <InputReadOnly id="did" type="text" value={holderDid} readOnly/>
+                    <Select styles={customStyles} options={options} placeholder="Choose VC Type" onChange={(option) => {
+                        setValue(option!.value);
+                        setTitle(option!.label);
+                    }}/>
+                    {value === 'did:ever:state-id-fd5das7hdh3h455t' && <StateId typeDid={value} typeTitle={title} nextStep={nextStep}/>}
+                    {value === 'did:ever:proof-of-residency-jd4345hwd8383d33d' && <ProofOfResidency typeDid={value} typeTitle={title} nextStep={nextStep}/>}
                 </InputCol>
-                <ButtonWrapper>
-                    <Button onClick={() => nextStep()}>Continue</Button>
-                </ButtonWrapper>
             </Form>
         </>
     );
@@ -54,6 +122,7 @@ const InputReadOnly = styled.input`
   height: 56px;
   padding: 15px 22px;
   background: transparent;
+  font-family: 'Gilroy', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: #FFFFFF;
@@ -69,37 +138,3 @@ const InputReadOnly = styled.input`
   }
 `;
 
-const Input = styled.input`
-  width: 100%;
-  height: 56px;
-  padding: 15px 22px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 5px;
-  
-  ::placeholder {
-    font-weight: 400;
-  }
-  
-  :active {
-    outline: 0;
-  }
-  
-  :focus {
-    outline: 0;
-  }
-`;
-
-const Label = styled.label`
-  align-self: flex-start;
-  color: #FFFFFF;
-  margin: 18px 0 0 18px;
-  font-size: 16px;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  margin-top: 70px;
-`;
