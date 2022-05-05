@@ -15,8 +15,6 @@ import {SidePanelProps} from './SidePanel.props';
 import {useWhoamiQuery} from '../../../generated/graphql';
 import {Logout, startAndEnd} from '../../../utils/misc';
 import ReactTooltip from 'react-tooltip';
-import {createAvatar} from '@dicebear/avatars';
-import * as style from '@dicebear/avatars-bottts-sprites';
 
 function returnNothing() {
     return;
@@ -53,10 +51,6 @@ const menuItems = [
         onClick: Logout
     }
 ];
-
-const avatar = createAvatar(style, {
-    dataUri: true
-});
 
 // eslint-disable-next-line complexity
 const ChooseIcon: FC<{title: string}> = ({title}): JSX.Element => {
@@ -112,19 +106,19 @@ const SidePanel = (): JSX.Element => {
 
     return (
         <Panel open={opened}>
+            {data &&
             <UserInfo open={opened}>
                 <Avatar>
-                    <Image src={avatar} layout="fill" objectFit="cover"/>
+                    <Image src={`https://avatars.dicebear.com/api/bottts/${data.whoami}.svg`} layout="fill" objectFit="cover"/>
                 </Avatar>
                 <UserTexts open={opened}>
-                    {data &&
-                        <Did data-tip="Click to copy" margin="14px 0 0" onClick={() => {
-                            navigator.clipboard.writeText(data.whoami);
-                        }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Did>
-                    }
+                    <Did data-tip="Click to copy" margin="14px 0 0" onClick={() => {
+                        navigator.clipboard.writeText(data.whoami);
+                    }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 7)}</Did>
                     {/*<PublicKey>Public key:1812ab...bde0cd</PublicKey>*/}
                 </UserTexts>
             </UserInfo>
+            }
             <nav>
                 <ul>
                     {menuItems.map(({href, title, onClick}) => (
