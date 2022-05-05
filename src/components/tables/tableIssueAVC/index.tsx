@@ -2,17 +2,17 @@ import Link from 'next/link';
 import React from 'react';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 import styles from '../tableIssueAVC.module.scss';
-import {Vc, GetUserVCsIssuerQueryHookResult} from '../../../generated/graphql';
+import {Vc, GetUserVCsIssuerQuery} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 
-type Data = {
-    vcDid: string;
-    vcTypeDid: string;
-    vcParams: string;
-    issuerDid: string;
-    holderDid: string;
-    createdAt: string;
-};
+// type Data = {
+//     vcDid: string;
+//     vcTypeDid: string;
+//     vcParams: string;
+//     issuerDid: string;
+//     holderDid: string;
+//     createdAt: string;
+// };
 //
 // type SortKeys = keyof Data;
 
@@ -65,7 +65,7 @@ type Data = {
 //     );
 // }
 
-export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult }) {
+export function IssueAVCTable({data}: { data: GetUserVCsIssuerQuery }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
@@ -89,7 +89,7 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult })
 
     return (
         <>
-            {data && data.data?.getUserVCs.length !== 0
+            {data && data?.getUserVCs.length !== 0
                 ? <table className={styles.table}>
                     <thead className={styles.thead}>
                         <tr>
@@ -113,7 +113,7 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult })
                     </thead>
 
                     <tbody>
-                        {data && data.data?.getUserVCs.map((vc: Data, key: number) => {
+                        {data && data?.getUserVCs.map((vc, key: number) => {
                             return (
                                 <tr key={key} className={styles.body_row}>
                                     <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>

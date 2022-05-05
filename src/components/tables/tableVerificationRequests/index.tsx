@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
-import {Vc, VerificationCase} from '../../../generated/graphql';
+import {GetUserVCsVerifierQuery, Vc} from '../../../generated/graphql';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 import Link from 'next/link';
 import {Body5, Label1} from '../../../utils/typography';
@@ -10,15 +10,6 @@ import {Body5, Label1} from '../../../utils/typography';
 //     status: string;
 // }
 
-type Data = {
-    vcDid: string;
-    vcTypeDid: string;
-    vcParams: string;
-    issuerDid: string;
-    holderDid: string;
-    createdAt: string;
-    verificationCases: Array<VerificationCase>;
-};
 // type SortKeys = keyof Data[0];
 //
 // type SortOrder = 'ascn' | 'desc';
@@ -70,7 +61,7 @@ type Data = {
 //     );
 // }
 
-export function VerificationRequestsTable({data}: { data: any }) {
+export function VerificationRequestsTable({data}: { data: GetUserVCsVerifierQuery }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('vc_did');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
     // const router = useRouter();
@@ -124,9 +115,9 @@ export function VerificationRequestsTable({data}: { data: any }) {
                         </thead>
 
                         <tbody>
-                            {data && data.getUserVCs.map((vc: Data, key: number) => {
+                            {data && data?.getUserVCs.map((vc) => {
                                 return (
-                                    <tr key={key} className={styles.body_row}>
+                                    <tr key={vc.vcDid} className={styles.body_row}>
                                         <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
                                         <td className={styles.body_td}>{startAndEnd(vc.vcTypeDid, 10)}</td>
                                         <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>

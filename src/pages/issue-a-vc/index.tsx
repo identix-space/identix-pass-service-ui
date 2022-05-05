@@ -1,5 +1,5 @@
 import React, {ReactNode, ReactElement} from 'react';
-import {EventsLogTable, IssueAVCTable} from '../../components/tables';
+import {IssueAVCTable} from '../../components/tables';
 import Layout from '../../components/layout';
 import {Body2, Title2} from '../../utils/typography';
 import {Button, Loader} from '../../components/elements';
