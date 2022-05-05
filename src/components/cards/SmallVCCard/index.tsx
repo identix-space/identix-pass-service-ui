@@ -4,12 +4,29 @@ import styled from 'styled-components';
 import {Body2, Label1, Label2} from '../../../utils/typography';
 import {SmallVCCardProps} from './SmallVCCard.props';
 import {startAndEnd} from '../../../utils/misc';
-import {useRequestVcVerificationMutation} from '../../../generated/graphql';
+import {GetUserVCsHolderDocument, useRequestVcVerificationMutation} from '../../../generated/graphql';
 import {Modal} from '../../elements/Modal';
 import {useModal} from '../../hooks/useModal';
 
 export const SmallVCCard = ({citizenship, title, did, status, img, verificationStatus, sendToVerifier}: SmallVCCardProps): JSX.Element => {
-    const [requestVCVerification] = useRequestVcVerificationMutation({variables: {verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did}});
+    const [requestVCVerification] = useRequestVcVerificationMutation({
+        variables: {
+            verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did
+        },
+        update(cache, {data: reqVCver}) {
+            cache.modify({
+                fields: {
+                    getUserVCs(Vcs = []) {
+                        const newVcs = cache.writeQuery({
+                            query: GetUserVCsHolderDocument,
+                            data: reqVCver
+                        });
+                        return [...Vcs, newVcs];
+                    }
+                }
+            });
+        }
+    });
     const {isShown, toggle} = useModal();
     const [modalContent, setModalContent] = useState('');
 

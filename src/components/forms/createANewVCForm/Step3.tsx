@@ -24,9 +24,10 @@ export const StepThree: FC = (): JSX.Element => {
             setStatus('Active');
         },
         update(cache, {data: getIssuerVc}) {
+            console.log(cache.readQuery);
             cache.modify({
                 fields: {
-                    names(Vcs = []) {
+                    getUserVCs(Vcs = []) {
                         const newVcs = cache.writeQuery({
                             query: GetUserVCsIssuerDocument,
                             data: getIssuerVc
@@ -37,8 +38,6 @@ export const StepThree: FC = (): JSX.Element => {
             });
         }
     });
-
-    console.log(vcParams);
 
     if (error) {
         return <p>{`Submission error! ${error.message}`}</p>;
