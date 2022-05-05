@@ -1,7 +1,10 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
-import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
+import {
+    EventLogEntry,
+    GetEventLogEntriesQueryResult
+} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 import {startAndEnd} from '../../../utils/misc';
 //
@@ -60,10 +63,9 @@ const dataSliceBack = -5;
 //     );
 // }
 //GetEventLogEntriesQueryHookResult
-export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
+export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
-    console.log(data.data?.getEventLogEntries[0].eventDate);
 
 
     const headers: { key: keyof EventLogEntry; label: string }[] = [
