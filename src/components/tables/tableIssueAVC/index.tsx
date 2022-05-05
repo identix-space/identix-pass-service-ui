@@ -2,17 +2,17 @@ import Link from 'next/link';
 import React from 'react';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 import styles from '../tableIssueAVC.module.scss';
-import {Vc, GetUserVCsIssuerQueryHookResult} from '../../../generated/graphql';
+import {Vc, GetUserVCsIssuerQuery} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 
-type Data = {
-    vcDid: string;
-    vcTypeDid: string;
-    vcParams: string;
-    issuerDid: string;
-    holderDid: string;
-    createdAt: string;
-};
+// type Data = {
+//     vcDid: string;
+//     vcTypeDid: string;
+//     vcParams: string;
+//     issuerDid: string;
+//     holderDid: string;
+//     createdAt: string;
+// };
 //
 // type SortKeys = keyof Data;
 
@@ -65,7 +65,7 @@ type Data = {
 //     );
 // }
 
-export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult }) {
+export function IssueAVCTable({data}: { data: GetUserVCsIssuerQuery }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
@@ -89,51 +89,49 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQueryHookResult })
 
     return (
         <>
-            {data && data.data?.getUserVCs.length !== 0
-                ? <div className={styles.border_wrap}>
-                    <table className={styles.table}>
-                        <thead className={styles.thead}>
-                            <tr>
-                                {headers.map((row) => {
-                                    return (
-                                        <td key={row.key} className={styles.head_td}>
-                                            {row.label}{' '}
-                                            {/*<SortButton*/}
-                                            {/*    columnKey={row.key}*/}
-                                            {/*    onClick={() => changeSort(row.key)}*/}
-                                            {/*    {...{*/}
-                                            {/*        sortOrder,*/}
-                                            {/*        sortKey*/}
-                                            {/*    }}*/}
-                                            {/*/>*/}
-                                        </td>
-                                    );
-                                })}
-                                <td/>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {data && data.data?.getUserVCs.map((vc: Data, key: number) => {
+            {data && data?.getUserVCs.length !== 0
+                ? <table className={styles.table}>
+                    <thead className={styles.thead}>
+                        <tr>
+                            {headers.map((row) => {
                                 return (
-                                    <tr key={key} className={styles.body_row}>
-                                        <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
-                                        <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
-                                        <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
-                                        <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
-                                        <td className={styles.body_td}>
-                                            <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
-                                                <a>
-                                            Details
-                                                </a>
-                                            </Link>
-                                        </td>
-                                    </tr>
+                                    <td key={row.key} className={styles.head_td}>
+                                        {row.label}{' '}
+                                        {/*<SortButton*/}
+                                        {/*    columnKey={row.key}*/}
+                                        {/*    onClick={() => changeSort(row.key)}*/}
+                                        {/*    {...{*/}
+                                        {/*        sortOrder,*/}
+                                        {/*        sortKey*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+                                    </td>
                                 );
                             })}
-                        </tbody>
-                    </table>
-                </div>
+                            <td/>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {data && data?.getUserVCs.map((vc, key: number) => {
+                            return (
+                                <tr key={key} className={styles.body_row}>
+                                    <td className={styles.body_td}>{startAndEnd(vc.vcDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.issuerDid, 10)}</td>
+                                    <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
+                                    <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
+                                    <td className={styles.body_td}>
+                                        <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
+                                            <a>
+                                        Details
+                                            </a>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
                 : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                     <Body5 margin="100px 0 80px">Nothing here yet.</Body5>
                 </div>

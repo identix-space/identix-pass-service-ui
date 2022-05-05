@@ -2,8 +2,7 @@ import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
 import {
-    EventLogEntry,
-    GetEventLogEntriesQueryResult
+    EventLogEntry, GetEventLogEntriesQuery
 } from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 import {startAndEnd} from '../../../utils/misc';
@@ -64,7 +63,7 @@ const dataSliceBack = -5;
 //     );
 // }
 //GetEventLogEntriesQueryHookResult
-export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) {
+export function EventsLogTable({data}: { data: GetEventLogEntriesQuery }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
@@ -99,7 +98,7 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) 
 
     return (
         <>
-            {data.data?.getEventLogEntries.length !== 0
+            {data?.getEventLogEntries.length !== 0
                 ? <div className={styles.border_wrap}>
                     <table className={styles.table_wide}>
                         <thead className={styles.thead}>
@@ -123,7 +122,7 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryResult }) 
                         </thead>
 
                         <tbody>
-                            {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
+                            {data && data?.getEventLogEntries.map((log: EventLogEntry) => {
                                 return (
                                     <tr key={log.id} className={styles.body_row}>
                                         <td className={styles.body_td}>#{log.id}</td>
