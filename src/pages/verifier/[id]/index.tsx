@@ -80,7 +80,10 @@ export default function RequestPage(): ReactNode {
                             dateOfBirth={JSON.parse(data.getVC.vcParams).dateOfBirth}
                             dateOfExpiry={JSON.parse(data.getVC.vcParams).dateOfExpiry}
                             id={JSON.parse(data.getVC.vcParams).id}
-                            rawData={data.getVC.vcRawText}/>
+                            rawData={data.getVC.vcRawText}
+                            country={JSON.parse(data.getVC.vcParams).country}
+                            city={JSON.parse(data.getVC.vcParams).country}
+                            address={JSON.parse(data.getVC.vcParams).country}/>
                         {data.getVC.verificationCases[0].verifierDid === myDid && data.getVC.verificationCases[0].verificationStatus === 'PENDING_VERIFY' && !verified
                             ? <>
                                 <ButtonWrapper onClick={() => verifierVc('ACCEPTED', data.getVC.vcDid)}>
