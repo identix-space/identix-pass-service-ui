@@ -14,7 +14,7 @@ export default function IssueAVCPage(): ReactNode {
         <>
             <>
                 <Title2>Issue a VC</Title2>
-                <Body2 margin="30px 0 40px">Here you can see services where your Verifiable Credentials may be utilized. As SSI adoption grows, you will see here not only complex crypto services, but also representatives of traditional areas (banks, medical centers, entertainment services, online schools, ticket providers, etc.).</Body2>
+                <Body2 margin="30px 0 40px">In this section you can issue a new VC. You can also see the VC issuance history table below.</Body2>
                 {loading ? <Loader/>
                     : <>{data ? <IssueAVCTable data={data}/> : null}</>
                 }
