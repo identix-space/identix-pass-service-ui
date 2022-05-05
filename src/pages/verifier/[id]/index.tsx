@@ -5,7 +5,11 @@ import {Body2, Body3, Body5, Title2} from '../../../utils/typography';
 import {BackButton, Button, Loader} from '../../../components/elements';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
-import {useGetVcLazyQuery, useVerifyVcMutation} from '../../../generated/graphql';
+import {
+    GetUserVCsVerifierDocument,
+    useGetVcLazyQuery,
+    useVerifyVcMutation
+} from '../../../generated/graphql';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 import {useMyDidStore} from '../../../store/store';
 import {useModal} from '../../../components/hooks/useModal';
@@ -17,10 +21,25 @@ type StatusType = {
 
 export default function RequestPage(): ReactNode {
     const {isShown, toggle} = useModal();
-    const [verifyVC] = useVerifyVcMutation({onCompleted: () => {
-        toggle();
-        setVerified(true);
-    }});
+    const [verifyVC] = useVerifyVcMutation({
+        onCompleted: () => {
+            toggle();
+            setVerified(true);
+        },
+        update(cache, {data: setVerifyVc}) {
+            cache.modify({
+                fields: {
+                    names(Vcs = []) {
+                        const newVcs = cache.writeQuery({
+                            query: GetUserVCsVerifierDocument,
+                            data: setVerifyVc
+                        });
+                        return [...Vcs, newVcs];
+                    }
+                }
+            });
+        }
+    });
     const router = useRouter();
     const [modalText, setModalText] = useState<string>();
     const [verified, setVerified] = useState<boolean>(false);

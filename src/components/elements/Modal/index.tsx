@@ -18,7 +18,7 @@ export const Modal: FunctionComponent<ModalProps> = ({isShown, hide, modalConten
             <Backdrop onClick={hide}/>
             <Wrapper>
                 <Content>
-                    <Title3 color="black" textAlign="center">{modalTitle}</Title3>
+                    <Title3 color="black" textAlign="center" style={{textTransform: 'capitalize'}}>{modalTitle}</Title3>
                     <Body4 color="black" textAlign="center" margin="10px 0 50px"><TextGradient>{modalContent}</TextGradient></Body4>
                     <Button onClick={hide}>Ok</Button>
                 </Content>

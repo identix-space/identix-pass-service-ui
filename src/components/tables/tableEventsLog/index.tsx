@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from '../tableIssueAVC.module.scss';
 // import {FetchResult} from "@apollo/client";
-import {EventLogEntry, GetEventLogEntriesQueryHookResult} from '../../../generated/graphql';
+import {
+    EventLogEntry, GetEventLogEntriesQuery
+} from '../../../generated/graphql';
 import {Body5} from '../../../utils/typography';
 import {startAndEnd} from '../../../utils/misc';
 import Link from 'next/link';
@@ -61,7 +63,7 @@ const dataSliceBack = -5;
 //     );
 // }
 //GetEventLogEntriesQueryHookResult
-export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult }) {
+export function EventsLogTable({data}: { data: GetEventLogEntriesQuery }) {
     // const [sortKey, setSortKey] = useState<SortKeys>('id');
     // const [sortOrder, setSortOrder] = useState<SortOrder>('ascn');
 
@@ -74,7 +76,13 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
         {key: 'message', label: 'Event message'},
         {key: 'vcDid', label: 'VCDid'},
         {key: '__typename', label: ' '}
-
+        // {key: 'event_date', label: 'Event date'},
+        // {key: 'credential', label: 'Credential(s)'},
+        // {key: 'event_type', label: 'Event type'},
+        // {key: 'src_did', label: 'Rst DID'},
+        // {key: 'dst_did', label: 'Dst DID'},
+        // {key: 'status', label: 'Status'},
+        // {key: 'status_updated', label: 'Status updated'}
     ];
 
     // const sortedData = useCallback(
@@ -90,7 +98,7 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
 
     return (
         <>
-            {data.data?.getEventLogEntries.length !== 0
+            {data?.getEventLogEntries.length !== 0
                 ? <div className={styles.border_wrap}>
                     <table className={styles.table_wide}>
                         <thead className={styles.thead}>
@@ -114,7 +122,7 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                         </thead>
 
                         <tbody>
-                            {data && data.data?.getEventLogEntries.map((log: EventLogEntry) => {
+                            {data && data?.getEventLogEntries.map((log: EventLogEntry) => {
                                 return (
                                     <tr key={log.id} className={styles.body_row}>
                                         <td className={styles.body_td}>#{log.id}</td>
@@ -130,6 +138,13 @@ export function EventsLogTable({data}: { data: GetEventLogEntriesQueryHookResult
                                                 </a>
                                             </Link>
                                         </td>
+                                        {/*<td className={styles.body_td}>{person.event_date}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.credential}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.event_type}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.src_did}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.dst_did}</td>*/}
+                                        {/*<td className={`${styles.body_td} ${styles.green}`}>{person.status}</td>*/}
+                                        {/*<td className={styles.body_td}>{person.status_updated}</td>*/}
                                     </tr>
                                 );
                             })}
