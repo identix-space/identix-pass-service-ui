@@ -11,7 +11,7 @@ import {useModal} from '../../hooks/useModal';
 export const SmallVCCard = ({title, did, status, img, verificationStatus, sendToVerifier}: SmallVCCardProps): JSX.Element => {
     const [requestVCVerification] = useRequestVcVerificationMutation({
         variables: {
-            verifierDid: 'did:ever:s48b2mp8kt23g2jddmwjzx1fq8cjlf', vcDid: did
+            verifierDid: '0:d6ade3b30c0c672f2df72a763a579eb610245fefbb84be570164f698a0182a7d', vcDid: did
         },
         update(cache, {data: reqVCver}) {
             cache.modify({
