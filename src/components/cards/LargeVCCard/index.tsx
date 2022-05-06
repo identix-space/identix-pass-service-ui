@@ -90,6 +90,7 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
     );
 };
 
+
 const Card = styled.div<Status>`
   position: relative;
   width: 100%;
