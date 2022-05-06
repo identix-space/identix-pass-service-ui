@@ -21,7 +21,9 @@ export const LargeVCCard = ({citizenship, did, status, issued, img, firstName, l
                 <Image src={img} width="92" height="92"/>
                 <MainInfo>
                     <Title3 fontWeight="700" color="black" margin="3px 0 0">Everscale.Land</Title3>
-                    <a href={`https://ever.live/accounts/accountDetails?id=0%3A${did.slice(12)}`} target={'_blank'} rel="noreferrer"><TextGradient fontSize="16px" color="black" style={{cursor: 'pointer'}}>{startAndEnd(did, 15)}</TextGradient></a>
+                    {/*<a href={`https://ever.live/accounts/accountDetails?id=0%3A${did.slice(12)}`} target={'_blank'} rel="noreferrer">*/}
+                    <TextGradient fontSize="16px" color="black">{startAndEnd(did, 15)}</TextGradient>
+                    {/*</a>*/}
                     {!city && !country && !address && <Body1 color="black" margin="16px 0 0"><strong>Issued:</strong> {formatDate(issued!)}</Body1>}
                 </MainInfo>
             </TopInfo>
