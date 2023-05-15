@@ -58,7 +58,7 @@ const Content = styled.div`
   overflow-y: auto;
   height: 100vh;
   position: relative;
-  padding: 140px 100px 100px 160px;
+  padding: 100px 40px 80px 260px;
 
   &::-webkit-scrollbar {
     width: 12px;     
@@ -75,7 +75,7 @@ const Content = styled.div`
   }
   
   @media(min-width: 1400px) {
-    padding: 160px 100px 100px 180px;
+    padding: 110px 40px 80px 300px;
   }
 `;
 

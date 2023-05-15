@@ -122,7 +122,7 @@ export function IssueAVCTable({data}: { data: GetUserVCsIssuerQuery }) {
                                         <td className={styles.body_td}>{startAndEnd(vc.holderDid, 10)}</td>
                                         <td className={styles.body_td}>{formatDate(vc.createdAt)}</td>
                                         <td className={styles.body_td}>
-                                            <Link href={'/issue-a-vc/[id]'} as={`/issue-a-vc/${vc.vcDid}`} passHref>
+                                            <Link href={'/issue-emirates-vc/[id]'} as={`/issue-emirates-vc/${vc.vcDid}`} passHref>
                                                 <a>
                                         Details
                                                 </a>

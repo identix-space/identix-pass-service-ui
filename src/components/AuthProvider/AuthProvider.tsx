@@ -52,7 +52,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                     redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                redirect('vc-wallet');
+                redirect('profile');
             }
         })();
     }, [pathIsProtected]);
