@@ -140,7 +140,7 @@ export const Label1 = styled.p<TextProps>`
 `;
 
 export const Label2 = styled.p<TextProps>`
-  font-size: 14px;
+  font-size: 13px;
   color: ${(props) => (props.color ? props.color : COLORS.white)};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : '400')};
   line-height: 140%;

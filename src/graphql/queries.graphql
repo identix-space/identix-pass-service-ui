@@ -81,7 +81,16 @@ query getVcTypes {
 }
 
 query whoami {
-    whoami
+    whoami {
+        id
+        did
+        status
+        avatarUrl
+        roles
+        connections {
+            otherData
+        }
+    }
 }
 
 query getAllAccounts {
