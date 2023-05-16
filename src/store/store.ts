@@ -3,6 +3,8 @@ import create from 'zustand';
 interface MyDid {
     myDid: string;
     setMyDid: (myDid: string) => void;
+    myName: string;
+    setMyName: (myName: string) => void;
 }
 
 export const useMyDidStore = create<MyDid>((set) => ({
@@ -11,6 +13,12 @@ export const useMyDidStore = create<MyDid>((set) => ({
         set((state) => ({
             ...state,
             myDid
+        })),
+    myName: '',
+    setMyName: (myName) =>
+        set((state) => ({
+            ...state,
+            myName
         }))
 }));
 

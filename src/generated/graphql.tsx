@@ -16,7 +16,45 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: any;
 };
+
+export type Account = {
+  __typename?: 'Account';
+  avatarUrl?: Maybe<Scalars['String']>;
+  connections?: Maybe<Array<OAuthConnection>>;
+  createdAt: Scalars['DateTime'];
+  did: Scalars['String'];
+  id: Scalars['Int'];
+  roles?: Maybe<Array<AccountRole>>;
+  sessions?: Maybe<Array<AccountSession>>;
+  status: AccountStatus;
+  updatedAt: Scalars['DateTime'];
+};
+
+export enum AccountRole {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
+
+export type AccountSession = {
+  __typename?: 'AccountSession';
+  account: Account;
+  accountId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  expiresAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  ipAddr: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  userAgent?: Maybe<Scalars['String']>;
+};
+
+export enum AccountStatus {
+  Active = 'ACTIVE',
+  Deleted = 'DELETED',
+  Inactive = 'INACTIVE'
+}
 
 export enum AgentsRoles {
   Holder = 'holder',
@@ -60,6 +98,17 @@ export type MutationVerifyVcArgs = {
   verificationStatus: Scalars['String'];
 };
 
+export type OAuthConnection = {
+  __typename?: 'OAuthConnection';
+  account: Account;
+  accountId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  otherData: Scalars['JSON'];
+  uid: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Query = {
   __typename?: 'Query';
   checkAccountExists: Scalars['Boolean'];
@@ -68,7 +117,7 @@ export type Query = {
   getUserVCs: Array<Vc>;
   getVC: Vc;
   getVcTypes: Array<VcTypeInfo>;
-  whoami: Scalars['String'];
+  whoami: Account;
 };
 
 
@@ -182,7 +231,7 @@ export type GetVcTypesQuery = { __typename?: 'Query', getVcTypes: Array<{ __type
 export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WhoamiQuery = { __typename?: 'Query', whoami: string };
+export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, did: string, status: AccountStatus, avatarUrl?: string | null, roles?: Array<AccountRole> | null, connections?: Array<{ __typename?: 'OAuthConnection', otherData: any }> | null } };
 
 export type GetAllAccountsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -508,7 +557,16 @@ export type GetVcTypesLazyQueryHookResult = ReturnType<typeof useGetVcTypesLazyQ
 export type GetVcTypesQueryResult = Apollo.QueryResult<GetVcTypesQuery, GetVcTypesQueryVariables>;
 export const WhoamiDocument = gql`
     query whoami {
-  whoami
+  whoami {
+    id
+    did
+    status
+    avatarUrl
+    roles
+    connections {
+      otherData
+    }
+  }
 }
     `;
 

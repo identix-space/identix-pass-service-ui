@@ -1,29 +1,30 @@
 import React from 'react';
-import Image from 'next/image';
-import styled from 'styled-components';
-import {Body2} from '../../../utils/typography';
-import {useWhoamiQuery} from '../../../generated/graphql';
-import {Logout, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
+import styled from 'styled-components';
+import {Body3, Body4} from '../../../utils/typography';
+import {Logout, startAndEnd} from '../../../utils/misc';
+import {useMyDidStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
 
+
 const SidePanel = (): JSX.Element => {
-    const {data} = useWhoamiQuery();
+    const {myDid, myName} = useMyDidStore();
 
     return (
         <>
             <Panel>
-                {data &&
+                {myDid &&
                     <>
                         <UserInfo>
-                            <Avatar>
-                                <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>
-                            </Avatar>
+                            {/*<Avatar>*/}
+                            {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
+                            {/*</Avatar>*/}
                             <UserTexts>
+                                <Body4 fontWeight={'bold'}>{myName}</Body4>
                                 <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => {
-                                    navigator.clipboard.writeText(data.whoami);
-                                }} style={{cursor: 'pointer'}}>{startAndEnd(data.whoami, 11)}</Did>
+                                    navigator.clipboard.writeText(myDid);
+                                }} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
                             </UserTexts>
                         </UserInfo>
                         <LogoutBtn onClick={Logout}>
@@ -86,7 +87,7 @@ const LogoutBtn = styled.div`
   }
 `;
 
-const Did = styled(Body2)`
+const Did = styled(Body3)`
   &:hover {
     text-decoration: underline;
   }
@@ -103,21 +104,21 @@ const Title = styled.span`
     margin-left: 16px;
   }
 `;
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  border: 2px solid #0BCDED;
-  filter: drop-shadow(0px 4px 12px rgba(11, 205, 237, 0.51));
-  border-radius: 20px;
-  overflow: hidden;
-`;
+// const Avatar = styled.div`
+//   width: 40px;
+//   height: 40px;
+//   border: 2px solid #0BCDED;
+//   filter: drop-shadow(0px 4px 12px rgba(11, 205, 237, 0.51));
+//   border-radius: 20px;
+//   overflow: hidden;
+// `;
 
 const UserInfo = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   padding: 0 20px;
   margin-bottom: 20px;
   z-index: 99;

@@ -24,19 +24,22 @@ export const AuthProvider = (props: IAuthProvider) => {
     const [whoami] = useWhoamiLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
 
-    const {setMyDid} = useMyDidStore();
+    const {setMyDid, setMyName} = useMyDidStore();
 
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         (async () => {
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
-                    console.log(userDid.data?.whoami);
                     if (userDid.data?.whoami) {
-                        setMyDid(userDid.data?.whoami);
+                        setMyDid(userDid.data?.whoami.did);
+                        if (userDid.data?.whoami.connections) {
+                            setMyName(userDid.data?.whoami.connections[0]?.otherData.fullnameEN);
+                        }
                         const isAccountExist = await checkAccountExist({
                             variables: {
-                                did: userDid.data?.whoami
+                                did: userDid.data?.whoami.did
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
@@ -52,10 +55,10 @@ export const AuthProvider = (props: IAuthProvider) => {
                     redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                redirect('profile');
+                redirect('/profile');
             }
         })();
-    }, [pathIsProtected]);
+    }, []);
 
     return props.children;
 };

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import {useFormFields} from './useFormHook';
 import {Button} from '../../elements';
 import {Body4} from '../../../utils/typography';
+import {useGetVcTypesQuery} from '../../../generated/graphql';
 
 export const IssueRealEstateIDForm: FC = () => {
+    //const {myDid} = useMyDidStore();
     const [handleFieldChange] = useFormFields({
         city: '',
         district: '',
@@ -12,6 +14,15 @@ export const IssueRealEstateIDForm: FC = () => {
         address: '',
         realEstateGovID: ''
     });
+    const {data: vcTypesData} = useGetVcTypesQuery();
+    // const [issuerVc, {loading, error}] = useIssuerVcMutation({
+    //     variables: {
+    //         holderDid: myDid,
+    //         vcTypeDid: vcTypeDid,
+    //         vcParams: vcParams
+    //     }
+    // });
+    console.log(vcTypesData);
 
     return (
         <Form>

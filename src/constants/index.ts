@@ -1,3 +1,2 @@
-export const privateRoutes = ['profile'];
+export const privateRoutes = ['profile', 'issue-emirates-vc', 'issue-real-estate-vc', 'verify-real-estate'];
 export const publicRoutes = ['/'];
-export const FlatQubeAuthorizationToken = 'eJd4rgvD4cmiyRcg1P_Krf-v3zjN95VASgFR_KGwmTYk1Uy9';
