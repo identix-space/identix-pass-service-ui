@@ -58,6 +58,7 @@
         "prefer-arrow-callback": "error",
         "no-var": "error",
         "arrow-spacing": "error",
-        "complexity": ["warn", 15]
+        "complexity": ["warn", 25],
+        "sonarjs/cognitive-complexity": ["error", 25]
     }
 }

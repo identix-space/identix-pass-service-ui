@@ -3,39 +3,60 @@ import styled from 'styled-components';
 import {useFormFields} from './useFormHook';
 import {Button} from '../../elements';
 import {Body4} from '../../../utils/typography';
-import {useGetVcTypesQuery} from '../../../generated/graphql';
+import {useGetVcTypesQuery, useIssuerVcMutation} from '../../../generated/graphql';
+import {useMyAccountInfoStore} from '../../../store/store';
 
 export const IssueRealEstateIDForm: FC = () => {
-    //const {myDid} = useMyDidStore();
-    const [handleFieldChange] = useFormFields({
+    const {myDid, dataFromUAE} = useMyAccountInfoStore();
+    /* eslint-disable */
+    const [fields, handleFieldChange] = useFormFields({
+        titledeedid: '',
         city: '',
         district: '',
-        type: '',
         address: '',
-        realEstateGovID: ''
+        type: '',
+        bedrooms: '',
+        livingspace: '',
+        owner: '',
+        ownership_begin_date: '',
+        issuance_institution: '',
+        issuance_date: '',
+        certificate_id: ''
     });
+    /* eslint-enable */
     const {data: vcTypesData} = useGetVcTypesQuery();
-    // const [issuerVc, {loading, error}] = useIssuerVcMutation({
-    //     variables: {
-    //         holderDid: myDid,
-    //         vcTypeDid: vcTypeDid,
-    //         vcParams: vcParams
-    //     }
-    // });
-    console.log(vcTypesData);
+    const [issuerVc] = useIssuerVcMutation();
+
+    const issueVc = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        if (vcTypesData) {
+            issuerVc({
+                variables: {
+                    holderDid: myDid,
+                    vcTypeDid: vcTypesData.getVcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid || '',
+                    vcParams: JSON.stringify(fields)
+                }
+            });
+        }
+    };
 
     return (
         <Form>
             <Body4 fontWeight={'bold'}>Real Estate ID issuance</Body4>
-            <Input id="city" type="text" placeholder="City" onChange={() => handleFieldChange}/>
-            <Input id="district" type="text" placeholder="District" onChange={() => handleFieldChange}/>
-            <Input id="type" type="text" placeholder="Type" onChange={() => handleFieldChange}/>
-            <Input id="address" type="text" placeholder="Address" onChange={() => handleFieldChange}/>
-            <Input id="realEstateGovID" type="text" placeholder="Real Estate Gov ID" onChange={() => handleFieldChange}/>
+            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID" onChange={handleFieldChange}/>
+            <Input id="city" type="text" placeholder="City" onChange={handleFieldChange}/>
+            <Input id="district" type="text" placeholder="District" onChange={handleFieldChange}/>
+            <Input id="address" type="text" placeholder="Address" onChange={handleFieldChange}/>
+            <Input id="type" type="text" placeholder="Type" onChange={handleFieldChange}/>
+            <Input id="bedrooms" type="text" placeholder="Bedrooms" onChange={handleFieldChange}/>
+            <Input id="livingspace" type="text" placeholder="Living space" onChange={handleFieldChange}/>
+            <Input id="owner" type="text" placeholder="Owner" value={dataFromUAE.fullnameEN} disabled/>
+            <Input id="ownership_begin_date" type="text" placeholder="Ownership Begin Date" onChange={handleFieldChange}/>
+            <Input id="issuing_institution" type="text" placeholder="Issuing institution" onChange={handleFieldChange}/>
+            <Input id="issuance_date" type="text" placeholder="Issuance date" onChange={handleFieldChange}/>
+            <Input id="certificate_id" type="text" placeholder="Certificate ID" onChange={handleFieldChange}/>
             <ButtonWrapper>
-                <Button onClick={(event) => {
-                    event.preventDefault();
-                }}>Issue VC on behalf of Dubai Land Department</Button>
+                <Button onClick={(e) => issueVc(e)}>Issue VC on behalf of Dubai Land Department</Button>
             </ButtonWrapper>
         </Form>
     );
@@ -59,15 +80,15 @@ const Input = styled.input`
   font-weight: 700;
   border: none;
   border-radius: 5px;
-  
+
   ::placeholder {
     font-weight: 400;
   }
-  
+
   :active {
     outline: 0;
   }
-  
+
   :focus {
     outline: 0;
   }

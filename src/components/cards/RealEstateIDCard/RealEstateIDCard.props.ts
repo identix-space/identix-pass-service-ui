@@ -1,9 +1,9 @@
 export interface RealEstateIDCardProps {
     type: string;
     address: string;
-    price: string;
+    city: string;
     bedroomsNumber: number;
-    footage: number;
+    issuanceDate: string;
 }
 
 export interface Status {
