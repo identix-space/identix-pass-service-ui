@@ -61,3 +61,7 @@ export const checkOfPermission = async (did: string, userDid: string, role: Agen
     }
     return false;
 };
+
+export const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+};

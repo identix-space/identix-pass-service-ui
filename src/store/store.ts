@@ -1,24 +1,57 @@
 import create from 'zustand';
 
-interface MyDid {
-    myDid: string;
-    setMyDid: (myDid: string) => void;
-    myName: string;
-    setMyName: (myName: string) => void;
+interface DataFromUAEInterface {
+    uuid: string;
+    email: string;
+    gender: string;
+    mobile: string;
+    userType: string;
+    fullnameEN: string;
+    lastnameEN: string;
+    firstnameEN: string;
 }
 
-export const useMyDidStore = create<MyDid>((set) => ({
+interface VcTypesInterface {
+    vcTypeDid: string;
+    vcTypeTag: string;
+}
+
+interface MyAccountInfoInterface {
+    myDid: string;
+    setMyDid: (myDid: string) => void;
+    dataFromUAE: DataFromUAEInterface;
+    setDataFromUAE: (myName: DataFromUAEInterface) => void;
+    vcTypes: VcTypesInterface[];
+    setVcTypes: (vcTypes: VcTypesInterface[]) => void;
+}
+
+export const useMyAccountInfoStore = create<MyAccountInfoInterface>((set) => ({
     myDid: '',
     setMyDid: (myDid) =>
         set((state) => ({
             ...state,
             myDid
         })),
-    myName: '',
-    setMyName: (myName) =>
+    dataFromUAE: {
+        uuid: '',
+        email: '',
+        gender: '',
+        mobile: '',
+        userType: '',
+        fullnameEN: '',
+        lastnameEN: '',
+        firstnameEN: ''
+    },
+    setDataFromUAE: (dataFromUAE) =>
         set((state) => ({
             ...state,
-            myName
+            dataFromUAE
+        })),
+    vcTypes: [],
+    setVcTypes: (vcTypes) =>
+        set((state) => ({
+            ...state,
+            vcTypes
         }))
 }));
 

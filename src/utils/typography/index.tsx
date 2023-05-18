@@ -148,7 +148,7 @@ export const Label2 = styled.p<TextProps>`
   margin: ${(props) => (props.margin ? props.margin : '0')};
 
   @media(min-width: 1400px) {
-    font-size: 16px;
+    font-size: 15px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '0')};
   }
 `;

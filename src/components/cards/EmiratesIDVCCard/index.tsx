@@ -4,15 +4,15 @@ import {Body2, Label2} from '../../../utils/typography';
 import {EmiratesIDVCCardProps} from './EmiratesIDVCCard.props';
 import {startAndEnd} from '../../../utils/misc';
 
-export const EmiratesIDVCCard = ({title, did}: EmiratesIDVCCardProps): JSX.Element => {
+export const EmiratesIDVCCard = ({did}: EmiratesIDVCCardProps): JSX.Element => {
 
     return (
         <Card>
             <ImageTitleBlock>
-                <Body2 fontWeight="700" color="black" margin="2px 0 0">{title}</Body2>
+                <Body2 fontWeight="700" color="black" margin="2px 0 0">Emirates ID VC</Body2>
             </ImageTitleBlock>
             <BottomLeftLabel>
-                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 7)}</u></Label2>
+                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 5)}</u></Label2>
             </BottomLeftLabel>
         </Card>
     );
@@ -20,7 +20,7 @@ export const EmiratesIDVCCard = ({title, did}: EmiratesIDVCCardProps): JSX.Eleme
 
 const Card = styled.div`
   position: relative;
-  width: 235px;
+  width: 245px;
   height: 125px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
@@ -31,6 +31,10 @@ const Card = styled.div`
 
   &:hover {
     filter: drop-shadow(0px 4px 12px rgb(5, 5, 5));
+  }
+
+  @media(min-width: 1400px) {
+    width: 265px;
   }
 `;
 
@@ -51,4 +55,10 @@ const BottomLeftLabel = styled.div`
   height: 27px;
   padding-left: 13px;
   background: url('/assets/card-label-left-sm.svg') center/contain no-repeat;
+  
+  @media(min-width: 1400px) {
+    width: 220px;
+    height: 29px;
+    bottom: -4px;
+  }
 `;
