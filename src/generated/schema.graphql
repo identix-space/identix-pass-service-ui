@@ -63,9 +63,9 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type Mutation {
-  issuerVC(holderDid: String!, vcParams: String!, vcTypeDid: String!): Boolean!
+  issueVC(holderDid: String!, vcParams: String!, vcTypeDid: String!): Boolean!
   requestVcVerification(vcDid: String!, verifierDid: String!): Boolean!
-  verifyVC(vcDid: String!, verificationStatus: String!): Boolean!
+  verifyVC(verificationData: String!): Boolean!
 }
 
 type OAuthConnection {
@@ -82,7 +82,7 @@ type Query {
   checkAccountExists(did: String!): Boolean!
   getAllAccounts: [String!]!
   getEventLogEntries(count: Int, startIndex: Int): [EventLogEntry!]!
-  getUserVCs(count: Int, role: AgentsRoles, startIndex: Int): [VC!]!
+  getUserVCs(limit: Int, page: Int, role: AgentsRoles, vcType: String): [VC!]!
   getVC(vcDid: String!): VC!
   getVcTypes: [VcTypeInfo!]!
   whoami: Account!

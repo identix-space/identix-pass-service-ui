@@ -2,14 +2,14 @@ import React from 'react';
 import {Tooltip} from 'react-tooltip';
 import styled from 'styled-components';
 import {Body3, Body4} from '../../../utils/typography';
-import {Logout, startAndEnd} from '../../../utils/misc';
-import {useMyDidStore} from '../../../store/store';
+import {copyToClipboard, Logout, startAndEnd} from '../../../utils/misc';
+import {useMyAccountInfoStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
 
 
 const SidePanel = (): JSX.Element => {
-    const {myDid, myName} = useMyDidStore();
+    const {myDid, dataFromUAE} = useMyAccountInfoStore();
 
     return (
         <>
@@ -21,10 +21,8 @@ const SidePanel = (): JSX.Element => {
                             {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
                             {/*</Avatar>*/}
                             <UserTexts>
-                                <Body4 fontWeight={'bold'}>{myName}</Body4>
-                                <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => {
-                                    navigator.clipboard.writeText(myDid);
-                                }} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
+                                <Body4 fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Body4>
+                                <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
                             </UserTexts>
                         </UserInfo>
                         <LogoutBtn onClick={Logout}>
