@@ -1,9 +1,9 @@
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery} from '../../generated/graphql';
+import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../generated/graphql';
 import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
-import {useMyDidStore} from '../../store/store';
+import {useMyAccountInfoStore} from '../../store/store';
 
 interface IAuthProvider {
     protectedRoutes: string[];
@@ -23,8 +23,9 @@ export const AuthProvider = (props: IAuthProvider) => {
 
     const [whoami] = useWhoamiLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
+    const [getVcTypes] = useGetVcTypesLazyQuery();
 
-    const {setMyDid, setMyName} = useMyDidStore();
+    const {setMyDid, setDataFromUAE, setVcTypes} = useMyAccountInfoStore();
 
     // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
@@ -35,7 +36,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                     if (userDid.data?.whoami) {
                         setMyDid(userDid.data?.whoami.did);
                         if (userDid.data?.whoami.connections) {
-                            setMyName(userDid.data?.whoami.connections[0]?.otherData.fullnameEN);
+                            setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
                         }
                         const isAccountExist = await checkAccountExist({
                             variables: {
@@ -45,6 +46,11 @@ export const AuthProvider = (props: IAuthProvider) => {
                         if (!isAccountExist.data?.checkAccountExists) {
                             localStorage.removeItem(authTokenConstant);
                             redirect('/');
+                        } else {
+                            const vcTypes = await getVcTypes();
+                            if (vcTypes.data?.getVcTypes) {
+                                setVcTypes(vcTypes.data?.getVcTypes);
+                            }
                         }
                     } else {
                         localStorage.removeItem(authTokenConstant);

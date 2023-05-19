@@ -1,12 +1,35 @@
-import React, {ReactElement, ReactNode} from 'react';
+import React, {ReactElement, ReactNode, useEffect, useState} from 'react';
+import Link from 'next/link';
 import Layout from '../../components/layout';
 import {Button} from '../../components/elements';
 import styled from 'styled-components';
 import {Body1, Body2} from '../../utils/typography';
-// import {RealEstateIDCard, EmiratesIDVCCard} from '../../components/cards';
-import Link from 'next/link';
+import {EmiratesIDVCCard, RealEstateIDCard} from '../../components/cards';
+import {AgentsRoles, useGetUserVCsLazyQuery, Vc} from '../../generated/graphql';
+import {useMyAccountInfoStore} from '../../store/store';
 
 export default function VcWalletPage(): ReactNode {
+    const [realEstateVCs, setRealEstateVCs] = useState<Vc[]>();
+    const [emiratesIDVCs, setEmiratesIDVCs] = useState<Vc[]>();
+    const [isEmiratesAvailable, setIsEmiratesAvailable] = useState(false);
+    const [getVCs] = useGetUserVCsLazyQuery({fetchPolicy: 'cache-and-network', variables: {role: AgentsRoles.Issuer}});
+    const {vcTypes} = useMyAccountInfoStore();
+
+    useEffect(() => {
+        if (vcTypes.length > 0) {
+            (async () => {
+                const dataGetVCs = await getVCs();
+                if (dataGetVCs.data?.getUserVCs) {
+                    setRealEstateVCs(dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid));
+                    const EIDVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid);
+                    setEmiratesIDVCs(EIDVCs);
+                    if (EIDVCs.length === 0) {
+                        setIsEmiratesAvailable(true);
+                    }
+                }
+            })();
+        }
+    }, [vcTypes]);
 
     return (
         <>
@@ -16,17 +39,25 @@ export default function VcWalletPage(): ReactNode {
                 </a>
             </Link>
             <Divider/>
-            <Link href={'/issue-emirates-vc'}>
-                <a>
-                    <Button>Issue Emirates VC ID</Button>
-                </a>
-            </Link>
+            <ButtonLink disabled={!isEmiratesAvailable}>
+                <Link href={'/issue-emirates-vc'}>
+                    <a>
+                        <Button disabled={!isEmiratesAvailable}>Issue Emirates ID VC</Button>
+                    </a>
+                </Link>
+            </ButtonLink>
             <Body2 fontWeight="bold" margin="25px 0 20px">Your Emirates ID Credentials</Body2>
-            <Body1>N/D</Body1>
-            {/*<Cards>*/}
-            {/*    <EmiratesIDVCCard title={'Emirates ID VC'} did={'asf'}/>*/}
-            {/*    <EmiratesIDVCCard title={'Emirates ID VC'} did={'asss444f'}/>*/}
-            {/*</Cards>*/}
+            {emiratesIDVCs && emiratesIDVCs.length > 0
+                ? <Cards>
+                    {emiratesIDVCs.map((vc: Vc, index: number) => (
+                        <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
+                            <a>
+                                <EmiratesIDVCCard did={vc.vcDid}/>
+                            </a>
+                        </Link>
+                    ))}
+                </Cards> : <Body1>N/D</Body1>
+            }
             <Divider/>
             <Link href={'/issue-real-estate-vc'}>
                 <a>
@@ -34,14 +65,29 @@ export default function VcWalletPage(): ReactNode {
                 </a>
             </Link>
             <Body2 fontWeight="bold" margin="25px 0 20px">Your Real Estate Credentials</Body2>
-            <Body1>N/D</Body1>
-            {/*<RealEstateIDCard type={'Apartment'} address={'Business Bay, Dubai, UAE'} bedroomsNumber={1} price={'1 500 000 AED'} footage={61.5}/>*/}
+            {realEstateVCs && realEstateVCs.length > 0
+                ? <Cards>
+                    {realEstateVCs.map((vc: Vc, index: number) => (
+                        <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
+                            <a>
+                                <RealEstateIDCard key={index} issuanceDate={JSON.parse(vc.vcParams).issuance_date} type={JSON.parse(vc.vcParams).type} address={JSON.parse(vc.vcParams).address} city={JSON.parse(vc.vcParams).city} bedroomsNumber={JSON.parse(vc.vcParams).bedrooms}/>
+                            </a>
+                        </Link>
+                    ))}
+                </Cards> : <Body1>N/D</Body1>
+            }
             <Divider/>
             <Body2 fontWeight="bold" margin="25px 0 20px">History</Body2>
             <Body1><span style={{color: '#7EF706'}}>27.02.2023</span> Logged in idx.Pass via UAE.PASS</Body1>
         </>
     );
 }
+
+const ButtonLink = styled.div<{disabled: boolean}>`    
+    a {
+      pointer-events: ${(props) => props.disabled ? 'none' : 'auto'};
+    }
+`;
 
 const Divider = styled.div`
   width: 100%;
@@ -50,10 +96,11 @@ const Divider = styled.div`
   margin: 50px 0;
 `;
 
-// const Cards = styled.div`
-//   display: flex;
-//   gap: 20px;
-// `;
+const Cards = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 24px;
+`;
 
 VcWalletPage.getLayout = function getLayout(page: ReactElement) {
     return (

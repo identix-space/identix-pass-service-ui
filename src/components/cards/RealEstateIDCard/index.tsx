@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import {Body1, Label2} from '../../../utils/typography';
 import {RealEstateIDCardProps} from './RealEstateIDCard.props';
 
-export const RealEstateIDCard = ({type, address, price, bedroomsNumber, footage}: RealEstateIDCardProps): JSX.Element => {
+export const RealEstateIDCard = ({type, address, city, bedroomsNumber, issuanceDate}: RealEstateIDCardProps): JSX.Element => {
 
     return (<>
         <Card>
             <ImageTitleBlock>
-                <Body1 fontWeight="700" color="black" margin="2px 0 0">{type} in {address} {bedroomsNumber} {bedroomsNumber === 1 ? 'bedroom' : 'bedrooms'} {footage} sq.m.</Body1>
+                <Body1 fontWeight="700" color="black" margin="2px 0 0">{type} in {address}, {city} {bedroomsNumber} {bedroomsNumber.toString() === '1' ? 'bedroom' : 'bedrooms'}</Body1>
             </ImageTitleBlock>
             <BottomLeftLabel>
-                <Label2 fontWeight="600">{price}</Label2>
+                <Label2 fontWeight="600">{issuanceDate}</Label2>
             </BottomLeftLabel>
         </Card>
     </>
@@ -20,7 +20,7 @@ export const RealEstateIDCard = ({type, address, price, bedroomsNumber, footage}
 
 const Card = styled.div`
   position: relative;
-  width: 235px;
+  width: 245px;
   height: 125px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
@@ -31,6 +31,10 @@ const Card = styled.div`
 
   &:hover {
     filter: drop-shadow(0px 4px 12px rgb(5, 5, 5));
+  }
+
+  @media(min-width: 1400px) {
+    width: 265px;
   }
 `;
 
@@ -49,4 +53,10 @@ const BottomLeftLabel = styled.div`
   height: 27px;
   padding-left: 13px;
   background: url('/assets/card-label-left-sm.svg') center/contain no-repeat;
+
+  @media(min-width: 1400px) {
+    width: 220px;
+    height: 29px;
+    bottom: -4px;
+  }
 `;
