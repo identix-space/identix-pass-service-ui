@@ -36,7 +36,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
         if (vcTypes.length > 0) {
             (async () => {
                 const dataCheckVCs = await checkUserVCs({variables: {role: AgentsRoles.Issuer, vcType: vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid}});
-                if (dataCheckVCs.data?.getUserVCs && dataCheckVCs.data?.getUserVCs.length > 0) {
+                if (dataCheckVCs.data?.getUserVCs && dataCheckVCs.data?.getUserVCs.length === 0) {
                     setIsAvailable(true);
                 }
             })();
@@ -73,8 +73,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <ButtonGradient onClick={() => router.back()}>Back</ButtonGradient>
                             </>
                             : <>
-                                <Body1>Explaining messageExplaining messageExplaining message
-                                    Explaining messageExplaining messageExplaining message</Body1>
+                                <Body1>Explaining message</Body1>
                                 <ButtonGradient disabled={isAvailable} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>

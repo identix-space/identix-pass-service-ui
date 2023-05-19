@@ -12,18 +12,18 @@ export default function VcWalletPage(): ReactNode {
     const [realEstateVCs, setRealEstateVCs] = useState<Vc[]>();
     const [emiratesIDVCs, setEmiratesIDVCs] = useState<Vc[]>();
     const [isEmiratesAvailable, setIsEmiratesAvailable] = useState(false);
-    const [getVCs] = useGetUserVCsLazyQuery();
+    const [getVCs] = useGetUserVCsLazyQuery({fetchPolicy: 'cache-and-network', variables: {role: AgentsRoles.Issuer}});
     const {vcTypes} = useMyAccountInfoStore();
 
     useEffect(() => {
         if (vcTypes.length > 0) {
             (async () => {
-                const dataGetVCs = await getVCs({variables: {role: AgentsRoles.Issuer}});
+                const dataGetVCs = await getVCs();
                 if (dataGetVCs.data?.getUserVCs) {
-                    const REVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid);
-                    setRealEstateVCs(REVCs);
-                    setEmiratesIDVCs(dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid));
-                    if (REVCs.length === 0) {
+                    setRealEstateVCs(dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid));
+                    const EIDVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid);
+                    setEmiratesIDVCs(EIDVCs);
+                    if (EIDVCs.length === 0) {
                         setIsEmiratesAvailable(true);
                     }
                 }
