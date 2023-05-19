@@ -14,9 +14,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
 
@@ -94,8 +92,7 @@ export type MutationRequestVcVerificationArgs = {
 
 
 export type MutationVerifyVcArgs = {
-  vcDid: Scalars['String'];
-  verificationStatus: Scalars['String'];
+  verificationData: Scalars['String'];
 };
 
 export type OAuthConnection = {
@@ -248,8 +245,7 @@ export type RequestVcVerificationMutationVariables = Exact<{
 export type RequestVcVerificationMutation = { __typename?: 'Mutation', requestVcVerification: boolean };
 
 export type VerifyVcMutationVariables = Exact<{
-  vcDid: Scalars['String'];
-  verificationStatus: Scalars['String'];
+  verificationData: Scalars['String'];
 }>;
 
 
@@ -635,8 +631,8 @@ export type RequestVcVerificationMutationHookResult = ReturnType<typeof useReque
 export type RequestVcVerificationMutationResult = Apollo.MutationResult<RequestVcVerificationMutation>;
 export type RequestVcVerificationMutationOptions = Apollo.BaseMutationOptions<RequestVcVerificationMutation, RequestVcVerificationMutationVariables>;
 export const VerifyVcDocument = gql`
-    mutation verifyVC($vcDid: String!, $verificationStatus: String!) {
-  verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
+    mutation verifyVC($verificationData: String!) {
+  verifyVC(verificationData: $verificationData)
 }
     `;
 export type VerifyVcMutationFn = Apollo.MutationFunction<VerifyVcMutation, VerifyVcMutationVariables>;
@@ -654,8 +650,7 @@ export type VerifyVcMutationFn = Apollo.MutationFunction<VerifyVcMutation, Verif
  * @example
  * const [verifyVcMutation, { data, loading, error }] = useVerifyVcMutation({
  *   variables: {
- *      vcDid: // value for 'vcDid'
- *      verificationStatus: // value for 'verificationStatus'
+ *      verificationData: // value for 'verificationData'
  *   },
  * });
  */

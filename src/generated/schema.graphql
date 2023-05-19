@@ -65,7 +65,7 @@ scalar JSON
 type Mutation {
   issueVC(holderDid: String!, vcParams: String!, vcTypeDid: String!): Boolean!
   requestVcVerification(vcDid: String!, verifierDid: String!): Boolean!
-  verifyVC(vcDid: String!, verificationStatus: String!): Boolean!
+  verifyVC(verificationData: String!): Boolean!
 }
 
 type OAuthConnection {

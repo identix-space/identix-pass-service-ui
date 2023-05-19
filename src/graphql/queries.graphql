@@ -85,6 +85,6 @@ mutation requestVcVerification($verifierDid: String!, $vcDid: String!) {
     requestVcVerification(verifierDid: $verifierDid, vcDid: $vcDid)
 }
 
-mutation verifyVC($vcDid: String!, $verificationStatus: String!) {
-    verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
+mutation verifyVC($verificationData: String!) {
+    verifyVC(verificationData: $verificationData)
 }

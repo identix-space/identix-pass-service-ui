@@ -1,39 +1,46 @@
-import React, {ReactElement, ReactNode, useState} from 'react';
-import styled from 'styled-components';
-import Layout from '../../components/layout';
-import {Breadcrumbs} from '../../components/elements';
-import {QrReader} from 'react-qr-reader';
+import React, { ReactElement, ReactNode } from "react";
+import styled from "styled-components";
+import Layout from "../../components/layout";
+import { Breadcrumbs, Loader, QrCodeScanner } from "../../components/elements";
+import { useVerifyVcMutation } from "../../generated/graphql";
+import { Title3 } from "../../utils/typography";
+import { COLORS } from "../../utils/colors";
 
 export default function VerifyRealEstatePage(): ReactNode {
-    const [data, setData] = useState('No result');
+    const [verifyVc, { data, error, loading }] = useVerifyVcMutation();
+
+    const onVerify = async (data: string) => {
+        try {
+            const res = await verifyVc({ variables: { verificationData: data } });
+            console.log(res);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <>
             <Breadcrumbs
                 items={[
                     {
-                        label: 'Profile',
-                        path: '/profile'
+                        label: "Profile",
+                        path: "/profile"
                     },
                     {
-                        label: 'Real Estate ownership verification',
-                        path: '/verify-real-estate'
+                        label: "Real Estate ownership verification",
+                        path: "/verify-real-estate"
                     }
                 ]}
             />
             <Wrapper>
-                <QrReader
-                    onResult={(result: any, error) => {
-                        if (result) {
-                            setData(result?.text);
-                        }
+                <QrCodeScanner onSuccess={onVerify} />
 
-                        if (error) {
-                            console.info(error);
-                        }
-                    }}
-                    constraints={{facingMode: 'user'}}/>
-                <p>{data}</p>
+                <VerifyResultWrapper>
+                    {loading && <Loader />}
+                    {data && data.verifyVC && <Title3 color={COLORS.green}>Verify passed</Title3>}
+                    {data && !data.verifyVC && <Title3 color={COLORS.red}>Verified failed</Title3>}
+                    {error && <Title3 color={COLORS.red}>Something went wrong</Title3>}
+                </VerifyResultWrapper>
             </Wrapper>
         </>
     );
@@ -48,6 +55,9 @@ const Wrapper = styled.div`
       padding-top: 90% !important;
     }
   }
+`;
+const VerifyResultWrapper = styled.div`
+    margin-top: 40px;
 `;
 
 VerifyRealEstatePage.getLayout = function getLayout(page: ReactElement) {
