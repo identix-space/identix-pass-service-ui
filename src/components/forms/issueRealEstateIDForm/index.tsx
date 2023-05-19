@@ -121,6 +121,10 @@ const Form = styled.form<{isSuccess?: boolean | null}>`
   flex-direction: column;
   align-items: center;
   gap: ${props => props.isSuccess ? '45px' : '10px'};
+  
+  a {
+    width: 100%;
+  }
 `;
 
 const Input = styled.input<{err?: boolean}>`
