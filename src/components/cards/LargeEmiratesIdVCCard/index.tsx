@@ -4,7 +4,7 @@ import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/
 import {LargeEmiratesIdVCCardProps, Status} from './LargeEmiratesIdVCCard.props';
 import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
-import {copyToClipboard, startAndEnd} from '../../../utils/misc';
+import {copyToClipboard, formatDate, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
 
 export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmiratesIdVCCardProps): JSX.Element => {
@@ -63,11 +63,11 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                     </ColItem>}
                     {vcParams.idcardIssuanceDate && <ColItem>
                         <Label2 color="#9E9E9E">ID Card Issuance Date</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.idcardIssuanceDate}</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.idcardIssuanceDate)}</Body1>
                     </ColItem>}
                     {vcParams.idcardExpirationDate && <ColItem>
                         <Label2 color="#9E9E9E">ID Card Expiration Date</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.idcardExpirationDate}</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.idcardExpirationDate)}</Body1>
                     </ColItem>}
                 </Column>
                 }

@@ -4,7 +4,7 @@ import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/
 import {LargeRealEstateVCCardProps, Status} from './LargeRealEstateVCCard.props';
 import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
-import {copyToClipboard, startAndEnd} from '../../../utils/misc';
+import {copyToClipboard, formatDate, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
 
 export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRealEstateVCCardProps): JSX.Element => {
@@ -64,7 +64,7 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                         </ColItem>}
                         {vcParams.ownership_begin_date && <ColItem>
                             <Label2 color="#9E9E9E">Ownership begin date</Label2>
-                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.ownership_begin_date}</Body1>
+                            <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.ownership_begin_date)}</Body1>
                         </ColItem>}
                         {vcParams.issuing_institution && <ColItem>
                             <Label2 color="#9E9E9E">Issuing institution</Label2>
@@ -76,7 +76,7 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                     <Column>
                         {vcParams.issuance_date && <ColItem>
                             <Label2 color="#9E9E9E">Issuance date</Label2>
-                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.issuance_date}</Body1>
+                            <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.issuance_date)}</Body1>
                         </ColItem>}
                         {vcParams.certificate_id && <ColItem>
                             <Label2 color="#9E9E9E">Certificate id</Label2>

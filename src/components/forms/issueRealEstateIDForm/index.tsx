@@ -1,17 +1,23 @@
+/* eslint-disable camelcase */
 import React, {FC, useState} from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import {useFormFields} from './useFormHook';
 import {Button, ButtonGradient, Loader} from '../../elements';
 import {Body1, Body4} from '../../../utils/typography';
 import {useGetVcTypesQuery, useIssuerVcMutation} from '../../../generated/graphql';
 import {useMyAccountInfoStore} from '../../../store/store';
-import Link from 'next/link';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
+import DatePicker, {DayValue, utils} from '@hassanmojab/react-modern-calendar-datepicker';
+import {convertDate} from '../../../utils/misc';
+
 
 export const IssueRealEstateIDForm: FC = () => {
     const [match, setMatch] = useState(true);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [issuanceDate, setIssuanceDate] = useState<DayValue>(null);
+    const [ownershipBeginDate, setOwnershipBeginDate] = useState<DayValue>(null);
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
-    /* eslint-disable */
     const [fields, handleFieldChange] = useFormFields({
         titledeedid: '',
         city: '',
@@ -26,7 +32,6 @@ export const IssueRealEstateIDForm: FC = () => {
         issuance_date: '',
         certificate_id: ''
     });
-    /* eslint-enable */
     const {data: vcTypesData} = useGetVcTypesQuery();
     const [issuerVc, {loading, data}] = useIssuerVcMutation();
 
@@ -34,6 +39,12 @@ export const IssueRealEstateIDForm: FC = () => {
         event.preventDefault();
         if (vcTypesData) {
             if (fields.city !== '' && fields.district !== '' && fields.address !== '') {
+                if (issuanceDate) {
+                    fields.issuance_date = convertDate(issuanceDate);
+                }
+                if (ownershipBeginDate) {
+                    fields.ownership_begin_date = convertDate(ownershipBeginDate);
+                }
                 (async () => {
                     const issueVCData = await issuerVc({
                         variables: {
@@ -79,11 +90,21 @@ export const IssueRealEstateIDForm: FC = () => {
                             <Input id="bedrooms" type="text" placeholder="Bedrooms" onChange={handleFieldChange}/>
                             <Input id="livingspace" type="text" placeholder="Living space" onChange={handleFieldChange}/>
                             <Input id="owner" type="text" placeholder="Owner" value={dataFromUAE.fullnameEN} disabled/>
-                            <Input id="ownership_begin_date" type="text" placeholder="Ownership Begin Date"
-                                onChange={handleFieldChange}/>
+                            <DatePicker
+                                value={ownershipBeginDate}
+                                colorPrimary="#0BCDED"
+                                onChange={setOwnershipBeginDate}
+                                inputPlaceholder="Ownership Begin Date"
+                            />
                             <Input id="issuing_institution" type="text" placeholder="Issuing institution"
                                 onChange={handleFieldChange}/>
-                            <Input id="issuance_date" type="text" placeholder="Issuance date" onChange={handleFieldChange}/>
+                            <DatePicker
+                                value={issuanceDate}
+                                colorPrimary="#0BCDED"
+                                onChange={setIssuanceDate}
+                                maximumDate={utils('en').getToday()}
+                                inputPlaceholder="Issuance Date"
+                            />
                             <Input id="certificate_id" type="text" placeholder="Certificate ID" onChange={handleFieldChange}/>
                             <ButtonWrapper>
                                 {!match ? <Error>Please, fill in required fields</Error> : <></>}
@@ -140,6 +161,7 @@ const Input = styled.input<{err?: boolean}>`
 
   ::placeholder {
     font-weight: 400;
+    color: #939393;
   }
 
   :active {

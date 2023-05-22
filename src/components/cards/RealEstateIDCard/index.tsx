@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Body1, Label2} from '../../../utils/typography';
 import {RealEstateIDCardProps} from './RealEstateIDCard.props';
+import {formatDate} from '../../../utils/misc';
 
 export const RealEstateIDCard = ({type, address, city, bedroomsNumber, issuanceDate}: RealEstateIDCardProps): JSX.Element => {
 
@@ -11,7 +12,7 @@ export const RealEstateIDCard = ({type, address, city, bedroomsNumber, issuanceD
                 <Body1 fontWeight="700" color="black" margin="2px 0 0">{type} in {address}, {city} {bedroomsNumber} {bedroomsNumber.toString() === '1' ? 'bedroom' : 'bedrooms'}</Body1>
             </ImageTitleBlock>
             <BottomLeftLabel>
-                <Label2 fontWeight="600">{issuanceDate}</Label2>
+                <Label2 fontWeight="600">{formatDate(issuanceDate)}</Label2>
             </BottomLeftLabel>
         </Card>
     </>

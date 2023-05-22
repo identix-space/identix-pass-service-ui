@@ -59,10 +59,10 @@ nav {
 
 .DatePicker {
   width: 100%;
-  z-index: 9998 !important;
+  z-index: 998 !important;
 }
 .DatePicker__calendarContainer {
-  z-index: 9999 !important;
+  z-index: 999 !important;
 }
 .DatePicker__input {
   width: 100%;
@@ -73,7 +73,8 @@ nav {
   text-align: left !important;
   border: none !important;
   border-radius: 5px;
-  z-index: 9998 !important;
+  z-index: 998 !important;
+  cursor: pointer;
 
   &:focus {
     outline: 0;
@@ -81,5 +82,6 @@ nav {
 
   &::placeholder {
     font-weight: 400;
+    color: #939393 !important;
   }
 }
