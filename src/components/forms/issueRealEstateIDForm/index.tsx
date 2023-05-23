@@ -12,6 +12,7 @@ import DatePicker, {DayValue, utils} from '@hassanmojab/react-modern-calendar-da
 import {convertDate} from '../../../utils/misc';
 
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const IssueRealEstateIDForm: FC = () => {
     const [match, setMatch] = useState(true);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -38,13 +39,17 @@ export const IssueRealEstateIDForm: FC = () => {
     const issueVc = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         if (vcTypesData) {
-            if (fields.city !== '' && fields.district !== '' && fields.address !== '') {
-                if (issuanceDate) {
-                    fields.issuance_date = convertDate(issuanceDate);
-                }
-                if (ownershipBeginDate) {
-                    fields.ownership_begin_date = convertDate(ownershipBeginDate);
-                }
+            if (issuanceDate) {
+                fields.issuance_date = convertDate(issuanceDate);
+            }
+            if (ownershipBeginDate) {
+                fields.ownership_begin_date = convertDate(ownershipBeginDate);
+            }
+            if (dataFromUAE) {
+                fields.owner = dataFromUAE.fullnameEN;
+            }
+            console.log(fields);
+            if (Object.values(fields).every(x => x !== '')) {
                 (async () => {
                     const issueVCData = await issuerVc({
                         variables: {
@@ -66,7 +71,7 @@ export const IssueRealEstateIDForm: FC = () => {
 
     return (
         <Wrapper isSuccess={isSuccess}>
-            {loading ? <Loader/>
+            {(loading && !data) ? <Loader/>
                 : <Form isSuccess={data && isSuccess}>
                     <Body4 fontWeight={'bold'}>Real Estate ID issuance</Body4>
                     {data && isSuccess
@@ -79,24 +84,25 @@ export const IssueRealEstateIDForm: FC = () => {
                             </Link>
                         </>
                         : <>
-                            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID" onChange={handleFieldChange}/>
+                            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID" err={!match && fields.titledeedid === ''} onChange={handleFieldChange}/>
                             <Input id="city" type="text" placeholder="City" err={!match && fields.city === ''}
                                 onChange={handleFieldChange}/>
                             <Input id="district" type="text" placeholder="District" err={!match && fields.district === ''}
                                 onChange={handleFieldChange}/>
                             <Input id="address" type="text" placeholder="Address" err={!match && fields.address === ''}
                                 onChange={handleFieldChange}/>
-                            <Input id="type" type="text" placeholder="Type" onChange={handleFieldChange}/>
-                            <Input id="bedrooms" type="text" placeholder="Bedrooms" onChange={handleFieldChange}/>
-                            <Input id="livingspace" type="text" placeholder="Living space" onChange={handleFieldChange}/>
+                            <Input id="type" type="text" placeholder="Type" err={!match && fields.type === ''} onChange={handleFieldChange}/>
+                            <Input id="bedrooms" type="text" placeholder="Bedrooms" err={!match && fields.bedrooms === ''} onChange={handleFieldChange}/>
+                            <Input id="livingspace" type="text" placeholder="Living space" err={!match && fields.livingspace === ''} onChange={handleFieldChange}/>
                             <Input id="owner" type="text" placeholder="Owner" value={dataFromUAE.fullnameEN} disabled/>
                             <DatePicker
                                 value={ownershipBeginDate}
                                 colorPrimary="#0BCDED"
                                 onChange={setOwnershipBeginDate}
                                 inputPlaceholder="Ownership Begin Date"
+                                inputClassName={(!match && ownershipBeginDate === null) ? 'datepickerError' : ''}
                             />
-                            <Input id="issuing_institution" type="text" placeholder="Issuing institution"
+                            <Input id="issuance_institution" type="text" placeholder="Issuance institution" err={!match && fields.issuance_institution === ''}
                                 onChange={handleFieldChange}/>
                             <DatePicker
                                 value={issuanceDate}
@@ -104,8 +110,9 @@ export const IssueRealEstateIDForm: FC = () => {
                                 onChange={setIssuanceDate}
                                 maximumDate={utils('en').getToday()}
                                 inputPlaceholder="Issuance Date"
+                                inputClassName={(!match && issuanceDate === null) ? 'datepickerError' : ''}
                             />
-                            <Input id="certificate_id" type="text" placeholder="Certificate ID" onChange={handleFieldChange}/>
+                            <Input id="certificate_id" type="text" placeholder="Certificate ID" err={!match && fields.certificate_id === ''} onChange={handleFieldChange}/>
                             <ButtonWrapper>
                                 {!match ? <Error>Please, fill in required fields</Error> : <></>}
                                 <Button onClick={(e) => issueVc(e)}>Issue VC on behalf of Dubai Land Department</Button>

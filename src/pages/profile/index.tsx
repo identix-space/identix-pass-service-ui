@@ -13,8 +13,8 @@ export default function ProfilePage(): ReactNode {
     const [realEstateVCs, setRealEstateVCs] = useState<Vc[]>();
     const [emiratesIDVCs, setEmiratesIDVCs] = useState<Vc[]>();
     const [isEmiratesAvailable, setIsEmiratesAvailable] = useState(false);
-    const [getVCs] = useGetUserVCsLazyQuery({fetchPolicy: 'cache-and-network', variables: {role: AgentsRoles.Issuer}});
-    const {data: dataLogs} = useGetEventLogEntriesQuery();
+    const [getVCs] = useGetUserVCsLazyQuery({variables: {role: AgentsRoles.Issuer}});
+    const {data: dataLogs} = useGetEventLogEntriesQuery({fetchPolicy: 'cache-and-network', variables: {count: 10}});
     const {vcTypes} = useMyAccountInfoStore();
 
     useEffect(() => {
