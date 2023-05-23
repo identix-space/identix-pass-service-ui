@@ -3,16 +3,18 @@ import Link from 'next/link';
 import Layout from '../../components/layout';
 import {Button} from '../../components/elements';
 import styled from 'styled-components';
-import {Body1, Body2} from '../../utils/typography';
+import {Body1, Body2, Body3} from '../../utils/typography';
 import {EmiratesIDVCCard, RealEstateIDCard} from '../../components/cards';
-import {AgentsRoles, useGetUserVCsLazyQuery, Vc} from '../../generated/graphql';
+import {AgentsRoles, useGetEventLogEntriesQuery, useGetUserVCsLazyQuery, Vc} from '../../generated/graphql';
 import {useMyAccountInfoStore} from '../../store/store';
+import {formatDate} from '../../utils/misc';
 
-export default function VcWalletPage(): ReactNode {
+export default function ProfilePage(): ReactNode {
     const [realEstateVCs, setRealEstateVCs] = useState<Vc[]>();
     const [emiratesIDVCs, setEmiratesIDVCs] = useState<Vc[]>();
     const [isEmiratesAvailable, setIsEmiratesAvailable] = useState(false);
-    const [getVCs] = useGetUserVCsLazyQuery({fetchPolicy: 'cache-and-network', variables: {role: AgentsRoles.Issuer}});
+    const [getVCs] = useGetUserVCsLazyQuery({variables: {role: AgentsRoles.Issuer}});
+    const {data: dataLogs} = useGetEventLogEntriesQuery({fetchPolicy: 'cache-and-network', variables: {count: 10}});
     const {vcTypes} = useMyAccountInfoStore();
 
     useEffect(() => {
@@ -77,8 +79,15 @@ export default function VcWalletPage(): ReactNode {
                 </Cards> : <Body1>N/D</Body1>
             }
             <Divider/>
-            <Body2 fontWeight="bold" margin="25px 0 20px">History</Body2>
-            <Body1><span style={{color: '#7EF706'}}>27.02.2023</span> Logged in idx.Pass via UAE.PASS</Body1>
+            <Body2 fontWeight="bold" margin="25px 0 20px">Logs</Body2>
+            {dataLogs
+                ? <>
+                    {dataLogs.getEventLogEntries.map((log, index) => (
+                        <Body3 key={index}><span style={{color: '#7EF706'}}>{formatDate(log.eventDate)}</span> {log.message}</Body3>
+                    ))}
+                </>
+                : <></>
+            }
         </>
     );
 }
@@ -102,7 +111,7 @@ const Cards = styled.div`
   gap: 20px 24px;
 `;
 
-VcWalletPage.getLayout = function getLayout(page: ReactElement) {
+ProfilePage.getLayout = function getLayout(page: ReactElement) {
     return (
         <Layout>
             {page}

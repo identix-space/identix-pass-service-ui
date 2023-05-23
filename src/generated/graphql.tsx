@@ -14,7 +14,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
 
@@ -221,11 +223,6 @@ export type WhoamiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type WhoamiQuery = { __typename?: 'Query', whoami: { __typename?: 'Account', id: number, did: string, status: AccountStatus, avatarUrl?: string | null, roles?: Array<AccountRole> | null, connections?: Array<{ __typename?: 'OAuthConnection', otherData: any }> | null } };
-
-export type GetAllAccountsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllAccountsQuery = { __typename?: 'Query', getAllAccounts: Array<string> };
 
 export type IssuerVcMutationVariables = Exact<{
   holderDid: Scalars['String'];
@@ -533,38 +530,6 @@ export function useWhoamiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Who
 export type WhoamiQueryHookResult = ReturnType<typeof useWhoamiQuery>;
 export type WhoamiLazyQueryHookResult = ReturnType<typeof useWhoamiLazyQuery>;
 export type WhoamiQueryResult = Apollo.QueryResult<WhoamiQuery, WhoamiQueryVariables>;
-export const GetAllAccountsDocument = gql`
-    query getAllAccounts {
-  getAllAccounts
-}
-    `;
-
-/**
- * __useGetAllAccountsQuery__
- *
- * To run a query within a React component, call `useGetAllAccountsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllAccountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllAccountsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAllAccountsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAccountsQuery, GetAllAccountsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllAccountsQuery, GetAllAccountsQueryVariables>(GetAllAccountsDocument, options);
-      }
-export function useGetAllAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAccountsQuery, GetAllAccountsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllAccountsQuery, GetAllAccountsQueryVariables>(GetAllAccountsDocument, options);
-        }
-export type GetAllAccountsQueryHookResult = ReturnType<typeof useGetAllAccountsQuery>;
-export type GetAllAccountsLazyQueryHookResult = ReturnType<typeof useGetAllAccountsLazyQuery>;
-export type GetAllAccountsQueryResult = Apollo.QueryResult<GetAllAccountsQuery, GetAllAccountsQueryVariables>;
 export const IssuerVcDocument = gql`
     mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
   issueVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)

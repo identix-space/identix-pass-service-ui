@@ -73,10 +73,6 @@ query whoami {
     }
 }
 
-query getAllAccounts {
-    getAllAccounts
-}
-
 mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
     issueVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)
 }
