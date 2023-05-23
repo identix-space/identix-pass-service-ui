@@ -12,6 +12,7 @@ interface PropTypes {
 
 export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) => {
     const [error, setError] = useState('');
+    const [enabled, setEnabled] = useState(false);
 
     const getCameraStream = async () => {
         try {
@@ -37,30 +38,46 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
     const startRecord = async (cameraId: string) => {
         try {
             html5QrCode = new Html5Qrcode('qr-code-reader');
+            setEnabled(true);
             html5QrCode.start(
                 cameraId,
                 {
                     fps: 10,
-                    qrbox: {width: 250, height: 250}
+                    qrbox: {width: 250, height: 250},
+                    videoConstraints: {facingMode: 'environment'}
                 },
                 (decodedText: any) => {
-                    html5QrCode.stop();
                     onSuccess(decodedText);
+                    stopRecord();
                 },
                 null
-            ).
-                catch((err: any) => {
-                    console.log('error', err);
-                });
+            ).catch((err: any) => {
+                console.log('error', err);
+                setEnabled(false);
+            });
+
         } catch (e) {
             console.error(e);
         }
     };
+
+    const stopRecord = () => {
+        setEnabled(false);
+        if (html5QrCode) {
+            html5QrCode.stop();
+        }
+    };
+
     return (
         <div>
-            <Button onClick={getCameraStream}>
-                {title}
-            </Button>
+            <Row>
+                <Button onClick={getCameraStream}>
+                    {title}
+                </Button>
+                <Button onClick={stopRecord} disabled={!enabled}>
+                    Stop scanning
+                </Button>
+            </Row>
             <RecorderWrapper>
                 <div id="qr-code-reader" />
             </RecorderWrapper>
@@ -71,4 +88,10 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
 
 const RecorderWrapper = styled.div`
     margin: 16px 0;
+    max-width: 100%;
+`;
+const Row = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 `;

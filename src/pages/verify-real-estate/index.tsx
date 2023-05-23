@@ -9,9 +9,9 @@ import {COLORS} from '../../utils/colors';
 export default function VerifyRealEstatePage(): ReactNode {
     const [verifyVc, {data, error, loading}] = useVerifyVcMutation();
 
-    const onVerify = async (data: string) => {
+    const onVerify = async (verificationData: string) => {
         try {
-            const res = await verifyVc({variables: {verificationData: data}});
+            const res = await verifyVc({variables: {verificationData: verificationData}});
             console.log(res);
         } catch (e) {
             console.error(e);
