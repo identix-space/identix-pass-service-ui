@@ -2,8 +2,8 @@ export interface RealEstateIDCardProps {
     type: string;
     address: string;
     city: string;
-    bedroomsNumber: number;
-    issuanceDate: string;
+    titledeedid: string;
+    owner: string;
 }
 
 export interface Status {
