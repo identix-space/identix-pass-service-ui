@@ -24,8 +24,12 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
             </TopInfo>
             {vcParams
                 ? <BottomInfo>
-                    {(vcParams.city || vcParams.district || vcParams.address) &&
+                    {(vcParams.city || vcParams.district || vcParams.address || vcParams.type || vcParams.owner || vcParams.ownership_begin_date || vcParams.issuing_institution || vcParams.bedrooms || vcParams.issuance_date || vcParams.certificate_id || vcParams.issuing_institution || vcParams.livingspace) &&
                     <Column>
+                        {vcParams.address && <ColItem>
+                            <Label2 color="#9E9E9E">Address</Label2>
+                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.address}</Body1>
+                        </ColItem>}
                         {vcParams.city && <ColItem>
                             <Label2 color="#9E9E9E">City</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.city}</Body1>
@@ -34,30 +38,10 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                             <Label2 color="#9E9E9E">District</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.district}</Body1>
                         </ColItem>}
-                        {vcParams.address && <ColItem>
-                            <Label2 color="#9E9E9E">Address</Label2>
-                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.address}</Body1>
-                        </ColItem>}
-                    </Column>
-                    }
-                    {(vcParams.type || vcParams.bedrooms || vcParams.livingspace) &&
-                    <Column>
                         {vcParams.type && <ColItem>
                             <Label2 color="#9E9E9E">Type</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.type}</Body1>
                         </ColItem>}
-                        {vcParams.bedrooms && <ColItem>
-                            <Label2 color="#9E9E9E">Bedrooms number</Label2>
-                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.bedrooms}</Body1>
-                        </ColItem>}
-                        {vcParams.livingspace && <ColItem>
-                            <Label2 color="#9E9E9E">Living space</Label2>
-                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.livingspace}</Body1>
-                        </ColItem>}
-                    </Column>
-                    }
-                    {(vcParams.owner || vcParams.ownership_begin_date || vcParams.issuing_institution) &&
-                    <Column>
                         {vcParams.owner && <ColItem>
                             <Label2 color="#9E9E9E">Owner</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.owner}</Body1>
@@ -70,10 +54,10 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                             <Label2 color="#9E9E9E">Issuing institution</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.issuing_institution}</Body1>
                         </ColItem>}
-                    </Column>
-                    }
-                    {(vcParams.issuance_date || vcParams.certificate_id) &&
-                    <Column>
+                        {vcParams.bedrooms && <ColItem>
+                            <Label2 color="#9E9E9E">Bedrooms</Label2>
+                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.bedrooms}</Body1>
+                        </ColItem>}
                         {vcParams.issuance_date && <ColItem>
                             <Label2 color="#9E9E9E">Issuance date</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.issuance_date)}</Body1>
@@ -85,6 +69,10 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                         {vcParams.issuing_institution && <ColItem>
                             <Label2 color="#9E9E9E">Issuing institution</Label2>
                             <Body1 color="black" fontWeight="700" margin="0">{vcParams.issuing_institution}</Body1>
+                        </ColItem>}
+                        {vcParams.livingspace && <ColItem>
+                            <Label2 color="#9E9E9E">Living space</Label2>
+                            <Body1 color="black" fontWeight="700" margin="0">{vcParams.livingspace}</Body1>
                         </ColItem>}
                     </Column>
                     }
@@ -110,12 +98,11 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
 const Card = styled.div<Status>`
   position: relative;
   width: 100%;
-  height: 400px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 8px;
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
-  padding: 22px;
+  padding: 22px 25px;
 
   @media(min-width: 1400px) {
     height: 420px;
@@ -130,7 +117,7 @@ const TopInfo = styled.div`
 const BottomInfo = styled.div`
   position: relative;
   display: flex;
-  padding: 28px 0 30px 0;
+  padding: 28px 0 60px 0;
   
   &::before {
     content: '';
@@ -145,15 +132,19 @@ const BottomInfo = styled.div`
 
 const Column = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-basis: 21%;
-  gap: 20px;
-  margin-right: 4%;
+  flex-wrap: wrap;
+  gap: 30px 60px;
 `;
 
 const ColItem = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
 `;
 
 const TopRightLabel = styled.div<Status>`
