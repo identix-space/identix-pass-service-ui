@@ -23,24 +23,20 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                 {/*</a>*/}
             </TopInfo>
             {vcParams ? <BottomInfo>
-                {(vcParams.firstNameEN || vcParams.lastNameEN || vcParams.nationalityEN) &&
+                {(vcParams.firstNameEN || vcParams.lastNameEN || vcParams.nationalityEN || vcParams.firstNameAR || vcParams.lastNameAR || vcParams.nationalityAR || vcParams.gender || vcParams.idcardIssuanceDate || vcParams.idcardExpirationDate || vcParams.idcardIssuer) &&
                 <Column>
                     {vcParams.firstNameEN && <ColItem>
                         <Label2 color="#9E9E9E">Name</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.firstNameEN}</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.firstNameEN} hdhfdhfd hdfhfdhf dgdfhfd</Body1>
                     </ColItem>}
                     {vcParams.lastNameEN && <ColItem>
                         <Label2 color="#9E9E9E">Last Name</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.lastNameEN}</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.lastNameEN} dfhfdhfdh fdhdfh df</Body1>
                     </ColItem>}
                     {vcParams.nationalityEN && <ColItem>
                         <Label2 color="#9E9E9E">Nationality</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{vcParams.nationalityEN}</Body1>
                     </ColItem>}
-                </Column>
-                }
-                {(vcParams.firstNameAR || vcParams.lastNameAR || vcParams.nationalityAR) &&
-                <Column>
                     {vcParams.firstNameAR && <ColItem>
                         <Label2 color="#9E9E9E">Name (AR)</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{vcParams.firstNameAR}</Body1>
@@ -53,10 +49,6 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                         <Label2 color="#9E9E9E">Nationality (AR)</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{vcParams.nationalityAR}</Body1>
                     </ColItem>}
-                </Column>
-                }
-                {(vcParams.gender || vcParams.idcardIssuanceDate || vcParams.idcardExpirationDate) &&
-                <Column>
                     {vcParams.gender && <ColItem>
                         <Label2 color="#9E9E9E">Gender</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{vcParams.gender}</Body1>
@@ -69,10 +61,6 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                         <Label2 color="#9E9E9E">ID Card Expiration Date</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{formatDate(vcParams.idcardExpirationDate)}</Body1>
                     </ColItem>}
-                </Column>
-                }
-                {vcParams.idcardIssuer &&
-                <Column>
                     {vcParams.idcardIssuer && <ColItem>
                         <Label2 color="#9E9E9E">ID Card Issuer</Label2>
                         <Body1 color="black" fontWeight="700" margin="0">{vcParams.idcardIssuer}</Body1>
@@ -100,16 +88,12 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
 const Card = styled.div<Status>`
   position: relative;
   width: 100%;
-  height: 400px;
+  min-height: 340px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 8px;
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
-  padding: 22px;
-
-  @media(min-width: 1400px) {
-    height: 420px;
-  }
+  padding: 22px 25px;
 `;
 
 const TopInfo = styled.div`
@@ -120,7 +104,7 @@ const TopInfo = styled.div`
 const BottomInfo = styled.div`
   position: relative;
   display: flex;
-  padding: 28px 0 30px 0;
+  padding: 28px 0 60px 0;
   
   &::before {
     content: '';
@@ -135,15 +119,19 @@ const BottomInfo = styled.div`
 
 const Column = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-basis: 21%;
-  gap: 20px;
-  margin-right: 4%;
+  flex-wrap: wrap;
+  gap: 30px 60px;
 `;
 
 const ColItem = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+  white-space: pre-wrap; /* let the text wrap preserving spaces */
 `;
 
 const TopRightLabel = styled.div<Status>`

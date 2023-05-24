@@ -9,7 +9,7 @@ import router from 'next/router';
 
 export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
-    const [isAvailable, setIsAvailable] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
     const {dataFromUAE, myDid, vcTypes} = useMyAccountInfoStore();
 
     const [checkUserVCs] = useCheckUserVCsLazyQuery();
@@ -37,7 +37,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
             (async () => {
                 const dataCheckVCs = await checkUserVCs({variables: {role: AgentsRoles.Issuer, vcType: vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid}});
                 if (dataCheckVCs.data?.getUserVCs && dataCheckVCs.data?.getUserVCs.length === 0) {
-                    setIsAvailable(true);
+                    setIsDisabled(false);
                 }
             })();
         }
@@ -74,7 +74,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                             </>
                             : <>
                                 <Body1>Explaining message</Body1>
-                                <ButtonGradient disabled={isAvailable} onClick={() => issueVC()}>Accept</ButtonGradient></>
+                                <ButtonGradient disabled={isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>
                 }
