@@ -98,15 +98,12 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
 const Card = styled.div<Status>`
   position: relative;
   width: 100%;
+  min-height: 340px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 8px;
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
   padding: 22px 25px;
-
-  @media(min-width: 1400px) {
-    height: 420px;
-  }
 `;
 
 const TopInfo = styled.div`

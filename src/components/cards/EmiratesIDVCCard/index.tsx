@@ -4,15 +4,15 @@ import {Body2, Label2} from '../../../utils/typography';
 import {EmiratesIDVCCardProps} from './EmiratesIDVCCard.props';
 import {startAndEnd} from '../../../utils/misc';
 
-export const EmiratesIDVCCard = ({did}: EmiratesIDVCCardProps): JSX.Element => {
+export const EmiratesIDVCCard = ({did, firstName, lastName}: EmiratesIDVCCardProps): JSX.Element => {
 
     return (
         <Card>
             <ImageTitleBlock>
-                <Body2 fontWeight="700" color="black" margin="2px 0 0">Emirates ID VC</Body2>
+                <Name fontWeight="700" color="black" margin="2px 0 0">{firstName} {lastName}</Name>
             </ImageTitleBlock>
             <BottomLeftLabel>
-                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 5)}</u></Label2>
+                <Label2 fontWeight="600">VC DID: <u>{startAndEnd(did, 6)}</u></Label2>
             </BottomLeftLabel>
         </Card>
     );
@@ -43,6 +43,13 @@ const ImageTitleBlock = styled.div`
   align-items: flex-start;
   gap: 18px;
   margin-top: 11px;
+`;
+
+const Name = styled(Body2)`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const BottomLeftLabel = styled.div`

@@ -54,7 +54,7 @@ export default function ProfilePage(): ReactNode {
                     {emiratesIDVCs.map((vc: Vc, index: number) => (
                         <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
                             <a>
-                                <EmiratesIDVCCard did={vc.vcDid}/>
+                                <EmiratesIDVCCard did={vc.vcDid} firstName={JSON.parse(vc.vcParams).firstNameEN} lastName={JSON.parse(vc.vcParams).lastNameEN}/>
                             </a>
                         </Link>
                     ))}
