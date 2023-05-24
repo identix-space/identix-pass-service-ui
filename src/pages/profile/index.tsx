@@ -72,7 +72,7 @@ export default function ProfilePage(): ReactNode {
                     {realEstateVCs.map((vc: Vc, index: number) => (
                         <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
                             <a>
-                                <RealEstateIDCard key={index} issuanceDate={JSON.parse(vc.vcParams).issuance_date} type={JSON.parse(vc.vcParams).type} address={JSON.parse(vc.vcParams).address} city={JSON.parse(vc.vcParams).city} bedroomsNumber={JSON.parse(vc.vcParams).bedrooms}/>
+                                <RealEstateIDCard key={index} titledeedid={JSON.parse(vc.vcParams).titledeedid} type={JSON.parse(vc.vcParams).type} address={JSON.parse(vc.vcParams).address} city={JSON.parse(vc.vcParams).city} owner={JSON.parse(vc.vcParams).owner}/>
                             </a>
                         </Link>
                     ))}
@@ -103,6 +103,14 @@ const Divider = styled.div`
   height: 1px;
   background: rgba(255, 255, 255, 0.79);
   margin: 50px 0;
+
+  @media (max-width: 1000px) {
+    margin: 35px 0;
+  }
+
+  @media (max-width: 600px) {
+    margin: 27px 0;
+  }
 `;
 
 const Cards = styled.div`

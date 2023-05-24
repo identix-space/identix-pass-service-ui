@@ -37,6 +37,10 @@ const Wrapper = styled.div`
   @media(min-width: 1400px) {
     padding-left: 300px;
   }
+
+  @media (max-width: 600px) {
+    padding-left: 15px;
+  }
 `;
 
 export default Header;

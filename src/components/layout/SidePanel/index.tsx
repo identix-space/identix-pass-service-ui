@@ -20,10 +20,10 @@ const SidePanel = (): JSX.Element => {
                             {/*<Avatar>*/}
                             {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
                             {/*</Avatar>*/}
-                            <UserTexts>
-                                <Body4 fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Body4>
-                                <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
-                            </UserTexts>
+                            <Name fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Name>
+                            <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
+                            <DidMd data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 12)}</DidMd>
+
                         </UserInfo>
                         <LogoutBtn onClick={Logout}>
                             <LogoutIcon className="fillstroke"/>
@@ -54,6 +54,18 @@ const Panel = styled.aside`
     width: 260px;
     padding-top: 95px;
   }
+
+  @media (max-width: 1000px) {
+    width: 180px;
+    padding: 75px 0 30px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 130px;
+    padding: 67px 0 10px;
+    flex-direction: row;
+  }
 `;
 
 const LogoutBtn = styled.div`
@@ -83,16 +95,38 @@ const LogoutBtn = styled.div`
     padding: 12px 0 12px 28px;
     font-size: 14px;
   }
+
+  @media (max-width: 600px) {
+    padding: 0 15px;
+  }
 `;
 
 const Did = styled(Body3)`
+  display: block;
+  
   &:hover {
     text-decoration: underline;
   }
   &:active {
     text-decoration: none;
   }
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
+
+const DidMd = styled(Did)`
+  display: none;
+  
+  @media (max-width: 1000px) {
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    margin: 3px 0;
+  }
+`;
+
 const Title = styled.span`
   display: block;
   margin-top: 4px;
@@ -100,6 +134,12 @@ const Title = styled.span`
 
   @media (min-width: 1400px) {
     margin-left: 16px;
+  }
+`;
+
+const Name = styled(Body4)`
+  @media (max-width: 600px) {
+    margin: 3px 0;
   }
 `;
 // const Avatar = styled.div`
@@ -113,10 +153,6 @@ const Title = styled.span`
 
 const UserInfo = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   padding: 0 20px;
   margin-bottom: 20px;
   z-index: 99;
@@ -125,10 +161,10 @@ const UserInfo = styled.div`
   @media (min-width: 1400px) {
     margin-bottom: 30px;
   }
-`;
 
-const UserTexts = styled.div`
-  display: inline;
+  @media (max-width: 1000px) {
+    padding: 0 15px;
+  }
 `;
 
 export default SidePanel;

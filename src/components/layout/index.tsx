@@ -77,6 +77,14 @@ const Content = styled.div`
   @media(min-width: 1400px) {
     padding: 110px 40px 80px 300px;
   }
+
+  @media (max-width: 1000px) {
+    padding: 90px 30px 60px 210px;
+  }
+
+  @media (max-width: 600px) {
+    padding: 155px 15px 30px 15px;
+  }
 `;
 
 export default Layout;
