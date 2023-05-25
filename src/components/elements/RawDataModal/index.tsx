@@ -22,7 +22,7 @@ const exportData = (data: any) => {
 
 export const RawDataModal: FunctionComponent<ModalProps> = ({isShown, hide, modalContent, headerText}) => {
     const modal = (
-        <React.Fragment>
+        <>
             <Backdrop onClick={hide}/>
             <Wrapper>
                 <Header>
@@ -34,7 +34,7 @@ export const RawDataModal: FunctionComponent<ModalProps> = ({isShown, hide, moda
                 </Header>
                 <Content><pre>{modalContent}</pre></Content>
             </Wrapper>
-        </React.Fragment>
+        </>
     );
 
     return isShown ? ReactDOM.createPortal(modal, document.body) : null;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 700;
+  z-index: 1000;
   width: 700px;
   height: 400px;
   background: white;
@@ -55,6 +55,12 @@ const Wrapper = styled.div`
   @media(min-width: 1400px) {
     width: 900px;
     height: 500px;
+  }
+
+  @media (max-width: 600px) {
+    width: calc(100% - 30px);
+    height: 500px;
+    transform: translate(-50%, -48%);
   }
 `;
 
@@ -66,7 +72,7 @@ const Backdrop = styled.div`
   left: 0;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(20px);
-  z-index: 500;
+  z-index: 1000;
   cursor: pointer;
 `;
 
@@ -131,8 +137,7 @@ const DownloadButton = styled.button`
 const Content = styled.div`
   padding: 10px;
   height: calc(100% - 44px);
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
 
   &::-webkit-scrollbar {
     width: 8px;

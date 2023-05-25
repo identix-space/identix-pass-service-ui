@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
-import {ButtonGradient, ButtonTransparent} from '../../elements';
+import {ButtonGradient} from '../../elements';
 import {
     extractTokenFromUrl,
     generateAfterWeb2OutServisesUserLogin,
@@ -11,7 +11,6 @@ import {
     setAuthorizationToken
 } from '../../../utils/misc';
 import {useRouter} from 'next/router';
-import {FlatQubeAuthorizationToken} from '../../../constants';
 
 export const LogIn: FC = () => {
 
@@ -29,7 +28,7 @@ export const LogIn: FC = () => {
         }
         if (token) {
             setAuthorizationToken(token);
-            redirect('vc-wallet');
+            redirect('profile');
         }
     }, [router]);
 
@@ -40,27 +39,25 @@ export const LogIn: FC = () => {
                 <Body1 color="#FFFFFF" margin="20px 0 0">To get bonuses, privileges and discounts! Your favourite services want to know whether you are credible and experienced to get this advantage or to authorize as a credible community member. Therefore they want you to provide several verifiable credentials (VCs) in exchange for their specials offers.</Body1>
             </Left>
             <Right>
-                <Image src="/assets/identix-pass-logo.svg" width="270" height="260"/>
+                <ImageLogo>
+                    <Image src="/assets/identix-pass-logo.svg" layout={'fill'}/>
+                </ImageLogo>
                 <ButtonGradient onClick={() => redirect(redirectUrl)}>
-                    Log in
+                    Log in via UAE Pass
                 </ButtonGradient>
-                <ButtonTransparent onClick={() => {
-                    redirect('vc-wallet');
-                    setAuthorizationToken(FlatQubeAuthorizationToken);
-                }}>
-                    Log in as FlatQube verifier
-                </ButtonTransparent>
             </Right>
         </LogInModal>
     );
 };
 
 const LogInModal = styled.div`
-  position: relative;
+  position: absolute;
   display: flex;
   height: 440px;
   width: 800px;
-  margin-top: calc(50vh - 280px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #FFFFFF;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -68,7 +65,12 @@ const LogInModal = styled.div`
   @media(min-width: 1400px) {
     height: 540px;
     width: 960px;
-    margin-top: calc(50vh - 330px);
+  }
+
+  @media (max-width: 600px) {
+    height: unset;
+    width: calc(100% - 30px);
+    flex-direction: column;
   }
 `;
 
@@ -89,6 +91,13 @@ const Left = styled.div`
     left: 40px;
     transform: rotate(180deg);
     background: url('/assets/corner-icon.svg') center/contain no-repeat;
+
+    @media (max-width: 600px) {
+      width: 12px;
+      height: 12px;
+      bottom: 21px;
+      left: 23px;
+    }
   }
 
   &::before {
@@ -103,10 +112,23 @@ const Left = styled.div`
     @media(min-width: 1400px) {
       top: 155px;
     }
+
+    @media (max-width: 600px) {
+      width: 12px;
+      height: 12px;
+      top: 32px;
+      right: 28px;
+    }
   }
 
   @media(min-width: 1400px) {
     padding: 160px 50px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 35px 30px 45px;
+    border-radius: 8px 8px 0 0;
   }
 `;
 
@@ -123,7 +145,23 @@ const Right = styled.div`
   border-radius: 0 8px 8px 0;
 
   @media(min-width: 1400px) {
-    padding: 80px 0;
+    padding: 80px 60px;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 20px 20px;
+    border-radius: 0 0 8px 8px;
+  }
+`;
+const ImageLogo = styled.div`
+  position: relative;
+  width: 270px; 
+  height: 260px;
+
+  @media (max-width: 600px) {
+    width: 240px;
+    height: 230px;
   }
 `;
 

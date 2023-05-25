@@ -1,9 +1,9 @@
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery} from '../../generated/graphql';
+import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../generated/graphql';
 import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
-import {useMyDidStore} from '../../store/store';
+import {useMyAccountInfoStore} from '../../store/store';
 
 interface IAuthProvider {
     protectedRoutes: string[];
@@ -23,25 +23,34 @@ export const AuthProvider = (props: IAuthProvider) => {
 
     const [whoami] = useWhoamiLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
+    const [getVcTypes] = useGetVcTypesLazyQuery();
 
-    const {setMyDid} = useMyDidStore();
+    const {setMyDid, setDataFromUAE, setVcTypes} = useMyAccountInfoStore();
 
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         (async () => {
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
-                    console.log(userDid.data?.whoami);
                     if (userDid.data?.whoami) {
-                        setMyDid(userDid.data?.whoami);
+                        setMyDid(userDid.data?.whoami.did);
+                        if (userDid.data?.whoami.connections) {
+                            setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
+                        }
                         const isAccountExist = await checkAccountExist({
                             variables: {
-                                did: userDid.data?.whoami
+                                did: userDid.data?.whoami.did
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
                             localStorage.removeItem(authTokenConstant);
                             redirect('/');
+                        } else {
+                            const vcTypes = await getVcTypes();
+                            if (vcTypes.data?.getVcTypes) {
+                                setVcTypes(vcTypes.data?.getVcTypes);
+                            }
                         }
                     } else {
                         localStorage.removeItem(authTokenConstant);
@@ -52,10 +61,10 @@ export const AuthProvider = (props: IAuthProvider) => {
                     redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                redirect('vc-wallet');
+                redirect('/profile');
             }
         })();
-    }, [pathIsProtected]);
+    }, []);
 
     return props.children;
 };

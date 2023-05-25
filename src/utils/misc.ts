@@ -1,4 +1,5 @@
 import {AgentsRoles} from '../generated/graphql';
+import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
 
 export function redirect(url: string): void {
     if (typeof window !== 'undefined') {
@@ -60,4 +61,12 @@ export const checkOfPermission = async (did: string, userDid: string, role: Agen
         return did === userDid;
     }
     return false;
+};
+
+export const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+};
+
+export const convertDate = (date: Day) => {
+    return new Date(date.year, date.month - 1, date.day);
 };
