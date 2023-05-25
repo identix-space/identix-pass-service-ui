@@ -17,12 +17,12 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
     const [enabled, setEnabled] = useState(false);
     const [backCameraMode, setBackCameraMode] = useState(true);
 
-    const getCameraStream = async () => {
+    const getCameraStream = async (backCameraMode: boolean) => {
         try {
             const devices = await Html5Qrcode.getCameras();
 
             if (devices && devices.length) {
-                startRecord(devices[0].id);
+                startRecord(devices[0].id, backCameraMode);
             }
             if (error) {
                 setError('');
@@ -38,7 +38,7 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
         }
     };
 
-    const startRecord = async (cameraId: string) => {
+    const startRecord = async (cameraId: string, backCameraMode: boolean) => {
         try {
             html5QrCode = new Html5Qrcode('qr-code-reader');
             html5QrCode.start(
@@ -74,13 +74,13 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
     const switchCamera = () => {
         setBackCameraMode(!backCameraMode);
         stopRecord();
-        getCameraStream();
+        getCameraStream(!backCameraMode);
     };
 
     return (
         <div>
             <Row>
-                <Button onClick={getCameraStream}>
+                <Button onClick={() => getCameraStream(backCameraMode)}>
                     {title}
                 </Button>
                 <Button onClick={stopRecord} disabled={!enabled}>
