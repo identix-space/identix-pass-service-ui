@@ -1,4 +1,6 @@
 import {AgentsRoles} from '../generated/graphql';
+import {LogoutDocument} from '../generated/graphql';
+import {getApolloClient} from '../utils/ApolloClient';
 import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
 
 export function redirect(url: string): void {
@@ -28,10 +30,13 @@ export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
 }
 
-export function Logout() {
-    localStorage.clear();
-    console.log('asdasdsadasd');
-    redirect('/');
+export async function logout() {
+    try {
+        await getApolloClient.query({query: LogoutDocument});
+    } finally {
+        localStorage.clear();
+        redirect('/');
+    }
 }
 
 export function startAndEnd(str: string, gap: number) {

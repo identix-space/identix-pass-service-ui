@@ -84,3 +84,11 @@ mutation requestVcVerification($verifierDid: String!, $vcDid: String!) {
 mutation verifyVC($verificationData: String!) {
     verifyVC(verificationData: $verificationData)
 }
+
+query logout {
+    logout
+}
+
+mutation deleteAccount {
+    deleteAccount
+}
