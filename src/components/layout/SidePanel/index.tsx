@@ -62,8 +62,8 @@ const Panel = styled.aside`
 
   @media (max-width: 600px) {
     width: 100%;
-    height: 130px;
-    padding: 67px 0 10px;
+    height: 122px;
+    padding: 63px 0 6px;
     flex-direction: row;
   }
 `;
@@ -123,7 +123,7 @@ const DidMd = styled(Did)`
   }
 
   @media (max-width: 600px) {
-    margin: 3px 0;
+    margin: 2px 0;
   }
 `;
 
@@ -139,7 +139,7 @@ const Title = styled.span`
 
 const Name = styled(Body4)`
   @media (max-width: 600px) {
-    margin: 3px 0;
+    margin: 2px 0;
   }
 `;
 // const Avatar = styled.div`

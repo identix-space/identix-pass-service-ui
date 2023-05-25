@@ -123,6 +123,10 @@ export const Body5 = styled.p<TextProps>`
     font-size: 28px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
   }
+
+  @media(max-width: 600px) {
+    font-size: 21px;
+  }
 `;
 
 export const Label1 = styled.p<TextProps>`
@@ -150,6 +154,10 @@ export const Label2 = styled.p<TextProps>`
   @media(min-width: 1400px) {
     font-size: 15px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '0')};
+  }
+
+  @media(max-width: 600px) {
+    font-size: 14px;
   }
 `;
 

@@ -55,6 +55,11 @@ const Wrapper = styled.div`
       padding-top: 90% !important;
     }
   }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 const VerifyResultWrapper = styled.div`
     margin-top: 40px;

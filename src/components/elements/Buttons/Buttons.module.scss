@@ -22,6 +22,11 @@
     pointer-events: none;
     background: linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), linear-gradient(92.25deg, #8F5AE0 -10.04%, #37B9C6 116.12%);
   }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
 }
 
 .button_transparent {

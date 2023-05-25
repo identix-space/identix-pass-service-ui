@@ -94,4 +94,8 @@ const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;

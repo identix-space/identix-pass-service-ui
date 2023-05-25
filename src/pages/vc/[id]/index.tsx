@@ -91,6 +91,13 @@ const StatusCard = styled.div`
   border-radius: 8px;
   margin: 20px 0 22px;
   padding: 10px 15px;
+
+  @media (max-width: 600px) {
+    margin: 16px 0 20px;
+    height: 45px;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
 `;
 
 const HolderDid = styled(Body2)`
@@ -103,6 +110,11 @@ const HolderDid = styled(Body2)`
     &:hover {
       text-decoration: none;
     }
+  }
+
+  @media (max-width: 600px) {
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 `;
 
