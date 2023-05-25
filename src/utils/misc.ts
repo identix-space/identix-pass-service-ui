@@ -30,7 +30,7 @@ export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
 }
 
-export async function Logout() {
+export async function logout() {
     try {
         await getApolloClient.query({query: LogoutDocument});
     } finally {

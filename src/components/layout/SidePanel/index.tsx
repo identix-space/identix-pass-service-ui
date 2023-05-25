@@ -2,14 +2,25 @@ import React from 'react';
 import {Tooltip} from 'react-tooltip';
 import styled from 'styled-components';
 import {Body3, Body4} from '../../../utils/typography';
-import {copyToClipboard, Logout, startAndEnd} from '../../../utils/misc';
+import {copyToClipboard, logout, startAndEnd} from '../../../utils/misc';
 import {useMyAccountInfoStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
+import {useDeleteAccountMutation} from '../../../generated/graphql';
 
 
 const SidePanel = (): JSX.Element => {
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
+    const [deleteAccount] = useDeleteAccountMutation();
+
+    const onDeleteAccount = async () => {
+        try {
+            await deleteAccount();
+            await logout();
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <>
@@ -31,10 +42,10 @@ const SidePanel = (): JSX.Element => {
                     </UserInfo>
 
                     <div>
-                        {/*<LogoutBtn onClick={Logout}>*/}
-                        {/*    Delete account*/}
-                        {/*</LogoutBtn>*/}
-                        <LogoutBtn onClick={Logout}>
+                        <LogoutBtn onClick={onDeleteAccount} style={{display: 'none'}}>
+                            Delete account
+                        </LogoutBtn>
+                        <LogoutBtn onClick={logout}>
                             <LogoutIcon className="fillstroke" />
                             <Title>Logout</Title>
                         </LogoutBtn>
@@ -113,7 +124,7 @@ const LogoutBtn = styled.div`
 
 const Did = styled(Body3)`
   display: block;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -127,7 +138,7 @@ const Did = styled(Body3)`
 
 const DidMd = styled(Did)`
   display: none;
-  
+
   @media (max-width: 1000px) {
     display: block;
   }

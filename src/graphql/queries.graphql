@@ -88,3 +88,7 @@ mutation verifyVC($verificationData: String!) {
 query logout {
     logout
 }
+
+mutation deleteAccount {
+    deleteAccount
+}
