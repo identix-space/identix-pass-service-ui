@@ -15,23 +15,33 @@ const SidePanel = (): JSX.Element => {
         <>
             <Panel>
                 {myDid &&
-                    <>
-                        <UserInfo>
-                            {/*<Avatar>*/}
-                            {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
-                            {/*</Avatar>*/}
-                            <Name fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Name>
-                            <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
-                            <DidMd data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 12)}</DidMd>
+                <>
+                    <UserInfo>
+                        {/*<Avatar>*/}
+                        {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
+                        {/*</Avatar>*/}
+                        <Name fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Name>
+                        <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0"
+                            onClick={() => copyToClipboard(myDid)}
+                            style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
+                        <DidMd data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0"
+                            onClick={() => copyToClipboard(myDid)}
+                            style={{cursor: 'pointer'}}>{startAndEnd(myDid, 12)}</DidMd>
 
-                        </UserInfo>
+                    </UserInfo>
+
+                    <div>
+                        {/*<LogoutBtn onClick={Logout}>*/}
+                        {/*    Delete account*/}
+                        {/*</LogoutBtn>*/}
                         <LogoutBtn onClick={Logout}>
-                            <LogoutIcon className="fillstroke"/>
+                            <LogoutIcon className="fillstroke" />
                             <Title>Logout</Title>
                         </LogoutBtn>
-                    </>
+                    </div>
+                </>
                 }
-                <Tooltip id="copy-tooltip" content="Click to copy"/>
+                <Tooltip id="copy-tooltip" content="Click to copy" />
             </Panel>
         </>
     );
