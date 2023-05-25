@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {Html5Qrcode} from 'html5-qrcode/cjs/html5-qrcode';
 import {Button} from '../Buttons';
+import swapCameraIcon from '../../../../public/assets/swap-camera.png';
 import styled from 'styled-components';
+import {COLORS} from '../../../utils/colors';
 
 let html5QrCode: any = null;
 
@@ -13,6 +15,7 @@ interface PropTypes {
 export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) => {
     const [error, setError] = useState('');
     const [enabled, setEnabled] = useState(false);
+    const [backCameraMode, setBackCameraMode] = useState(true);
 
     const getCameraStream = async () => {
         try {
@@ -38,24 +41,24 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
     const startRecord = async (cameraId: string) => {
         try {
             html5QrCode = new Html5Qrcode('qr-code-reader');
-            setEnabled(true);
             html5QrCode.start(
                 cameraId,
                 {
                     fps: 10,
                     qrbox: {width: 250, height: 250},
-                    videoConstraints: {facingMode: 'environment'}
+                    videoConstraints: {facingMode: backCameraMode ? 'environment' : 'user'}
                 },
                 (decodedText: any) => {
                     onSuccess(decodedText);
                     stopRecord();
                 },
                 null
-            ).catch((err: any) => {
+            ).then(() => {
+                setEnabled(true);
+            }).catch((err: any) => {
                 console.log('error', err);
                 setEnabled(false);
             });
-
         } catch (e) {
             console.error(e);
         }
@@ -68,6 +71,12 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
         }
     };
 
+    const switchCamera = () => {
+        setBackCameraMode(!backCameraMode);
+        stopRecord();
+        getCameraStream();
+    };
+
     return (
         <div>
             <Row>
@@ -78,9 +87,16 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
                     Stop scanning
                 </Button>
             </Row>
+
             <RecorderWrapper>
                 <div id="qr-code-reader" />
+
+                {enabled && <SwapCameraButton
+                    src={swapCameraIcon.src}
+                    onClick={switchCamera}
+                />}
             </RecorderWrapper>
+
             {error && <div>{error}</div>}
         </div>
     );
@@ -89,6 +105,7 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
 const RecorderWrapper = styled.div`
     margin: 16px 0;
     max-width: 100%;
+    position: relative;
 `;
 const Row = styled.div`
     display: flex;
@@ -98,4 +115,14 @@ const Row = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
   }
+`;
+const SwapCameraButton = styled.img`
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: ${COLORS.white};
 `;
