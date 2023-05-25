@@ -83,7 +83,7 @@ const Content = styled.div`
   }
 
   @media (max-width: 600px) {
-    padding: 155px 15px 30px 15px;
+    padding: 146px 15px 30px 15px;
   }
 `;
 

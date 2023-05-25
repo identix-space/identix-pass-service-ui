@@ -100,6 +100,12 @@ const Wrapper = styled.div<{isSuccess?: boolean | null}>`
     text-align: center;
     margin-top: 0;
   }
+
+  @media (max-width: 600px) {
+    gap: 30px;
+    min-height: 300px;
+    padding: 20px 15px;
+  }
 `;
 
 IssueEmiratesVCPage.getLayout = function getLayout(page: ReactElement) {

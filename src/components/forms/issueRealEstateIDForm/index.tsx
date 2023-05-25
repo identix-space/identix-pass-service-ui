@@ -140,6 +140,15 @@ const Wrapper = styled.div<{isSuccess?: boolean | null}>`
   p {
     text-align: center;
     margin-top: 0;
+
+    @media (max-width: 600px) {
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    min-height: 300px;
+    padding: 20px 15px;
   }
 `;
 
@@ -152,6 +161,10 @@ const Form = styled.form<{isSuccess?: boolean | null}>`
   
   a {
     width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    gap: ${props => props.isSuccess ? '30px' : '10px'};
   }
 `;
 
@@ -178,10 +191,20 @@ const Input = styled.input<{err?: boolean}>`
   :focus {
     outline: 0;
   }
+
+  @media (max-width: 600px) {
+    height: 45px;
+    padding: 12px 15px;
+    font-size: 15px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
   margin-top: 15px;
+
+  @media (max-width: 600px) {
+    margin-top: 10px;
+  }
 `;
 
 const Error = styled.div`
@@ -192,5 +215,9 @@ const Error = styled.div`
   border-radius: 5px;
   font-size: 13px;
   margin-bottom: 15px;
+
+  @media (max-width: 600px) {
+    padding: 0 10px 5px;
+  }
 `;
 

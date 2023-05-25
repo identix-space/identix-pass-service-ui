@@ -36,6 +36,11 @@ const Card = styled.div`
   @media(min-width: 1400px) {
     width: 265px;
   }
+  
+  @media(max-width: 600px) {
+    height: 140px;
+    width: 100%;
+  }
 `;
 
 const ImageTitleBlock = styled.div`
@@ -67,5 +72,11 @@ const BottomLeftLabel = styled.div`
     width: 220px;
     height: 29px;
     bottom: -4px;
+  }
+
+  @media(max-width: 600px) {
+    width: 249px;
+    height: 33px;
+    padding-bottom: 2px;
   }
 `;

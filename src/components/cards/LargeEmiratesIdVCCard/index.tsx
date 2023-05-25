@@ -19,7 +19,8 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
             <TopInfo>
                 <Title3 fontWeight="700" color="black" margin="3px 0 8px">Emirates ID</Title3>
                 {/*<a href={`https://ever.live/accounts/accountDetails?id=0%3A${did.slice(12)}`} target={'_blank'} rel="noreferrer">*/}
-                <TextGradient fontSize="16px" color="black">{startAndEnd(did, 20)}</TextGradient>
+                <DidTextDesktop fontSize="16px" color="black">{startAndEnd(did, 20)}</DidTextDesktop>
+                <DidTextMobile fontSize="16px" color="black">{startAndEnd(did, 15)}</DidTextMobile>
                 {/*</a>*/}
             </TopInfo>
             {vcParams ? <BottomInfo>
@@ -72,7 +73,7 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                 <Body5 fontWeight="700">{status}</Body5>
             </TopRightLabel>
             <BottomLeftLabel status={status}>
-                <Body2 fontWeight="700">VC DID: <VcDid data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 13)}</VcDid></Body2>
+                <Body2 fontWeight="700">VC DID: <VcDidDesktop data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 9)}</VcDidMobile></Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
@@ -94,17 +95,43 @@ const Card = styled.div<Status>`
   border-radius: 8px;
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
   padding: 22px 25px;
+
+  @media (max-width: 600px) {
+    min-height: 300px;
+    border-radius: 8px;
+    padding: 15px;
+  }
+`;
+
+const DidTextDesktop = styled(TextGradient)`
+  display: block;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const DidTextMobile = styled(TextGradient)`
+  display: none;
+
+  @media (max-width: 600px) {
+    display: block;
+  }
 `;
 
 const TopInfo = styled.div`
   position: relative;
   padding: 0 0 28px 20px;
+
+  @media (max-width: 600px) {
+    padding: 0 0 21px 0;
+  }
 `;
 
 const BottomInfo = styled.div`
   position: relative;
   display: flex;
-  padding: 28px 0 60px 0;
+  padding: 33px 0 65px 0;
   
   &::before {
     content: '';
@@ -114,6 +141,10 @@ const BottomInfo = styled.div`
     top: 0;
     left: 0;
     background: url('/assets/gradient-line.svg') center/cover no-repeat;
+  }
+
+  @media (max-width: 600px) {
+    padding: 20px 0 65px 0;
   }
 `;
 
@@ -146,6 +177,13 @@ const TopRightLabel = styled.div<Status>`
   padding-left: 29px;
   padding-bottom: 2px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-right-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-right-lg.svg\') center/contain no-repeat'};
+
+  @media (max-width: 600px) {
+    height: 38px;
+    width: ${(props) => props.status === 'Review' ? '122px' : '132px'};
+    top: ${(props) => props.status === 'Review' ? '-3px' : '-1px'};
+    right: ${(props) => props.status === 'Review' ? '-6px' : '-2px'};
+  }
 `;
 
 const BottomLeftLabel = styled.div<Status>`
@@ -158,6 +196,12 @@ const BottomLeftLabel = styled.div<Status>`
   height: 55px;
   padding-left: 18px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};
+
+  @media (max-width: 600px) {
+    width: 265px;
+    height: 38px;
+    padding-left: 14px;
+  }
 `;
 
 const RawData = styled.div`
@@ -174,14 +218,38 @@ const RawData = styled.div`
   &:hover {
     text-decoration: none;
   }
+
+  @media (max-width: 600px) {
+    right: 12px;
+    bottom: 9px;
+    font-size: 13px;
+  }
 `;
 
-const VcDid = styled.span`
+const VcDidDesktop = styled.span`
+  display: inline;
   text-decoration: none;
   cursor: pointer;
   
   &:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
+const VcDidMobile = styled.span`
+  text-decoration: none;
+  cursor: pointer;
+  display: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    display: inline;
+  }
+`;

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 import {Title1} from '../../../utils/typography';
@@ -8,7 +9,11 @@ const Header = () => {
         <HeaderWrapper>
             <div className="container">
                 <Wrapper>
-                    <Title1>Identix.Pass</Title1>
+                    <Link href={'/profile'}>
+                        <a>
+                            <Title1>Identix.Pass</Title1>
+                        </a>
+                    </Link>
                 </Wrapper>
             </div>
         </HeaderWrapper>
