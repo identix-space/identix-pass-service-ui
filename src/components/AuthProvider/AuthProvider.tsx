@@ -45,7 +45,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
                             localStorage.removeItem(authTokenConstant);
-                            redirect('/');
+                            //redirect('/');
                         } else {
                             const vcTypes = await getVcTypes();
                             if (vcTypes.data?.getVcTypes) {
@@ -54,11 +54,11 @@ export const AuthProvider = (props: IAuthProvider) => {
                         }
                     } else {
                         localStorage.removeItem(authTokenConstant);
-                        redirect('/');
+                        //redirect('/');
                     }
                 } catch (e) {
                     localStorage.removeItem(authTokenConstant);
-                    redirect('/');
+                    //redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
                 redirect('/profile');

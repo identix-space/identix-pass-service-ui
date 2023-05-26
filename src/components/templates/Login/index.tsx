@@ -98,6 +98,17 @@ const Left = styled.div`
       bottom: 21px;
       left: 23px;
     }
+
+    @media (max-width: 400px) {
+      width: 11px;
+      height: 11px;
+      bottom: 18px;
+      left: 19px;
+    }
+
+    @media (max-width: 300px) {
+      display: none;
+    }
   }
 
   &::before {
@@ -119,6 +130,17 @@ const Left = styled.div`
       top: 32px;
       right: 28px;
     }
+
+    @media (max-width: 400px) {
+      width: 11px;
+      height: 11px;
+      top: 20px;
+      right: 20px;
+    }
+
+    @media (max-width: 300px) {
+      display: none;
+    }
   }
 
   @media(min-width: 1400px) {
@@ -129,6 +151,14 @@ const Left = styled.div`
     width: 100%;
     padding: 35px 30px 45px;
     border-radius: 8px 8px 0 0;
+  }
+
+  @media (max-width: 400px) {
+    padding: 25px 25px 40px;
+  }
+
+  @media (max-width: 300px) {
+    padding: 25px 20px 25px;
   }
 `;
 
@@ -153,6 +183,10 @@ const Right = styled.div`
     padding: 20px 20px;
     border-radius: 0 0 8px 8px;
   }
+
+  @media (max-width: 300px) {
+    padding: 15px;
+  }
 `;
 const ImageLogo = styled.div`
   position: relative;
@@ -162,6 +196,16 @@ const ImageLogo = styled.div`
   @media (max-width: 600px) {
     width: 240px;
     height: 230px;
+  }
+
+  @media (max-width: 400px) {
+    width: 210px;
+    height: 170px;
+  }
+
+  @media (max-width: 300px) {
+    width: 180px;
+    height: 140px;
   }
 `;
 
