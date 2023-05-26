@@ -28,11 +28,11 @@ export const LargeEmiratesIdVCCard = ({did, status, vcParams, rawData}: LargeEmi
                 <Column>
                     {vcParams.firstNameEN && <ColItem>
                         <Label2 color="#9E9E9E">Name</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.firstNameEN} hdhfdhfd hdfhfdhf dgdfhfd</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.firstNameEN}</Body1>
                     </ColItem>}
                     {vcParams.lastNameEN && <ColItem>
                         <Label2 color="#9E9E9E">Last Name</Label2>
-                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.lastNameEN} dfhfdhfdh fdhdfh df</Body1>
+                        <Body1 color="black" fontWeight="700" margin="0">{vcParams.lastNameEN}</Body1>
                     </ColItem>}
                     {vcParams.nationalityEN && <ColItem>
                         <Label2 color="#9E9E9E">Nationality</Label2>
@@ -96,6 +96,10 @@ const Card = styled.div<Status>`
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
   padding: 22px 25px;
 
+  @media (max-width: 840px) {
+    padding: 18px;
+  }
+  
   @media (max-width: 600px) {
     min-height: 300px;
     border-radius: 8px;
@@ -123,6 +127,10 @@ const TopInfo = styled.div`
   position: relative;
   padding: 0 0 28px 20px;
 
+  @media (max-width: 840px) {
+    padding: 0 0 21px 0;
+  }
+  
   @media (max-width: 600px) {
     padding: 0 0 21px 0;
   }
@@ -143,6 +151,10 @@ const BottomInfo = styled.div`
     background: url('/assets/gradient-line.svg') center/cover no-repeat;
   }
 
+  @media (max-width: 840px) {
+    padding: 22px 0 58px 0;
+  }
+  
   @media (max-width: 600px) {
     padding: 20px 0 65px 0;
   }
@@ -152,6 +164,14 @@ const Column = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 30px 60px;
+
+  @media (max-width: 840px) {
+    gap: 25px 50px;
+  }
+
+  @media (max-width: 600px) {
+    gap: 30px 60px;
+  }
 `;
 
 const ColItem = styled.div`
@@ -178,6 +198,13 @@ const TopRightLabel = styled.div<Status>`
   padding-bottom: 2px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-right-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-right-lg.svg\') center/contain no-repeat'};
 
+  @media (max-width: 840px) {
+    height: 45px;
+    width: ${(props) => props.status === 'Review' ? '142px' : '154px'};
+    top: ${(props) => props.status === 'Review' ? '-3px' : '-1px'};
+    right: ${(props) => props.status === 'Review' ? '-6px' : '-2px'};
+  }
+  
   @media (max-width: 600px) {
     height: 38px;
     width: ${(props) => props.status === 'Review' ? '122px' : '132px'};
@@ -197,6 +224,12 @@ const BottomLeftLabel = styled.div<Status>`
   padding-left: 18px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};
 
+  @media (max-width: 840px) {
+    width: 290px;
+    height: 41px;
+    padding-left: 14px;
+  }
+  
   @media (max-width: 600px) {
     width: 265px;
     height: 38px;
@@ -219,6 +252,12 @@ const RawData = styled.div`
     text-decoration: none;
   }
 
+  @media (max-width: 840px) {
+    right: 15px;
+    bottom: 12px;
+    font-size: 14px;
+  }
+
   @media (max-width: 600px) {
     right: 12px;
     bottom: 9px;
@@ -235,7 +274,7 @@ const VcDidDesktop = styled.span`
     text-decoration: underline;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     display: none;
   }
 `;
@@ -249,7 +288,7 @@ const VcDidMobile = styled.span`
     text-decoration: underline;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     display: inline;
   }
 `;

@@ -119,7 +119,7 @@ const Cards = styled.div`
   gap: 20px 24px;
   
   a {
-    @media (max-width: 600px) {
+    @media (max-width: 840px) {
       width: 100%;
     }
   }

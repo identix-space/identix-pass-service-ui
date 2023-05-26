@@ -146,7 +146,7 @@ const Wrapper = styled.div<{isSuccess?: boolean | null}>`
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     min-height: 300px;
     padding: 20px 15px;
   }
@@ -163,7 +163,7 @@ const Form = styled.form<{isSuccess?: boolean | null}>`
     width: 100%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     gap: ${props => props.isSuccess ? '30px' : '10px'};
   }
 `;
@@ -192,6 +192,12 @@ const Input = styled.input<{err?: boolean}>`
     outline: 0;
   }
 
+  @media (max-width: 840px) {
+    height: 50px;
+    padding: 12px 15px;
+    font-size: 15px;
+  }
+  
   @media (max-width: 600px) {
     height: 45px;
     padding: 12px 15px;
@@ -216,7 +222,7 @@ const Error = styled.div`
   font-size: 13px;
   margin-bottom: 15px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     padding: 0 10px 5px;
   }
 `;

@@ -124,6 +124,10 @@ export const Body5 = styled.p<TextProps>`
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
   }
 
+  @media(max-width: 840px) {
+    font-size: 22px;
+  }
+  
   @media(max-width: 600px) {
     font-size: 21px;
   }

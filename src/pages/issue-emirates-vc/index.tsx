@@ -101,7 +101,7 @@ const Wrapper = styled.div<{isSuccess?: boolean | null}>`
     margin-top: 0;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 840px) {
     gap: 30px;
     min-height: 300px;
     padding: 20px 15px;
