@@ -33,6 +33,7 @@ export const AuthProvider = (props: IAuthProvider) => {
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
+                    console.log('0', userDid.data?.whoami);
                     if (userDid.data?.whoami) {
                         setMyDid(userDid.data?.whoami.did);
                         console.log('1', userDid.data?.whoami);
