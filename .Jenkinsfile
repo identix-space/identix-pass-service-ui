@@ -1,7 +1,7 @@
 pipeline {
     agent none
     environment {
-       TELEGRAM_CHAT_ID = "-607951263"
+       TELEGRAM_CHAT_ID = "-498313790"
        SHORTCOMMIT=""
    }
     options {
