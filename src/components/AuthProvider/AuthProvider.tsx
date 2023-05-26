@@ -35,7 +35,9 @@ export const AuthProvider = (props: IAuthProvider) => {
                     const userDid = await whoami();
                     if (userDid.data?.whoami) {
                         setMyDid(userDid.data?.whoami.did);
+                        console.log('1', userDid.data?.whoami);
                         if (userDid.data?.whoami.connections) {
+                            console.log('2', userDid.data?.whoami);
                             setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
                         }
                         const isAccountExist = await checkAccountExist({
@@ -44,6 +46,8 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
+                            console.log('3', isAccountExist.data?.checkAccountExists);
+                            console.log('4', localStorage.getItem(authTokenConstant));
                             localStorage.removeItem(authTokenConstant);
                             //redirect('/');
                         } else {
@@ -57,6 +61,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                         //redirect('/');
                     }
                 } catch (e) {
+                    console.log('err', e);
                     localStorage.removeItem(authTokenConstant);
                     //redirect('/');
                 }
