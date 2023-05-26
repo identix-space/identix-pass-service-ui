@@ -23,11 +23,13 @@ export const LogIn: FC = () => {
         let token;
         try {
             token = extractTokenFromUrl(urlAfterLogin);
+            console.log('token 1', token);
         } catch (e) {
             console.log(e);
         }
         if (token) {
             setAuthorizationToken(token);
+            console.log('token 2', token);
             redirect('profile');
         }
     }, [router]);
