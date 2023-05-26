@@ -42,7 +42,7 @@ const SidePanel = (): JSX.Element => {
                     </UserInfo>
 
                     <div>
-                        <LogoutBtn onClick={onDeleteAccount} style={{display: 'none'}}>
+                        <LogoutBtn onClick={onDeleteAccount}>
                             Delete account
                         </LogoutBtn>
                         <LogoutBtn onClick={logout}>
