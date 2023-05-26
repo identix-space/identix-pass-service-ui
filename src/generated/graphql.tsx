@@ -74,6 +74,7 @@ export type EventLogEntry = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteAccount: Scalars['Boolean'];
   issueVC: Scalars['Boolean'];
   requestVcVerification: Scalars['Boolean'];
   verifyVC: Scalars['Boolean'];
@@ -116,6 +117,7 @@ export type Query = {
   getUserVCs: Array<Vc>;
   getVC: Vc;
   getVcTypes: Array<VcTypeInfo>;
+  logout: Scalars['Boolean'];
   whoami: Account;
 };
 
