@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../generated/graphql';
-import {redirect} from '../../utils/misc';
+// import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
 import {useMyAccountInfoStore} from '../../store/store';
 
@@ -67,7 +67,7 @@ export const AuthProvider = (props: IAuthProvider) => {
                     //redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                redirect('/profile');
+                // redirect('/profile');
             }
         })();
     }, []);
