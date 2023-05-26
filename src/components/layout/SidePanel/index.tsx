@@ -8,7 +8,6 @@ import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
 import {useDeleteAccountMutation} from '../../../generated/graphql';
 
-
 const SidePanel = (): JSX.Element => {
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
     const [deleteAccount] = useDeleteAccountMutation();
