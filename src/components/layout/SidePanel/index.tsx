@@ -2,36 +2,57 @@ import React from 'react';
 import {Tooltip} from 'react-tooltip';
 import styled from 'styled-components';
 import {Body3, Body4} from '../../../utils/typography';
-import {copyToClipboard, Logout, startAndEnd} from '../../../utils/misc';
+import {copyToClipboard, logout, startAndEnd} from '../../../utils/misc';
 import {useMyAccountInfoStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
+import {useDeleteAccountMutation} from '../../../generated/graphql';
 
 
 const SidePanel = (): JSX.Element => {
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
+    const [deleteAccount] = useDeleteAccountMutation();
+
+    const onDeleteAccount = async () => {
+        try {
+            await deleteAccount();
+            await logout();
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <>
             <Panel>
                 {myDid &&
-                    <>
-                        <UserInfo>
-                            {/*<Avatar>*/}
-                            {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
-                            {/*</Avatar>*/}
-                            <Name fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Name>
-                            <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
-                            <DidMd data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0" onClick={() => copyToClipboard(myDid)} style={{cursor: 'pointer'}}>{startAndEnd(myDid, 12)}</DidMd>
+                <>
+                    <UserInfo>
+                        {/*<Avatar>*/}
+                        {/*    <Image src="/assets/avatar.png" layout="fill" objectFit="cover"/>*/}
+                        {/*</Avatar>*/}
+                        <Name fontWeight={'bold'}>{dataFromUAE.fullnameEN}</Name>
+                        <Did data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0"
+                            onClick={() => copyToClipboard(myDid)}
+                            style={{cursor: 'pointer'}}>{startAndEnd(myDid, 14)}</Did>
+                        <DidMd data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" margin="14px 0 0"
+                            onClick={() => copyToClipboard(myDid)}
+                            style={{cursor: 'pointer'}}>{startAndEnd(myDid, 12)}</DidMd>
 
-                        </UserInfo>
-                        <LogoutBtn onClick={Logout}>
-                            <LogoutIcon className="fillstroke"/>
+                    </UserInfo>
+
+                    <div>
+                        <LogoutBtn onClick={onDeleteAccount} style={{display: 'none'}}>
+                            Delete account
+                        </LogoutBtn>
+                        <LogoutBtn onClick={logout}>
+                            <LogoutIcon className="fillstroke" />
                             <Title>Logout</Title>
                         </LogoutBtn>
-                    </>
+                    </div>
+                </>
                 }
-                <Tooltip id="copy-tooltip" content="Click to copy"/>
+                <Tooltip id="copy-tooltip" content="Click to copy" />
             </Panel>
         </>
     );
@@ -103,7 +124,7 @@ const LogoutBtn = styled.div`
 
 const Did = styled(Body3)`
   display: block;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -117,7 +138,7 @@ const Did = styled(Body3)`
 
 const DidMd = styled(Did)`
   display: none;
-  
+
   @media (max-width: 1000px) {
     display: block;
   }
