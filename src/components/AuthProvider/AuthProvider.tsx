@@ -58,12 +58,12 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         }
                     } else {
-                        localStorage.removeItem(authTokenConstant);
+                        //localStorage.removeItem(authTokenConstant);
                         //redirect('/');
                     }
                 } catch (e) {
                     console.log('err', e);
-                    localStorage.removeItem(authTokenConstant);
+                    //localStorage.removeItem(authTokenConstant);
                     //redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
