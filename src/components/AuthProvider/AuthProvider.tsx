@@ -30,6 +30,7 @@ export const AuthProvider = (props: IAuthProvider) => {
     // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         (async () => {
+            console.log(localStorage.getItem('authorization-token'));
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
