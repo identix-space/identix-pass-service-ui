@@ -1,13 +1,12 @@
 import {AgentsRoles} from '../generated/graphql';
 import {LogoutDocument} from '../generated/graphql';
-import {getApolloClient} from '../utils/ApolloClient';
+import {getApolloClient} from './ApolloClient';
 import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
-import {useRouter} from 'next/router';
-
-const router = useRouter();
 
 export function redirect(url: string): void {
-    router.push(url);
+    if (typeof window !== 'undefined') {
+        window.location.href = url;
+    }
 }
 
 export function generateSSORedirectUrl(): string {

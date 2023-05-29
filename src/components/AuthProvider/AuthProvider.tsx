@@ -4,6 +4,7 @@ import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQue
 // import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
 import {useMyAccountInfoStore} from '../../store/store';
+import {redirect} from '../../utils/misc';
 
 interface IAuthProvider {
     protectedRoutes: string[];
@@ -29,16 +30,12 @@ export const AuthProvider = (props: IAuthProvider) => {
     // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         (async () => {
-            console.log(localStorage.getItem('authorization-token'));
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
-                    console.log('0', userDid.data?.whoami);
                     if (userDid.data?.whoami) {
                         setMyDid(userDid.data?.whoami.did);
-                        console.log('1', userDid.data?.whoami);
                         if (userDid.data?.whoami.connections) {
-                            console.log('2', userDid.data?.whoami);
                             setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
                         }
                         const isAccountExist = await checkAccountExist({
@@ -47,10 +44,8 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
-                            console.log('3', isAccountExist.data?.checkAccountExists);
-                            console.log('4', localStorage.getItem(authTokenConstant));
                             localStorage.removeItem(authTokenConstant);
-                            //redirect('/');
+                            redirect('/');
                         } else {
                             const vcTypes = await getVcTypes();
                             if (vcTypes.data?.getVcTypes) {
@@ -58,16 +53,15 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         }
                     } else {
-                        //localStorage.removeItem(authTokenConstant);
-                        //redirect('/');
+                        localStorage.removeItem(authTokenConstant);
+                        redirect('/');
                     }
                 } catch (e) {
-                    console.log('err', e);
-                    //localStorage.removeItem(authTokenConstant);
-                    //redirect('/');
+                    localStorage.removeItem(authTokenConstant);
+                    redirect('/');
                 }
             } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                // redirect('/profile');
+                redirect('/profile');
             }
         })();
     }, []);
