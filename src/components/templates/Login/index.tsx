@@ -29,8 +29,9 @@ export const LogIn: FC = () => {
         }
         if (token) {
             setAuthorizationToken(token);
-            console.log('token 2', token);
-            //redirect('profile');
+            console.log('token 2 ', token);
+            router.push('/profile');
+            console.log('push');
         }
     }, [router]);
 
