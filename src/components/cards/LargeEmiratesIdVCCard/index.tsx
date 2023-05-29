@@ -4,7 +4,7 @@ import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/
 import {LargeEmiratesIdVCCardProps, Status} from './LargeEmiratesIdVCCard.props';
 import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
-import {copyToClipboard, formatDate, startAndEnd} from '../../../utils/misc';
+import {formatDate, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
 
 export const LargeEmiratesIdVCCard = ({did, status, url, vcParams, rawData}: LargeEmiratesIdVCCardProps): JSX.Element => {
@@ -73,7 +73,7 @@ export const LargeEmiratesIdVCCard = ({did, status, url, vcParams, rawData}: Lar
                 <Body5 fontWeight="700">{status}</Body5>
             </TopRightLabel>
             <BottomLeftLabel status={status}>
-                <Body2 fontWeight="700">VC DID: <a href={url} target="_blank" rel="noreferrer"><VcDidDesktop data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 9)}</VcDidMobile></a></Body2>
+                <Body2 fontWeight="700">VC DID: <a href={url} target="_blank" rel="noreferrer"><VcDidDesktop>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile>{startAndEnd(did, 9)}</VcDidMobile></a></Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
@@ -224,6 +224,15 @@ const BottomLeftLabel = styled.div<Status>`
   padding-left: 18px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};
 
+  a {
+    color: #FFFFFF;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  
   @media (max-width: 840px) {
     width: 290px;
     height: 41px;
