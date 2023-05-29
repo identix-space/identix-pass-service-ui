@@ -91,6 +91,7 @@ type Query {
 }
 
 type VC {
+  blockchain: String!
   createdAt: String!
   holderDid: String!
   issuerDid: String!

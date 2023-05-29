@@ -7,7 +7,7 @@ import {useModal} from '../../hooks/useModal';
 import {copyToClipboard, formatDate, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
 
-export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRealEstateVCCardProps): JSX.Element => {
+export const LargeRealEstateVCCard = ({did, status, url, vcParams, rawData}: LargeRealEstateVCCardProps): JSX.Element => {
     const {isShown, toggle} = useModal();
 
     function getJSON(json: string) {
@@ -83,7 +83,7 @@ export const LargeRealEstateVCCard = ({did, status, vcParams, rawData}: LargeRea
                 <Body5 fontWeight="700">{status}</Body5>
             </TopRightLabel>
             <BottomLeftLabel status={status}>
-                <Body2 fontWeight="700">VC DID: <VcDidDesktop data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 9)}</VcDidMobile></Body2>
+                <Body2 fontWeight="700">VC DID: <a href={url} target="_blank" rel="noreferrer"><VcDidDesktop data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile data-tooltip-id="copy-tooltip" data-tooltip-place="bottom" onClick={() => copyToClipboard(did)}>{startAndEnd(did, 9)}</VcDidMobile></a></Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
@@ -229,11 +229,20 @@ const BottomLeftLabel = styled.div<Status>`
   align-items: center;
   bottom: ${(props) => props.status === 'Review' ? '-1px' : '-2px'};
   left: -1px;
-  width: 400px;
-  height: 55px;
+  width: 430px;
+  height: 61px;
   padding-left: 18px;
   background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};
 
+  a {
+    color: #FFFFFF;
+    text-decoration: underline;
+    
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  
   @media (max-width: 840px) {
     width: 290px;
     height: 41px;

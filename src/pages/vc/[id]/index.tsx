@@ -28,11 +28,15 @@ export default function VcPage(): ReactNode {
     useEffect(() => {
         (async () => {
             if (router.query.id) {
-                const getVcData = await getVC({variables: {vcDid: router.query.id.toString()}});
-                if (getVcData.data?.getVC) {
-                    setVcData(getVcData.data?.getVC);
-                    setVcDataParams(JSON.parse(getVcData.data?.getVC.vcParams));
-                    setLoading(false);
+                try {
+                    const getVcData = await getVC({variables: {vcDid: router.query.id.toString()}});
+                    if (getVcData.data?.getVC) {
+                        setVcData(getVcData.data?.getVC);
+                        setVcDataParams(JSON.parse(getVcData.data?.getVC.vcParams));
+                        setLoading(false);
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
             }
         })();
@@ -59,6 +63,7 @@ export default function VcPage(): ReactNode {
                             <LargeEmiratesIdVCCard
                                 did={vcData.vcDid}
                                 status="Active"
+                                url={vcData.blockchain}
                                 vcParams={vcDataParams}
                                 rawData={vcData.vcRawText}/>
                         }
@@ -66,6 +71,7 @@ export default function VcPage(): ReactNode {
                             <LargeRealEstateVCCard
                                 did={vcData.vcDid}
                                 status="Active"
+                                url={vcData.blockchain}
                                 vcParams={vcDataParams}
                                 rawData={vcData.vcRawText}/>
                         }

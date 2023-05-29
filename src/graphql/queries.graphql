@@ -8,6 +8,7 @@ query getUserVCs($role: AgentsRoles, $page: Int, $limit: Int, $vcType: String) {
     holderDid
     createdAt
     updatedAt
+    blockchain
     verificationCases {
         verifierDid
         verificationStatus
@@ -31,6 +32,7 @@ query getVC($vcDid: String!) {
         holderDid
         createdAt
         updatedAt
+        blockchain
         verificationCases {
             verifierDid
             verificationStatus

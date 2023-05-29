@@ -1,6 +1,7 @@
 export interface LargeRealEstateVCCardProps {
     did: string;
     status: string;
+    url: string;
     rawData?: string;
     vcParams?: LargeRealEstateVCParamsProps;
 }
