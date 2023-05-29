@@ -12,7 +12,6 @@ interface IAuthProvider {
     children: ReactElement;
 }
 
-
 export const AuthProvider = (props: IAuthProvider) => {
 
     const authTokenConstant = 'authorization-token';
@@ -31,16 +30,12 @@ export const AuthProvider = (props: IAuthProvider) => {
     // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         (async () => {
-            console.log(localStorage.getItem('authorization-token'));
             if (pathIsProtected) {
                 try {
                     const userDid = await whoami();
-                    console.log('0', userDid.data?.whoami);
                     if (userDid.data?.whoami) {
                         setMyDid(userDid.data?.whoami.did);
-                        console.log('1', userDid.data?.whoami);
                         if (userDid.data?.whoami.connections) {
-                            console.log('2', userDid.data?.whoami);
                             setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
                         }
                         const isAccountExist = await checkAccountExist({
@@ -49,8 +44,6 @@ export const AuthProvider = (props: IAuthProvider) => {
                             }
                         });
                         if (!isAccountExist.data?.checkAccountExists) {
-                            console.log('3', isAccountExist.data?.checkAccountExists);
-                            console.log('4', localStorage.getItem(authTokenConstant));
                             localStorage.removeItem(authTokenConstant);
                             redirect('/');
                         } else {
@@ -64,7 +57,6 @@ export const AuthProvider = (props: IAuthProvider) => {
                         redirect('/');
                     }
                 } catch (e) {
-                    console.log('err', e);
                     localStorage.removeItem(authTokenConstant);
                     redirect('/');
                 }

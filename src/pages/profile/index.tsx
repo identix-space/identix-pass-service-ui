@@ -80,13 +80,13 @@ export default function ProfilePage(): ReactNode {
             }
             <Divider/>
             <Body2 fontWeight="bold" margin="25px 0 20px">Logs</Body2>
-            {dataLogs
+            {dataLogs && dataLogs.getEventLogEntries.length > 0
                 ? <Logs>
                     {dataLogs.getEventLogEntries.map((log, index) => (
                         <Body3 key={index}><span style={{color: '#7EF706'}}>{formatDate(log.eventDate)}</span> {log.message}</Body3>
                     ))}
                 </Logs>
-                : <></>
+                : <Body1>N/D</Body1>
             }
         </>
     );

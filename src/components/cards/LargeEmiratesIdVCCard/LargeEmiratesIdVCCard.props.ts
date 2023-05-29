@@ -2,6 +2,7 @@ export interface LargeEmiratesIdVCCardProps {
     did: string;
     status: string;
     rawData?: string;
+    url: string;
     vcParams?: LargeEmiratesIdVCParamsProps;
 }
 

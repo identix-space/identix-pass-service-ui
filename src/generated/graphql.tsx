@@ -14,7 +14,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
 
@@ -145,6 +147,7 @@ export type QueryGetVcArgs = {
 
 export type Vc = {
   __typename?: 'VC';
+  blockchain: Scalars['String'];
   createdAt: Scalars['String'];
   holderDid: Scalars['String'];
   issuerDid: Scalars['String'];
@@ -182,7 +185,7 @@ export type GetUserVCsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserVCsQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> }> };
+export type GetUserVCsQuery = { __typename?: 'Query', getUserVCs: Array<{ __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, blockchain: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> }> };
 
 export type CheckUserVCsQueryVariables = Exact<{
   role?: InputMaybe<AgentsRoles>;
@@ -197,7 +200,7 @@ export type GetVcQueryVariables = Exact<{
 }>;
 
 
-export type GetVcQuery = { __typename?: 'Query', getVC: { __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> } };
+export type GetVcQuery = { __typename?: 'Query', getVC: { __typename?: 'VC', vcDid: string, vcTypeDid: string, vcParams: string, vcRawText: string, issuerDid: string, holderDid: string, createdAt: string, updatedAt: string, blockchain: string, verificationCases: Array<{ __typename?: 'VerificationCase', verifierDid: string, verificationStatus: VerificationStatuses }> } };
 
 export type CheckAccountExistsQueryVariables = Exact<{
   did: Scalars['String'];
@@ -270,6 +273,7 @@ export const GetUserVCsDocument = gql`
     holderDid
     createdAt
     updatedAt
+    blockchain
     verificationCases {
       verifierDid
       verificationStatus
@@ -355,6 +359,7 @@ export const GetVcDocument = gql`
     holderDid
     createdAt
     updatedAt
+    blockchain
     verificationCases {
       verifierDid
       verificationStatus

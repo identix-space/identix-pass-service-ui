@@ -40,7 +40,7 @@ const SidePanel = (): JSX.Element => {
 
                     </UserInfo>
 
-                    <div>
+                    <Buttons>
                         <LogoutBtn onClick={onDeleteAccount}>
                             Delete account
                         </LogoutBtn>
@@ -48,7 +48,7 @@ const SidePanel = (): JSX.Element => {
                             <LogoutIcon className="fillstroke" />
                             <Title>Logout</Title>
                         </LogoutBtn>
-                    </div>
+                    </Buttons>
                 </>
                 }
                 <Tooltip id="copy-tooltip" content="Click to copy" />
@@ -81,10 +81,21 @@ const Panel = styled.aside`
   }
 
   @media (max-width: 600px) {
+    position: fixed;
     width: 100%;
     height: 122px;
     padding: 63px 0 6px;
     flex-direction: row;
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 600px) {
+    padding: 0 15px;
+    align-items: flex-end;
   }
 `;
 
@@ -100,6 +111,10 @@ const LogoutBtn = styled.div`
 
   .fillstroke {
     transition: all .2s;
+
+    @media (max-width: 600px) {
+      transform: scale(0.7);
+    }
   }
 
   &:hover {
@@ -117,7 +132,7 @@ const LogoutBtn = styled.div`
   }
 
   @media (max-width: 600px) {
-    padding: 0 15px;
+    height: 40px;
   }
 `;
 
@@ -154,6 +169,11 @@ const Title = styled.span`
 
   @media (min-width: 1400px) {
     margin-left: 16px;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 5px;
+    margin-top: 1px;
   }
 `;
 

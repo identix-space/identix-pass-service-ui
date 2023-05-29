@@ -19,19 +19,15 @@ export const LogIn: FC = () => {
 
     useEffect(() => {
         const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
-        console.log(urlAfterLogin);
         let token;
         try {
             token = extractTokenFromUrl(urlAfterLogin);
-            console.log('token 1', token);
         } catch (e) {
             console.log(e);
         }
         if (token) {
             setAuthorizationToken(token);
-            console.log('token 2 ', token);
-            router.push('/profile');
-            console.log('push');
+            redirect('/profile');
         }
     }, [router]);
 

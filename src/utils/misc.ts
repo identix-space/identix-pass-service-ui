@@ -1,6 +1,6 @@
 import {AgentsRoles} from '../generated/graphql';
 import {LogoutDocument} from '../generated/graphql';
-import {getApolloClient} from '../utils/ApolloClient';
+import {getApolloClient} from './ApolloClient';
 import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
 
 export function redirect(url: string): void {
