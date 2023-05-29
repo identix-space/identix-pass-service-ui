@@ -11,7 +11,6 @@ interface IAuthProvider {
     children: ReactElement;
 }
 
-
 export const AuthProvider = (props: IAuthProvider) => {
 
     const authTokenConstant = 'authorization-token';

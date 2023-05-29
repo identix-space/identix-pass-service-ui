@@ -30,7 +30,7 @@ export const LogIn: FC = () => {
         if (token) {
             setAuthorizationToken(token);
             console.log('token 2 ', token);
-            router.push('/profile');
+            redirect('/profile');
             console.log('push');
         }
     }, [router]);
