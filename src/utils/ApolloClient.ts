@@ -35,6 +35,7 @@ const httpLink = new HttpLink({
 const authLink = setContext((_, {headers}) => {
     if (typeof localStorage !== 'undefined') {
         const token = localStorage.getItem('authorization-token');
+        console.log(token);
 
         if (token) {
             return {
