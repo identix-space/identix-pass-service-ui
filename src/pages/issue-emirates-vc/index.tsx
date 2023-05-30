@@ -7,6 +7,7 @@ import {Body1, Body4} from '../../utils/typography';
 import {useMyAccountInfoStore} from '../../store/store';
 import {AgentsRoles, useCheckUserVCsLazyQuery, useIssuerVcMutation} from '../../generated/graphql';
 import router from 'next/router';
+import { getApolloError } from '../../utils/misc';
 
 export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
@@ -32,8 +33,8 @@ export default function IssueEmiratesVCPage(): ReactNode {
                 idcardIssuer: ''
             })
         },
-        onError: () => {
-            messageApi?.error('Something went wrong');
+        onError: (e) => {
+            messageApi?.error(getApolloError(e));
         }
     });
 
@@ -78,7 +79,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <ButtonGradient onClick={() => router.back()}>Back</ButtonGradient>
                             </>
                             : <>
-                                <Body1 onClick={() => messageApi?.error('Error')}>Explaining message</Body1>
+                                <Body1>Explaining message</Body1>
                                 <ButtonGradient disabled={isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>

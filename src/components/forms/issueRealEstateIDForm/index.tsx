@@ -9,8 +9,8 @@ import {useGetVcTypesQuery, useIssuerVcMutation} from '../../../generated/graphq
 import {useMyAccountInfoStore} from '../../../store/store';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker, {DayValue, utils} from '@hassanmojab/react-modern-calendar-datepicker';
-import {convertDate} from '../../../utils/misc';
 import {MessageContext} from '../../providers/MessageProvider';
+import { convertDate, getApolloError } from '../../../utils/misc';
 
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -37,8 +37,8 @@ export const IssueRealEstateIDForm: FC = () => {
     });
     const {data: vcTypesData} = useGetVcTypesQuery();
     const [issuerVc, {loading, data}] = useIssuerVcMutation({
-        onError: () => {
-            messageApi?.error('Something went wrong');
+        onError: (e) => {
+            messageApi?.error(getApolloError(e));
         }
     });
 
