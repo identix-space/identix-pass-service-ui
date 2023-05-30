@@ -1,6 +1,6 @@
 import React, {createContext, ReactElement} from 'react';
 import {message} from 'antd';
-import {MessageInstance} from 'antd/es/message/interface';
+import {MessageInstance} from 'antd/es/message';
 
 export const MessageContext = createContext<MessageInstance | null>(null);
 
