@@ -2,7 +2,7 @@ import {AgentsRoles} from '../generated/graphql';
 import {LogoutDocument} from '../generated/graphql';
 import {getApolloClient} from './ApolloClient';
 import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
-import { ApolloError } from '@apollo/client';
+import {ApolloError} from '@apollo/client';
 
 export function redirect(url: string): void {
     if (typeof window !== 'undefined') {
@@ -80,9 +80,14 @@ export const convertDate = (date: Day) => {
 };
 
 export const getApolloError = (err: ApolloError) => {
-    if (err && err.message) {
-        return err.message.substr(0, 200);
-    }
+    const defaultError = 'Something went wrong';
+    try {
+        if (err && err.message) {
+            return err.message.substr(0, 200);
+        }
 
-    return 'Something went wrong';
+        return defaultError;
+    } catch {
+        return defaultError;
+    }
 };

@@ -10,7 +10,7 @@ import {useMyAccountInfoStore} from '../../../store/store';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker, {DayValue, utils} from '@hassanmojab/react-modern-calendar-datepicker';
 import {MessageContext} from '../../providers/MessageProvider';
-import { convertDate, getApolloError } from '../../../utils/misc';
+import {convertDate, getApolloError} from '../../../utils/misc';
 
 
 // eslint-disable-next-line sonarjs/cognitive-complexity

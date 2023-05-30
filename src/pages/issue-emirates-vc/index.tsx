@@ -7,7 +7,7 @@ import {Body1, Body4} from '../../utils/typography';
 import {useMyAccountInfoStore} from '../../store/store';
 import {AgentsRoles, useCheckUserVCsLazyQuery, useIssuerVcMutation} from '../../generated/graphql';
 import router from 'next/router';
-import { getApolloError } from '../../utils/misc';
+import {getApolloError} from '../../utils/misc';
 
 export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
