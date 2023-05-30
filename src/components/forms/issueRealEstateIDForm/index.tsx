@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import {useFormFields} from './useFormHook';
@@ -10,6 +10,7 @@ import {useMyAccountInfoStore} from '../../../store/store';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker, {DayValue, utils} from '@hassanmojab/react-modern-calendar-datepicker';
 import {convertDate} from '../../../utils/misc';
+import {MessageContext} from '../../providers/MessageProvider';
 
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -19,6 +20,7 @@ export const IssueRealEstateIDForm: FC = () => {
     const [issuanceDate, setIssuanceDate] = useState<DayValue>(null);
     const [ownershipBeginDate, setOwnershipBeginDate] = useState<DayValue>(null);
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
+    const messageApi = useContext(MessageContext);
     const [fields, handleFieldChange] = useFormFields({
         titledeedid: '',
         city: '',
@@ -34,7 +36,11 @@ export const IssueRealEstateIDForm: FC = () => {
         certificate_id: ''
     });
     const {data: vcTypesData} = useGetVcTypesQuery();
-    const [issuerVc, {loading, data}] = useIssuerVcMutation();
+    const [issuerVc, {loading, data}] = useIssuerVcMutation({
+        onError: () => {
+            messageApi?.error('Something went wrong');
+        }
+    });
 
     const issueVc = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
@@ -71,7 +77,7 @@ export const IssueRealEstateIDForm: FC = () => {
 
     return (
         <Wrapper isSuccess={isSuccess}>
-            {(loading && !data) ? <Loader/>
+            {(loading && !data) ? <Loader />
                 : <Form isSuccess={data && isSuccess}>
                     <Body4 fontWeight={'bold'}>Real Estate ID issuance</Body4>
                     {data && isSuccess
@@ -84,17 +90,22 @@ export const IssueRealEstateIDForm: FC = () => {
                             </Link>
                         </>
                         : <>
-                            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID" err={!match && fields.titledeedid === ''} onChange={handleFieldChange}/>
+                            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID"
+                                err={!match && fields.titledeedid === ''} onChange={handleFieldChange} />
                             <Input id="city" type="text" placeholder="City" err={!match && fields.city === ''}
-                                onChange={handleFieldChange}/>
-                            <Input id="district" type="text" placeholder="District" err={!match && fields.district === ''}
-                                onChange={handleFieldChange}/>
+                                onChange={handleFieldChange} />
+                            <Input id="district" type="text" placeholder="District"
+                                err={!match && fields.district === ''}
+                                onChange={handleFieldChange} />
                             <Input id="address" type="text" placeholder="Address" err={!match && fields.address === ''}
-                                onChange={handleFieldChange}/>
-                            <Input id="type" type="text" placeholder="Type" err={!match && fields.type === ''} onChange={handleFieldChange}/>
-                            <Input id="bedrooms" type="text" placeholder="Bedrooms" err={!match && fields.bedrooms === ''} onChange={handleFieldChange}/>
-                            <Input id="livingspace" type="text" placeholder="Living space" err={!match && fields.livingspace === ''} onChange={handleFieldChange}/>
-                            <Input id="owner" type="text" placeholder="Owner" value={dataFromUAE.fullnameEN} disabled/>
+                                onChange={handleFieldChange} />
+                            <Input id="type" type="text" placeholder="Type" err={!match && fields.type === ''}
+                                onChange={handleFieldChange} />
+                            <Input id="bedrooms" type="text" placeholder="Bedrooms"
+                                err={!match && fields.bedrooms === ''} onChange={handleFieldChange} />
+                            <Input id="livingspace" type="text" placeholder="Living space"
+                                err={!match && fields.livingspace === ''} onChange={handleFieldChange} />
+                            <Input id="owner" type="text" placeholder="Owner" value={dataFromUAE.fullnameEN} disabled />
                             <DatePicker
                                 value={ownershipBeginDate}
                                 colorPrimary="#0BCDED"
@@ -102,8 +113,9 @@ export const IssueRealEstateIDForm: FC = () => {
                                 inputPlaceholder="Ownership Begin Date"
                                 inputClassName={(!match && ownershipBeginDate === null) ? 'datepickerError' : ''}
                             />
-                            <Input id="issuance_institution" type="text" placeholder="Issuance institution" err={!match && fields.issuance_institution === ''}
-                                onChange={handleFieldChange}/>
+                            <Input id="issuance_institution" type="text" placeholder="Issuance institution"
+                                err={!match && fields.issuance_institution === ''}
+                                onChange={handleFieldChange} />
                             <DatePicker
                                 value={issuanceDate}
                                 colorPrimary="#0BCDED"
@@ -112,7 +124,8 @@ export const IssueRealEstateIDForm: FC = () => {
                                 inputPlaceholder="Issuance Date"
                                 inputClassName={(!match && issuanceDate === null) ? 'datepickerError' : ''}
                             />
-                            <Input id="certificate_id" type="text" placeholder="Certificate ID" err={!match && fields.certificate_id === ''} onChange={handleFieldChange}/>
+                            <Input id="certificate_id" type="text" placeholder="Certificate ID"
+                                err={!match && fields.certificate_id === ''} onChange={handleFieldChange} />
                             <ButtonWrapper>
                                 {!match ? <Error>Please, fill in required fields</Error> : <></>}
                                 <Button onClick={(e) => issueVc(e)}>Issue VC on behalf of Dubai Land Department</Button>
@@ -125,7 +138,7 @@ export const IssueRealEstateIDForm: FC = () => {
     );
 };
 
-const Wrapper = styled.div<{isSuccess?: boolean | null}>`
+const Wrapper = styled.div<{ isSuccess?: boolean | null }>`
   min-height: 360px;
   display: flex;
   flex-direction: column;
@@ -152,7 +165,7 @@ const Wrapper = styled.div<{isSuccess?: boolean | null}>`
   }
 `;
 
-const Form = styled.form<{isSuccess?: boolean | null}>`
+const Form = styled.form<{ isSuccess?: boolean | null }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -168,7 +181,7 @@ const Form = styled.form<{isSuccess?: boolean | null}>`
   }
 `;
 
-const Input = styled.input<{err?: boolean}>`
+const Input = styled.input<{ err?: boolean }>`
   width: 100%;
   height: 55px;
   padding: 14px 21px;

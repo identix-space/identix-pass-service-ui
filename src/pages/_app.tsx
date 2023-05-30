@@ -5,7 +5,7 @@ import type {NextPage} from 'next';
 import {AppProps} from 'next/app';
 import '../styles/globals.scss';
 import '../styles/fonts.scss';
-import {AuthProvider} from '../components/AuthProvider/AuthProvider';
+import {AuthProvider, MessageProvider} from '../components/providers';
 import {privateRoutes, publicRoutes} from '../constants';
 
 type NextPageWithLayout = NextPage & {
@@ -20,7 +20,9 @@ export default function MyApp({Component, pageProps}: AppPropsWithLayout): React
     const getLayout = Component.getLayout ?? ((page) => page);
     return getLayout(<ApolloProvider client={getApolloClient}>
         <AuthProvider protectedRoutes={privateRoutes} publicRoutes={publicRoutes}>
-            <Component {...pageProps} />
+            <MessageProvider>
+                <Component {...pageProps} />
+            </MessageProvider>
         </AuthProvider>
     </ApolloProvider>);
 }

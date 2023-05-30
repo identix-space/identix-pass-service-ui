@@ -1,5 +1,6 @@
-import React, {ReactElement, ReactNode, useEffect, useState} from 'react';
+import React, {ReactElement, ReactNode, useEffect, useState, useContext} from 'react';
 import styled from 'styled-components';
+import {MessageContext} from '../../components/providers';
 import Layout from '../../components/layout';
 import {Breadcrumbs, ButtonGradient, Loader} from '../../components/elements';
 import {Body1, Body4} from '../../utils/typography';
@@ -11,6 +12,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const {dataFromUAE, myDid, vcTypes} = useMyAccountInfoStore();
+    const messageApi = useContext(MessageContext);
 
     const [checkUserVCs] = useCheckUserVCsLazyQuery();
     const [issuerVc, {loading, data}] = useIssuerVcMutation({
@@ -29,6 +31,9 @@ export default function IssueEmiratesVCPage(): ReactNode {
                 idcardExpirationDate: '',
                 idcardIssuer: ''
             })
+        },
+        onError: () => {
+            messageApi?.error('Something went wrong');
         }
     });
 
@@ -73,7 +78,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <ButtonGradient onClick={() => router.back()}>Back</ButtonGradient>
                             </>
                             : <>
-                                <Body1>Explaining message</Body1>
+                                <Body1 onClick={() => messageApi?.error('Error')}>Explaining message</Body1>
                                 <ButtonGradient disabled={isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>
