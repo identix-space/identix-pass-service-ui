@@ -38,7 +38,7 @@ export default function VerifyRealEstatePage(): ReactNode {
                 <VerifyResultWrapper>
                     {loading && <Loader />}
                     {data && data.verifyVC && <Title3 color={COLORS.green}>Verify passed</Title3>}
-                    {data && !data.verifyVC && <Title3 color={COLORS.red}>Verified failed</Title3>}
+                    {data && !data.verifyVC && <Title3 color={COLORS.red}>Verification failed</Title3>}
                     {error && <Title3 color={COLORS.red}>Something went wrong</Title3>}
                 </VerifyResultWrapper>
             </Wrapper>

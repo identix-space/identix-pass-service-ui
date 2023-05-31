@@ -90,7 +90,7 @@ export const IssueRealEstateIDForm: FC = () => {
                             </Link>
                         </>
                         : <>
-                            <Input id="titledeedid" type="text" placeholder="Real Estate Gov ID"
+                            <Input id="titledeedid" type="text" placeholder="Title deed"
                                 err={!match && fields.titledeedid === ''} onChange={handleFieldChange} />
                             <Input id="city" type="text" placeholder="City" err={!match && fields.city === ''}
                                 onChange={handleFieldChange} />
