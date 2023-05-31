@@ -1,16 +1,19 @@
-import React, {ReactElement, ReactNode, useEffect, useState} from 'react';
+import React, {ReactElement, ReactNode, useEffect, useState, useContext} from 'react';
 import styled from 'styled-components';
+import {MessageContext} from '../../components/providers';
 import Layout from '../../components/layout';
 import {Breadcrumbs, ButtonGradient, Loader} from '../../components/elements';
 import {Body1, Body4} from '../../utils/typography';
 import {useMyAccountInfoStore} from '../../store/store';
 import {AgentsRoles, useCheckUserVCsLazyQuery, useIssuerVcMutation} from '../../generated/graphql';
 import router from 'next/router';
+import {getApolloError} from '../../utils/misc';
 
 export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const {dataFromUAE, myDid, vcTypes} = useMyAccountInfoStore();
+    const messageApi = useContext(MessageContext);
 
     const [checkUserVCs] = useCheckUserVCsLazyQuery();
     const [issuerVc, {loading, data}] = useIssuerVcMutation({
@@ -29,6 +32,9 @@ export default function IssueEmiratesVCPage(): ReactNode {
                 idcardExpirationDate: '',
                 idcardIssuer: ''
             })
+        },
+        onError: (e) => {
+            messageApi?.error(getApolloError(e));
         }
     });
 

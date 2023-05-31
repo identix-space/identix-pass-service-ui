@@ -1,10 +1,10 @@
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../generated/graphql';
+import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../../generated/graphql';
 // import {redirect} from '../../utils/misc';
 import {ReactElement} from 'react';
-import {useMyAccountInfoStore} from '../../store/store';
-import {redirect} from '../../utils/misc';
+import {useMyAccountInfoStore} from '../../../store/store';
+import {redirect} from '../../../utils/misc';
 
 interface IAuthProvider {
     protectedRoutes: string[];

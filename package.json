@@ -16,6 +16,7 @@
         "@apollo/client": "^3.5.10",
         "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
         "@types/react-qr-reader": "^2.1.4",
+        "antd": "5.1.0",
         "apollo-server-micro": "^3.6.7",
         "apollo3-cache-persist": "^0.14.0",
         "dotenv": "^16.0.0",
