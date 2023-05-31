@@ -1,18 +1,22 @@
 import React, {ReactElement, ReactNode, useEffect, useState} from 'react';
 import Link from 'next/link';
 import Layout from '../../components/layout';
-import {Button} from '../../components/elements';
+import {Button, Loader} from '../../components/elements';
 import styled from 'styled-components';
-import {Body1, Body2, Body3} from '../../utils/typography';
+import {Body1, Body2, Body3, Title3} from '../../utils/typography';
 import {EmiratesIDVCCard, RealEstateIDCard} from '../../components/cards';
 import {AgentsRoles, useGetEventLogEntriesQuery, useGetUserVCsLazyQuery, Vc} from '../../generated/graphql';
 import {useMyAccountInfoStore} from '../../store/store';
 import {formatDate} from '../../utils/misc';
+import {COLORS} from '../../utils/colors';
 
 export default function ProfilePage(): ReactNode {
+    const [error, setError] = useState('');
     const [realEstateVCs, setRealEstateVCs] = useState<Vc[]>();
     const [emiratesIDVCs, setEmiratesIDVCs] = useState<Vc[]>();
-    const [isEmiratesAvailable, setIsEmiratesAvailable] = useState(false);
+    const [isEmiratesAvailable, setIsEmiratesAvailable] = useState<boolean>(false);
+    const [isVerifyAvailable, setIsVerifyAvailable] = useState<boolean>(false);
+    const [loadingVCs, setLoadingVCs] = useState<boolean>(true);
     const [getVCs] = useGetUserVCsLazyQuery({variables: {role: AgentsRoles.Issuer}});
     const {data: dataLogs} = useGetEventLogEntriesQuery({fetchPolicy: 'cache-and-network', variables: {count: 10}});
     const {vcTypes} = useMyAccountInfoStore();
@@ -20,14 +24,27 @@ export default function ProfilePage(): ReactNode {
     useEffect(() => {
         if (vcTypes.length > 0) {
             (async () => {
-                const dataGetVCs = await getVCs();
-                if (dataGetVCs.data?.getUserVCs) {
-                    setRealEstateVCs(dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid));
-                    const EIDVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid);
-                    setEmiratesIDVCs(EIDVCs);
-                    if (EIDVCs.length === 0) {
-                        setIsEmiratesAvailable(true);
+                try {
+                    const dataGetVCs = await getVCs();
+                    if (dataGetVCs.data?.getUserVCs) {
+                        const REVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid);
+                        const EIDVCs = dataGetVCs.data?.getUserVCs.filter(x => x.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid);
+                        setRealEstateVCs(REVCs);
+                        if (REVCs.length > 0) {
+                            setIsVerifyAvailable(true);
+                        }
+                        setEmiratesIDVCs(EIDVCs);
+                        if (EIDVCs.length === 0) {
+                            setIsEmiratesAvailable(true);
+                        }
+                        setLoadingVCs(false);
                     }
+                } catch (e) {
+                    console.error(e);
+                    setError(
+                        'Please, try again.'
+                    );
+                    setLoadingVCs(false);
                 }
             })();
         }
@@ -35,12 +52,6 @@ export default function ProfilePage(): ReactNode {
 
     return (
         <>
-            <Link href={'/verify-real-estate'}>
-                <a>
-                    <Button>Verify My Real Estate</Button>
-                </a>
-            </Link>
-            <Divider/>
             <ButtonLink disabled={!isEmiratesAvailable}>
                 <Link href={'/issue-emirates-vc'}>
                     <a>
@@ -49,17 +60,23 @@ export default function ProfilePage(): ReactNode {
                 </Link>
             </ButtonLink>
             <Body2 fontWeight="bold" margin="25px 0 20px">Your Emirates ID Credentials</Body2>
-            {emiratesIDVCs && emiratesIDVCs.length > 0
-                ? <Cards>
-                    {emiratesIDVCs.map((vc: Vc, index: number) => (
-                        <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
-                            <a>
-                                <EmiratesIDVCCard did={vc.vcDid} firstName={JSON.parse(vc.vcParams).firstNameEN} lastName={JSON.parse(vc.vcParams).lastNameEN}/>
-                            </a>
-                        </Link>
-                    ))}
-                </Cards> : <Body1>N/D</Body1>
+            {loadingVCs ? <Loader/>
+                : <>
+                    {emiratesIDVCs && emiratesIDVCs.length > 0
+                        ? <Cards>
+                            {emiratesIDVCs.map((vc: Vc, index: number) => (
+                                <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
+                                    <a>
+                                        <EmiratesIDVCCard did={vc.vcDid} firstName={JSON.parse(vc.vcParams).firstNameEN}
+                                            lastName={JSON.parse(vc.vcParams).lastNameEN}/>
+                                    </a>
+                                </Link>
+                            ))}
+                        </Cards> : <Body1>N/D</Body1>
+                    }
+                </>
             }
+            {error && <Error>{error}</Error>}
             <Divider/>
             <Link href={'/issue-real-estate-vc'}>
                 <a>
@@ -67,23 +84,41 @@ export default function ProfilePage(): ReactNode {
                 </a>
             </Link>
             <Body2 fontWeight="bold" margin="25px 0 20px">Your Real Estate Credentials</Body2>
-            {realEstateVCs && realEstateVCs.length > 0
-                ? <Cards>
-                    {realEstateVCs.map((vc: Vc, index: number) => (
-                        <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
-                            <a>
-                                <RealEstateIDCard key={index} titledeedid={JSON.parse(vc.vcParams).titledeedid} type={JSON.parse(vc.vcParams).type} address={JSON.parse(vc.vcParams).address} city={JSON.parse(vc.vcParams).city} owner={JSON.parse(vc.vcParams).owner}/>
-                            </a>
-                        </Link>
-                    ))}
-                </Cards> : <Body1>N/D</Body1>
+            {loadingVCs ? <Loader/>
+                : <>
+                    {realEstateVCs && realEstateVCs.length > 0
+                        ? <Cards>
+                            {realEstateVCs.map((vc: Vc, index: number) => (
+                                <Link href={`/vc/${vc.vcDid}`} key={index} passHref>
+                                    <a>
+                                        <RealEstateIDCard key={index} titledeedid={JSON.parse(vc.vcParams).titledeedid}
+                                            type={JSON.parse(vc.vcParams).type}
+                                            address={JSON.parse(vc.vcParams).address}
+                                            city={JSON.parse(vc.vcParams).city}
+                                            owner={JSON.parse(vc.vcParams).owner}/>
+                                    </a>
+                                </Link>
+                            ))}
+                        </Cards> : <Body1>N/D</Body1>
+                    }
+                </>
             }
+            {error && <Error>{error}</Error>}
+            <Divider/>
+            <ButtonLink disabled={!isVerifyAvailable}>
+                <Link href={'/verify-real-estate'}>
+                    <a>
+                        <Button disabled={!isVerifyAvailable}>Verify My Real Estate</Button>
+                    </a>
+                </Link>
+            </ButtonLink>
             <Divider/>
             <Body2 fontWeight="bold" margin="25px 0 20px">Logs</Body2>
             {dataLogs && dataLogs.getEventLogEntries.length > 0
                 ? <Logs>
                     {dataLogs.getEventLogEntries.map((log, index) => (
-                        <Body3 key={index}><span style={{color: '#7EF706'}}>{formatDate(log.eventDate)}</span> {log.message}</Body3>
+                        <Body3 key={index}><span
+                            style={{color: '#7EF706'}}>{formatDate(log.eventDate)}</span> {log.message}</Body3>
                     ))}
                 </Logs>
                 : <Body1>N/D</Body1>
@@ -131,6 +166,12 @@ const Logs = styled.div`
   p {
     word-wrap: break-word;
   }
+`;
+
+const Error = styled(Title3)`
+  margin: 40px auto;
+  text-align: center;
+  color: ${COLORS.red};
 `;
 
 ProfilePage.getLayout = function getLayout(page: ReactElement) {
