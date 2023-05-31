@@ -73,7 +73,9 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <ButtonGradient onClick={() => router.back()}>Back</ButtonGradient>
                             </>
                             : <>
-                                <Body1>Explaining message</Body1>
+                                <Body1>Issue a Verifiable Credential for your Emirates ID
+                                    and store it into VENOM blockchain.
+                                    The data provided by UAE Pass will be used.</Body1>
                                 <ButtonGradient disabled={isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>
