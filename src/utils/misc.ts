@@ -33,13 +33,10 @@ export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
 }
 
-export async function logout() {
-    try {
-        await getApolloClient.query({query: LogoutDocument});
-    } finally {
-        localStorage.clear();
-        //redirect('/');
-    }
+export function logout() {
+    getApolloClient.query({query: LogoutDocument});
+    localStorage.clear();
+    redirect('/');
 }
 
 export function startAndEnd(str: string, gap: number) {
