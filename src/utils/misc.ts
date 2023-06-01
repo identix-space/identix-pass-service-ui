@@ -38,7 +38,7 @@ export async function logout() {
         await getApolloClient.query({query: LogoutDocument});
     } finally {
         localStorage.clear();
-        redirect('/');
+        //redirect('/');
     }
 }
 
