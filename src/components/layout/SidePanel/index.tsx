@@ -7,10 +7,12 @@ import {useMyAccountInfoStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
 import {useDeleteAccountMutation} from '../../../generated/graphql';
+import {useRouter} from 'next/router';
 
 const SidePanel = (): JSX.Element => {
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
     const [deleteAccount] = useDeleteAccountMutation();
+    const router = useRouter();
 
     const onDeleteAccount = async () => {
         try {
@@ -19,6 +21,11 @@ const SidePanel = (): JSX.Element => {
         } catch (e) {
             console.error(e);
         }
+    };
+
+    const onLogout = async () => {
+        logout();
+        router.push('/');
     };
 
     return (
@@ -44,7 +51,7 @@ const SidePanel = (): JSX.Element => {
                         <LogoutBtn onClick={onDeleteAccount}>
                             Delete account
                         </LogoutBtn>
-                        <LogoutBtn onClick={logout}>
+                        <LogoutBtn onClick={onLogout}>
                             <LogoutIcon className="fillstroke" />
                             <Title>Logout</Title>
                         </LogoutBtn>
