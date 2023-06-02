@@ -8,8 +8,8 @@ export const RealEstateIDCard = ({type, address, city, titledeedid, owner}: Real
     return (<>
         <Card>
             <ImageTitleBlock>
-                <TitleDeed color="#909090" margin="2px 0 0">{titledeedid} {titledeedid} {titledeedid} {titledeedid} {titledeedid} {titledeedid} {titledeedid} {titledeedid}</TitleDeed>
-                <Address fontWeight="700" color="black" margin="2px 0 0">{type} in {address}, {city} shfhjagfghjh ghjhdjkasgf hghfjghfgkjahgjlfshafklashfkls</Address>
+                <TitleDeed color="#909090" margin="2px 0 0">{titledeedid}</TitleDeed>
+                <Address fontWeight="700" color="black" margin="2px 0 0">{type} in {address}, {city}</Address>
             </ImageTitleBlock>
             <BottomLeftLabel>
                 <Label2 fontWeight="600">{owner}</Label2>
