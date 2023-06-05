@@ -50,6 +50,9 @@ export default function VerifyRealEstatePage(): ReactNode {
                     {error && <Title3 color={COLORS.red}>Something went wrong</Title3>}
                 </VerifyResultWrapper>
             </Wrapper>
+
+            {/*Load logo image*/}
+            <Logo style={{display: 'none'}}/>
         </>
     );
 }
