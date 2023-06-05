@@ -92,7 +92,7 @@ const Card = styled.div<Status>`
   min-height: 340px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
-  border-radius: 8px;
+  border-radius: 10px;
   border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
   padding: 22px 25px;
 
@@ -222,7 +222,7 @@ const BottomLeftLabel = styled.div<Status>`
   width: 430px;
   height: 61px;
   padding-left: 18px;
-  background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') center/contain no-repeat'};
+  background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') bottom left/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') bottom left/contain no-repeat'};
 
   a {
     color: #FFFFFF;

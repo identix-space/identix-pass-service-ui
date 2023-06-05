@@ -77,6 +77,7 @@ const BottomLeftLabel = styled.div`
   @media(max-width: 600px) {
     width: 249px;
     height: 24.7px;
+    bottom: -1px;
     padding-bottom: 2px;
   }
 `;
