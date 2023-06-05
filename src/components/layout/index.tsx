@@ -27,7 +27,6 @@ const Layout = ({children, title = 'Identix.Pass'}: Props) => {
                         <Workplace>
                             <SidePanel/>
                             <Content>
-                                {/*<SearchBar/>*/}
                                 {children}
                             </Content>
                         </Workplace>
@@ -43,7 +42,7 @@ const Main = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: url('/assets/bg.png') center/cover no-repeat;
+  background: url('/assets/bg.webp') center/cover no-repeat;
 `;
 
 const Workplace = styled.div`

@@ -1,6 +1,4 @@
 import {AgentsRoles} from '../generated/graphql';
-import {LogoutDocument} from '../generated/graphql';
-import {getApolloClient} from './ApolloClient';
 import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
 import {ApolloError} from '@apollo/client';
 
@@ -16,13 +14,11 @@ export function generateSSORedirectUrl(): string {
 
 export function extractTokenFromUrl(url: string): string {
     const queryParams = new URLSearchParams(new URL(url).search);
-    const userAccessToekn = queryParams.get('token');
-    console.log('tokenUrl', userAccessToekn);
-    console.log('query', queryParams);
-    if (!userAccessToekn) {
+    const userAccessToken = queryParams.get('token');
+    if (!userAccessToken) {
         return '';
     }
-    return decodeURIComponent(userAccessToekn);
+    return decodeURIComponent(userAccessToken);
 }
 
 export function setAuthorizationToken(token: string) {
@@ -31,12 +27,6 @@ export function setAuthorizationToken(token: string) {
 
 export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
-}
-
-export function logout() {
-    getApolloClient.query({query: LogoutDocument});
-    localStorage.clear();
-    redirect('/');
 }
 
 export function startAndEnd(str: string, gap: number) {

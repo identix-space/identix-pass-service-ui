@@ -1,70 +1,110 @@
-import {useEffect} from 'react';
+import React, {ReactElement, createContext, useContext, useState, useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useWhoamiLazyQuery, useCheckAccountExistsLazyQuery, useGetVcTypesLazyQuery} from '../../../generated/graphql';
-// import {redirect} from '../../utils/misc';
-import {ReactElement} from 'react';
+import {
+    useCheckAccountExistsLazyQuery,
+    useGetVcTypesLazyQuery, useLogoutLazyQuery,
+    useWhoamiLazyQuery
+} from '../../../generated/graphql';
 import {useMyAccountInfoStore} from '../../../store/store';
+import {privateRoutes} from '../../../constants';
 import {redirect} from '../../../utils/misc';
 
+interface IAuthContext {
+    isAuthenticated?: boolean;
+    login: () => void;
+    logoutFunc: () => void;
+    isLoading?: boolean;
+}
+
 interface IAuthProvider {
-    protectedRoutes: string[];
-    publicRoutes: string[];
     children: ReactElement;
 }
 
-export const AuthProvider = (props: IAuthProvider) => {
+const AuthContext = createContext<IAuthContext | null>(null);
 
-    const authTokenConstant = 'authorization-token';
-
+function AuthProvider({children}: IAuthProvider) {
     const router = useRouter();
+    const authTokenConstant = 'authorization-token';
+    const pathIsProtected = privateRoutes.includes(router.pathname.split('/')[1]);
 
-    const pathIsProtected = props.protectedRoutes.includes(router.pathname.split('/')[1]);
-    const pathIsPublic = props.publicRoutes.includes(router.pathname);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const {setMyDid, setDataFromUAE, setVcTypes} = useMyAccountInfoStore();
 
     const [whoami] = useWhoamiLazyQuery();
+    const [logout] = useLogoutLazyQuery();
     const [checkAccountExist] = useCheckAccountExistsLazyQuery();
     const [getVcTypes] = useGetVcTypesLazyQuery();
 
-    const {setMyDid, setDataFromUAE, setVcTypes} = useMyAccountInfoStore();
-
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
-        (async () => {
-            if (pathIsProtected) {
-                try {
-                    const userDid = await whoami();
-                    if (userDid.data?.whoami) {
-                        setMyDid(userDid.data?.whoami.did);
-                        if (userDid.data?.whoami.connections) {
-                            setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
+        login();
+    }, []);
+
+    const login = async () => {
+        if (pathIsProtected) {
+            try {
+                const userDid = await whoami();
+                if (userDid.data?.whoami) {
+                    setMyDid(userDid.data?.whoami.did);
+                    if (userDid.data?.whoami.connections) {
+                        setDataFromUAE(userDid.data?.whoami.connections[0]?.otherData);
+                    }
+                    const isAccountExist = await checkAccountExist({
+                        variables: {
+                            did: userDid.data?.whoami.did
                         }
-                        const isAccountExist = await checkAccountExist({
-                            variables: {
-                                did: userDid.data?.whoami.did
-                            }
-                        });
-                        if (!isAccountExist.data?.checkAccountExists) {
-                            localStorage.removeItem(authTokenConstant);
-                            redirect('/');
-                        } else {
-                            const vcTypes = await getVcTypes();
-                            if (vcTypes.data?.getVcTypes) {
-                                setVcTypes(vcTypes.data?.getVcTypes);
-                            }
-                        }
-                    } else {
+                    });
+                    if (!isAccountExist.data?.checkAccountExists) {
                         localStorage.removeItem(authTokenConstant);
                         redirect('/');
+                    } else {
+                        const vcTypes = await getVcTypes();
+                        if (vcTypes.data?.getVcTypes) {
+                            setVcTypes(vcTypes.data?.getVcTypes);
+                        }
                     }
-                } catch (e) {
+                } else {
                     localStorage.removeItem(authTokenConstant);
                     redirect('/');
                 }
-            } else if (pathIsPublic && localStorage.getItem(authTokenConstant)) {
-                redirect('/profile');
+            } catch (e) {
+                localStorage.removeItem(authTokenConstant);
+                redirect('/');
+            } finally {
+                setIsLoading(false);
+                setIsAuthenticated(true);
             }
-        })();
-    }, []);
+        }
+    };
 
-    return props.children;
-};
+    const logoutFunc = async () => {
+        try {
+            const logoutData = await logout();
+            if (logoutData.data?.logout) {
+                setIsAuthenticated(false);
+                localStorage.clear();
+                redirect('/');
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    return (
+        <AuthContext.Provider
+            value={{
+                isAuthenticated,
+                login,
+                logoutFunc,
+                isLoading
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
+}
+
+const useAuth = () => useContext(AuthContext) as IAuthContext;
+
+export {AuthProvider, useAuth};
+

@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactNode, useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import Layout from '../../../components/layout';
-import {Body2, Body3, Body5} from '../../../utils/typography';
+import {Body2, Body3, Body5, Title3} from '../../../utils/typography';
 import {BackButton, Loader} from '../../../components/elements';
 import {copyToClipboard, formatDate, startAndEnd} from '../../../utils/misc';
 import {LargeEmiratesIdVCCard} from '../../../components/cards';
@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import {useMyAccountInfoStore} from '../../../store/store';
 import {LargeRealEstateVCCard} from '../../../components/cards/LargeRealEstateVCCard';
 import {Tooltip} from 'react-tooltip';
+import {COLORS} from '../../../utils/colors';
 
 type StatusType = {
     status: string;
@@ -19,6 +20,7 @@ type StatusType = {
 
 export default function VcPage(): ReactNode {
     const router = useRouter();
+    const [error, setError] = useState('');
     const [vcData, setVcData] = useState<Vc>();
     const [vcDataParams, setVcDataParams] = useState();
     const [loading, setLoading] = useState(true);
@@ -36,16 +38,13 @@ export default function VcPage(): ReactNode {
                         setLoading(false);
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.error(e);
+                    setError(
+                        'Please, try again.'
+                    );
                 }
             }
         })();
-    }, [router.query.id]);
-
-    useEffect(() => {
-        if (router.query.id) {
-            getVC({variables: {vcDid: router.query.id.toString()}});
-        }
     }, [router.query.id]);
 
     return (
@@ -82,6 +81,7 @@ export default function VcPage(): ReactNode {
                     <Tooltip id="copy-tooltip" content="Click to copy"/>
                 </>
             }
+            {error && <Error>{error}</Error>}
         </>
     );
 }
@@ -130,6 +130,12 @@ const Date = styled(Body2)`
 
 const Status = styled(Body3)<StatusType>`
   color: ${(props) => props.status === 'REJECTED' ? '#FF0000 !important' : props.status === 'ACCEPTED' ? '#7EF606 !important' : '#999999 !important'};
+`;
+
+const Error = styled(Title3)`
+  margin: 40px auto;
+  text-align: center;
+  color: ${COLORS.red};
 `;
 
 VcPage.getLayout = function getLayout(page: ReactElement) {

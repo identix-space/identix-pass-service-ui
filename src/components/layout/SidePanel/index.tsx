@@ -2,20 +2,23 @@ import React from 'react';
 import {Tooltip} from 'react-tooltip';
 import styled from 'styled-components';
 import {Body3, Body4} from '../../../utils/typography';
-import {copyToClipboard, logout, startAndEnd} from '../../../utils/misc';
+import {copyToClipboard, startAndEnd} from '../../../utils/misc';
+import {useAuth} from '../../providers';
 import {useMyAccountInfoStore} from '../../../store/store';
 import LogoutIcon from '../../../../public/assets/logout-icon.svg';
 import 'react-tooltip/dist/react-tooltip.css';
 import {useDeleteAccountMutation} from '../../../generated/graphql';
+import {Popconfirm} from 'antd';
 
 const SidePanel = (): JSX.Element => {
+    const {logoutFunc} = useAuth();
     const {myDid, dataFromUAE} = useMyAccountInfoStore();
     const [deleteAccount] = useDeleteAccountMutation();
 
     const onDeleteAccount = async () => {
         try {
             await deleteAccount();
-            await logout();
+            await logoutFunc();
         } catch (e) {
             console.error(e);
         }
@@ -41,13 +44,29 @@ const SidePanel = (): JSX.Element => {
                     </UserInfo>
 
                     <Buttons>
-                        <LogoutBtn onClick={onDeleteAccount}>
-                            Delete account
-                        </LogoutBtn>
-                        <LogoutBtn onClick={logout}>
-                            <LogoutIcon className="fillstroke" />
-                            <Title>Logout</Title>
-                        </LogoutBtn>
+                        <Popconfirm
+                            title="Delete account"
+                            description="Are you sure you want to delete your account?"
+                            okText="Yes"
+                            cancelText="No"
+                            onConfirm={onDeleteAccount}
+                        >
+                            <LogoutBtn>
+                                Delete account
+                            </LogoutBtn>
+                        </Popconfirm>
+                        <Popconfirm
+                            title="Logout"
+                            description="Are you sure you want to logout?"
+                            okText="Yes"
+                            cancelText="No"
+                            onConfirm={logoutFunc}
+                        >
+                            <LogoutBtn>
+                                <LogoutIcon className="fillstroke" />
+                                <Title>Logout</Title>
+                            </LogoutBtn>
+                        </Popconfirm>
                     </Buttons>
                 </>
                 }

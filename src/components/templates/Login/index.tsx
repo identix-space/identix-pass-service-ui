@@ -1,35 +1,15 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import styled from 'styled-components';
 import {Body1} from '../../../utils/typography';
 import Image from 'next/image';
 import {ButtonGradient} from '../../elements';
 import {
-    extractTokenFromUrl,
-    generateAfterWeb2OutServisesUserLogin,
     generateSSORedirectUrl,
-    redirect,
-    setAuthorizationToken
+    redirect
 } from '../../../utils/misc';
-import {useRouter} from 'next/router';
 
 export const LogIn: FC = () => {
-
-    const router = useRouter();
     const redirectUrl = generateSSORedirectUrl();
-
-    useEffect(() => {
-        const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
-        let token;
-        try {
-            token = extractTokenFromUrl(urlAfterLogin);
-        } catch (e) {
-            console.log(e);
-        }
-        if (token) {
-            setAuthorizationToken(token);
-            redirect('/profile');
-        }
-    }, [router]);
 
     return (
         <LogInModal>
@@ -50,13 +30,9 @@ export const LogIn: FC = () => {
 };
 
 const LogInModal = styled.div`
-  position: absolute;
   display: flex;
   height: 440px;
   width: 800px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: #FFFFFF;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;

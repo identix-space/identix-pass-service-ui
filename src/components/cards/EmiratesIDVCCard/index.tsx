@@ -37,7 +37,7 @@ const Card = styled.div`
     width: 265px;
   }
   
-  @media(max-width: 600px) {
+  @media(max-width: 840px) {
     height: 140px;
     width: 100%;
   }
