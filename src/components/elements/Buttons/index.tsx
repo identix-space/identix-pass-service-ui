@@ -60,10 +60,21 @@ export const BackButtonBlock = styled.button`
       height: 14px;
       top: 1px;
     }
+    
+    @media(max-width: 600px) {
+      width: 8px;
+      height: 12px;
+      top: 2px;
+    }
   }
 
   @media(min-width: 1400px) {
     top: 100px;
     font-size: 16px;
+  }
+  
+  @media(max-width: 600px) {
+    top: 141px;
+    padding: 0 0 0 17px;
   }
 `;

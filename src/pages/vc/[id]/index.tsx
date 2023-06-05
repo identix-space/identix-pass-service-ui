@@ -119,7 +119,7 @@ const HolderDid = styled(Body2)`
   }
 
   @media (max-width: 600px) {
-    margin-top: 0;
+    margin-top: 25px;
     margin-bottom: 10px;
   }
 `;
