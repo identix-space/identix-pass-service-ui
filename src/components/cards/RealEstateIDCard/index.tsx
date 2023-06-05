@@ -25,7 +25,7 @@ const Card = styled.div`
   height: 125px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
-  border-radius: 10px;
+  border-radius: 6px;
   border: 2px solid #3fd0e9;
   padding: 5px 12px 30px;
   transition: all .2s;
@@ -72,22 +72,22 @@ const BottomLeftLabel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: -4px;
+  bottom: 0;
   left: -1px;
   width: 200px;
-  height: 27px;
+  height: 19.8px;
   padding-left: 13px;
-  background: url('/assets/card-label-left-sm.svg') center/contain no-repeat;
+  padding-top: 1px;
+  background: url('/assets/card-label-left-sm.svg') bottom left/contain no-repeat;
 
   @media(min-width: 1400px) {
     width: 220px;
-    height: 29px;
-    bottom: -4px;
+    height: 21.8px;
   }
 
   @media(max-width: 600px) {
     width: 249px;
-    height: 33px;
+    height: 24.7px;
     padding-bottom: 2px;
   }
 `;
