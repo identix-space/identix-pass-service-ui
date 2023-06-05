@@ -56,7 +56,7 @@ export const QrCodeScanner = ({onSuccess, title = 'Scan QR code'}: PropTypes) =>
             ).then(() => {
                 setEnabled(true);
             }).catch((err: any) => {
-                console.log('error', err);
+                console.error(err);
                 setEnabled(false);
             });
         } catch (e) {

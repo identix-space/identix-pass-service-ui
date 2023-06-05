@@ -54,7 +54,6 @@ export const IssueRealEstateIDForm: FC = () => {
             if (dataFromUAE) {
                 fields.owner = dataFromUAE.fullnameEN;
             }
-            console.log(fields);
             if (Object.values(fields).every(x => x !== '')) {
                 (async () => {
                     const issueVCData = await issuerVc({

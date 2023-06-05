@@ -21,22 +21,27 @@ export default function IssueEmiratesVCPage(): ReactNode {
             holderDid: myDid,
             vcTypeDid: 'did:ever:emirates-id-12345',
             vcParams: JSON.stringify({
-                firstNameAR: '',
-                lastNameAR: '',
-                firstNameEN: dataFromUAE.firstnameEN,
-                lastNameEN: dataFromUAE.lastnameEN,
-                gender: dataFromUAE.gender,
-                nationalityAR: '',
-                nationalityEN: '',
-                idcardIssuanceDate: '',
-                idcardExpirationDate: '',
-                idcardIssuer: ''
+                firstNameAR: dataFromUAE.firstnameAR ? dataFromUAE.firstnameAR : '',
+                lastNameAR: dataFromUAE.lastnameAR ? dataFromUAE.lastnameAR : '',
+                firstNameEN: dataFromUAE.firstnameEN ? dataFromUAE.firstnameEN : '',
+                lastNameEN: dataFromUAE.lastnameEN ? dataFromUAE.lastnameEN : '',
+                gender: dataFromUAE.gender ? dataFromUAE.gender : '',
+                nationalityAR: dataFromUAE.nationalityAR ? dataFromUAE.nationalityAR : '',
+                nationalityEN: dataFromUAE.nationalityEN ? dataFromUAE.nationalityEN : '',
+                idcardIssuanceDate: dataFromUAE.idcardIssuanceDate ? dataFromUAE.idcardIssuanceDate : '',
+                idcardExpirationDate: dataFromUAE.idcardExpirationDate ? dataFromUAE.idcardExpirationDate : '',
+                idcardIssuer: dataFromUAE.idcardIssuer ? dataFromUAE.idcardIssuer : '',
+                emiratesid: dataFromUAE.idn ? dataFromUAE.idn : '',
+                uuid: dataFromUAE.uuid ? dataFromUAE.uuid : '',
+                spuuid: dataFromUAE.spuuid ? dataFromUAE.spuuid : ''
             })
         },
         onError: (e) => {
             messageApi?.error(getApolloError(e));
         }
     });
+
+    console.log(dataFromUAE);
 
     useEffect(() => {
         if (vcTypes.length > 0) {
@@ -82,7 +87,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <Body1>Issue a Verifiable Credential for your Emirates ID
                                     and store it into VENOM blockchain.
                                     The data provided by UAE Pass will be used.</Body1>
-                                <ButtonGradient disabled={isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
+                                <ButtonGradient disabled={!isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>
                 }

@@ -1,14 +1,46 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {LogIn} from '../components/templates/Login';
 import Header from '../components/layout/Header';
 import styled from 'styled-components';
+import {Loader} from '../components/elements';
+import {
+    extractTokenFromUrl,
+    generateAfterWeb2OutServisesUserLogin,
+    redirect,
+    setAuthorizationToken
+} from '../utils/misc';
+import {useRouter} from 'next/router';
 
 export default function IndexPage(): ReactNode {
+    const router = useRouter();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const urlAfterLogin = generateAfterWeb2OutServisesUserLogin(router.asPath);
+        let token;
+        try {
+            token = extractTokenFromUrl(urlAfterLogin);
+        } catch (e) {
+            console.log(e);
+        }
+        if (token) {
+            setAuthorizationToken(token);
+            redirect('/profile');
+        } else if (typeof localStorage !== 'undefined') {
+            const tokenFromStorage = localStorage.getItem('authorization-token');
+
+            if (!tokenFromStorage) {
+                setLoading(false);
+            } else {
+                redirect('/profile');
+            }
+        }
+    }, [router]);
 
     return (
         <Main>
             <Header/>
-            <LogIn/>
+            {loading ? <Loader/> : <LogIn/>}
         </Main>
     );
 }
@@ -16,8 +48,13 @@ export default function IndexPage(): ReactNode {
 const Main = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 65px;
+  align-items: center;
+  padding-top: 52px;
   width: 100vw;
-  height: 100vh;
-  background: url('/assets/bg.png') center/cover no-repeat;
+  min-height: 100vh;
+  background: url('/assets/bg.webp') center/cover no-repeat;
+
+  @media(min-width: 1400px) {
+    padding-top: 56px;
+  }
 `;

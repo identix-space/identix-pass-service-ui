@@ -1,14 +1,23 @@
 import create from 'zustand';
 
 interface DataFromUAEInterface {
-    uuid: string;
-    email: string;
-    gender: string;
-    mobile: string;
-    userType: string;
-    fullnameEN: string;
-    lastnameEN: string;
-    firstnameEN: string;
+    uuid?: string;
+    email?: string;
+    gender?: string;
+    mobile?: string;
+    userType?: string;
+    fullnameEN?: string;
+    lastnameEN?: string;
+    lastnameAR?: string;
+    firstnameEN?: string;
+    firstnameAR?: string;
+    nationalityAR?: string;
+    nationalityEN?: string;
+    idcardIssuanceDate?: string;
+    idcardExpirationDate?: string;
+    idcardIssuer?: string;
+    idn?: string;
+    spuuid?: string;
 }
 
 interface VcTypesInterface {
@@ -40,7 +49,16 @@ export const useMyAccountInfoStore = create<MyAccountInfoInterface>((set) => ({
         userType: '',
         fullnameEN: '',
         lastnameEN: '',
-        firstnameEN: ''
+        lastnameAR: '',
+        firstnameEN: '',
+        firstnameAR: '',
+        nationalityAR: '',
+        nationalityEN: '',
+        idcardIssuanceDate: '',
+        idcardExpirationDate: '',
+        idcardIssuer: '',
+        idn: '',
+        spuuid: ''
     },
     setDataFromUAE: (dataFromUAE) =>
         set((state) => ({
