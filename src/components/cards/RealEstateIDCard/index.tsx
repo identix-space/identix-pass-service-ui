@@ -72,7 +72,7 @@ const BottomLeftLabel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: 0;
+  bottom: -1px;
   left: -1px;
   width: 200px;
   height: 19.8px;
