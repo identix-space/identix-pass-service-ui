@@ -1,6 +1,5 @@
 export interface LargeEmiratesIdVCCardProps {
     did: string;
-    status: string;
     rawData?: string;
     url: string;
     vcParams?: LargeEmiratesIdVCParamsProps;
@@ -17,8 +16,4 @@ interface LargeEmiratesIdVCParamsProps {
     idcardIssuanceDate?: string;
     idcardExpirationDate?: string;
     idcardIssuer?: string;
-}
-
-export interface Status {
-    status: string;
 }

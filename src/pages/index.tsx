@@ -52,6 +52,7 @@ const Main = styled.div`
   padding-top: 52px;
   width: 100vw;
   min-height: 100vh;
+  min-height: 100dvh;
   background: url('/assets/bg.webp') center/cover no-repeat;
 
   @media(min-width: 1400px) {
