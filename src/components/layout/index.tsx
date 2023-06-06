@@ -42,6 +42,7 @@ const Main = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: url('/assets/bg.webp') center/cover no-repeat;
 `;
 
@@ -50,12 +51,14 @@ const Workplace = styled.div`
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   background: linear-gradient(179.18deg, #2A3F7E 6.96%, rgba(58, 163, 193, 0.6) 174.88%);
 `;
 
 const Content = styled.div`
   overflow-y: auto;
   height: 100vh;
+  height: 100dvh;
   position: relative;
   padding: 100px 40px 80px 260px;
 

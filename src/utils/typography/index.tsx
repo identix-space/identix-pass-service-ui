@@ -80,6 +80,10 @@ export const Body2 = styled.p<TextProps>`
     font-size: 18px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
   }
+
+  @media(max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 export const Body3 = styled.p<TextProps>`

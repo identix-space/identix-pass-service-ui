@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Title3, Body1, Body2, Body5, Label2, TextGradient} from '../../../utils/typography';
-import {LargeRealEstateVCCardProps, Status} from './LargeRealEstateVCCard.props';
+import {LargeRealEstateVCCardProps} from './LargeRealEstateVCCard.props';
 import {RawDataModal} from '../../elements/RawDataModal';
 import {useModal} from '../../hooks/useModal';
 import {formatDate, startAndEnd} from '../../../utils/misc';
 import {Tooltip} from 'react-tooltip';
 
-export const LargeRealEstateVCCard = ({did, status, url, vcParams, rawData}: LargeRealEstateVCCardProps): JSX.Element => {
+export const LargeRealEstateVCCard = ({did, url, vcParams, rawData}: LargeRealEstateVCCardProps): JSX.Element => {
     const {isShown, toggle} = useModal();
 
     function getJSON(json: string) {
@@ -15,7 +15,7 @@ export const LargeRealEstateVCCard = ({did, status, url, vcParams, rawData}: Lar
     }
 
     return (<>
-        <Card status={status}>
+        <Card>
             <TopInfo>
                 <Title3 fontWeight="700" color="black" margin="3px 0 8px">Real Estate VC</Title3>
                 {/*<a href={`https://ever.live/accounts/accountDetails?id=0%3A${did.slice(12)}`} target={'_blank'} rel="noreferrer">*/}
@@ -79,11 +79,11 @@ export const LargeRealEstateVCCard = ({did, status, url, vcParams, rawData}: Lar
                     }
                 </BottomInfo> : <></>
             }
-            <TopRightLabel status={status}>
-                <Body5 fontWeight="700">{status}</Body5>
+            <TopRightLabel>
+                <Body5 fontWeight="700">Active</Body5>
             </TopRightLabel>
-            <BottomLeftLabel status={status}>
-                <Body2 fontWeight="700">VC DID: <a href={url} target="_blank" rel="noreferrer"><VcDidDesktop>{startAndEnd(did, 15)}</VcDidDesktop><VcDidMobile>{startAndEnd(did, 9)}</VcDidMobile></a></Body2>
+            <BottomLeftLabel>
+                <Body2 fontWeight="700">VC DID: <a href={url} target="_blank" rel="noreferrer"><VcDidDesktop>{startAndEnd(did, 16)}</VcDidDesktop><VcDidMobile>{startAndEnd(did, 8)}</VcDidMobile></a></Body2>
             </BottomLeftLabel>
             <RawData onClick={toggle}>
                 Raw data
@@ -96,14 +96,14 @@ export const LargeRealEstateVCCard = ({did, status, url, vcParams, rawData}: Lar
 };
 
 
-const Card = styled.div<Status>`
+const Card = styled.div`
   position: relative;
   width: 100%;
   min-height: 340px;
   background: #FFFFFF;
   filter: drop-shadow(0px 4px 12px rgba(2, 32, 37, 0.7));
   border-radius: 10px;
-  border: ${(props) => props.status ? '4px solid #3fd0e9' : '4px solid #74ACC9'};
+  border: 4px solid #74ACC9;
   padding: 22px 25px;
 
   @media (max-width: 840px) {
@@ -195,63 +195,63 @@ const ColItem = styled.div`
   white-space: pre-wrap; /* let the text wrap preserving spaces */
 `;
 
-const TopRightLabel = styled.div<Status>`
+const TopRightLabel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: ${(props) => props.status === 'Review' ? '-3px' : '-2px'};
-  right: ${(props) => props.status === 'Review' ? '-6px' : '-2px'};
-  width: ${(props) => props.status === 'Review' ? '182px' : '192px'};
+  top: -2px;
+  right: -2px;
+  width: 192px;
   height: 56px;
   padding-left: 29px;
   padding-bottom: 2px;
-  background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-right-review.svg\') center/contain no-repeat' : 'url(\'/assets/card-label-right-lg.svg\') center/contain no-repeat'};
+  background: url('/assets/card-label-right-lg.svg') center/contain no-repeat;
 
   @media (max-width: 840px) {
     height: 45px;
-    width: ${(props) => props.status === 'Review' ? '142px' : '154px'};
-    top: ${(props) => props.status === 'Review' ? '-3px' : '-1px'};
-    right: ${(props) => props.status === 'Review' ? '-6px' : '-2px'};
+    width: 154px;
+    top:-1px;
+    right: -2px;
   }
   
   @media (max-width: 600px) {
     height: 38px;
-    width: ${(props) => props.status === 'Review' ? '122px' : '132px'};
-    top: ${(props) => props.status === 'Review' ? '-3px' : '-1px'};
-    right: ${(props) => props.status === 'Review' ? '-6px' : '-2px'};
+    width: 132px;
+    top: -1px;
+    right: -2px;
   }
 `;
 
-const BottomLeftLabel = styled.div<Status>`
+const BottomLeftLabel = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: ${(props) => props.status === 'Review' ? '-1px' : '-2px'};
+  bottom: -1px;
   left: -1px;
   width: 430px;
-  height: 61px;
+  height: 59px;
   padding-left: 18px;
-  background: ${(props) => props.status === 'Review' ? 'url(\'/assets/card-label-left-lg-review.svg\') bottom left/contain no-repeat' : 'url(\'/assets/card-label-left-lg.svg\') bottom left/contain no-repeat'};
+  background: url('/assets/card-label-left-lg.svg') bottom left/contain no-repeat;
 
   a {
     color: #FFFFFF;
     text-decoration: underline;
-    
+
     &:hover {
       text-decoration: none;
     }
   }
-  
+
   @media (max-width: 840px) {
     width: 290px;
-    height: 41px;
+    height: 40px;
     padding-left: 14px;
   }
-  
+
   @media (max-width: 600px) {
-    width: 265px;
-    height: 38px;
+    width: 250px;
+    height: 34.4px;
     padding-left: 14px;
   }
 `;
