@@ -61,7 +61,6 @@ export default function VcPage(): ReactNode {
                         {vcTypes && vcData.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid &&
                             <LargeEmiratesIdVCCard
                                 did={vcData.vcDid}
-                                status="Active"
                                 url={vcData.blockchain}
                                 vcParams={vcDataParams}
                                 rawData={vcData.vcRawText}/>
@@ -69,7 +68,6 @@ export default function VcPage(): ReactNode {
                         {vcTypes && vcData.vcTypeDid === vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid &&
                             <LargeRealEstateVCCard
                                 did={vcData.vcDid}
-                                status="Active"
                                 url={vcData.blockchain}
                                 vcParams={vcDataParams}
                                 rawData={vcData.vcRawText}/>
