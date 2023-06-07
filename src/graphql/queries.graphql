@@ -1,5 +1,5 @@
-query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
-  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+query getUserVCs($role: AgentsRoles, $page: Int, $limit: Int, $vcType: String) {
+  getUserVCs(role: $role, page: $page, limit: $limit, vcType: $vcType) {
     vcDid
     vcTypeDid
     vcParams
@@ -8,6 +8,7 @@ query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
     holderDid
     createdAt
     updatedAt
+    blockchain
     verificationCases {
         verifierDid
         verificationStatus
@@ -15,29 +16,9 @@ query getUserVCsHolder($role: AgentsRoles, $startIndex: Int, $count: Int) {
   }
 }
 
-query getUserVCsIssuer($role: AgentsRoles, $startIndex: Int, $count: Int) {
-  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
+query checkUserVCs($role: AgentsRoles, $vcType: String) {
+  getUserVCs(role: $role, vcType: $vcType) {
     vcDid
-    vcTypeDid
-    vcParams
-    issuerDid
-    holderDid
-    createdAt
-  }
-}
-
-query getUserVCsVerifier($role: AgentsRoles, $startIndex: Int, $count: Int) {
-  getUserVCs(role: $role, startIndex: $startIndex, count: $count) {
-    vcDid
-    vcTypeDid
-    vcParams
-    issuerDid
-    holderDid
-    createdAt
-    verificationCases {
-        verifierDid
-        verificationStatus
-    }
   }
 }
 
@@ -51,6 +32,7 @@ query getVC($vcDid: String!) {
         holderDid
         createdAt
         updatedAt
+        blockchain
         verificationCases {
             verifierDid
             verificationStatus
@@ -81,21 +63,34 @@ query getVcTypes {
 }
 
 query whoami {
-    whoami
-}
-
-query getAllAccounts {
-    getAllAccounts
+    whoami {
+        id
+        did
+        status
+        avatarUrl
+        roles
+        connections {
+            otherData
+        }
+    }
 }
 
 mutation issuerVC($holderDid: String!, $vcTypeDid: String!, $vcParams: String!) {
-    issuerVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)
+    issueVC(holderDid: $holderDid, vcTypeDid: $vcTypeDid, vcParams: $vcParams)
 }
 
 mutation requestVcVerification($verifierDid: String!, $vcDid: String!) {
     requestVcVerification(verifierDid: $verifierDid, vcDid: $vcDid)
 }
 
-mutation verifyVC($vcDid: String!, $verificationStatus: String!) {
-    verifyVC(vcDid: $vcDid, verificationStatus: $verificationStatus)
+mutation verifyVC($verificationData: String!) {
+    verifyVC(verificationData: $verificationData)
+}
+
+query logout {
+    logout
+}
+
+mutation deleteAccount {
+    deleteAccount
 }

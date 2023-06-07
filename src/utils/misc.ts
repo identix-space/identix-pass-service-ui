@@ -1,4 +1,6 @@
 import {AgentsRoles} from '../generated/graphql';
+import {Day} from '@hassanmojab/react-modern-calendar-datepicker';
+import {ApolloError} from '@apollo/client';
 
 export function redirect(url: string): void {
     if (typeof window !== 'undefined') {
@@ -12,11 +14,11 @@ export function generateSSORedirectUrl(): string {
 
 export function extractTokenFromUrl(url: string): string {
     const queryParams = new URLSearchParams(new URL(url).search);
-    const userAccessToekn = queryParams.get('token');
-    if (!userAccessToekn) {
+    const userAccessToken = queryParams.get('token');
+    if (!userAccessToken) {
         return '';
     }
-    return decodeURIComponent(userAccessToekn);
+    return decodeURIComponent(userAccessToken);
 }
 
 export function setAuthorizationToken(token: string) {
@@ -25,12 +27,6 @@ export function setAuthorizationToken(token: string) {
 
 export function generateAfterWeb2OutServisesUserLogin(uri: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${uri}`;
-}
-
-export function Logout() {
-    localStorage.clear();
-    console.log('asdasdsadasd');
-    redirect('/');
 }
 
 export function startAndEnd(str: string, gap: number) {
@@ -60,4 +56,25 @@ export const checkOfPermission = async (did: string, userDid: string, role: Agen
         return did === userDid;
     }
     return false;
+};
+
+export const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+};
+
+export const convertDate = (date: Day) => {
+    return new Date(date.year, date.month - 1, date.day);
+};
+
+export const getApolloError = (err: ApolloError) => {
+    const defaultError = 'Something went wrong';
+    try {
+        if (err && err.message) {
+            return err.message.substr(0, 200);
+        }
+
+        return defaultError;
+    } catch {
+        return defaultError;
+    }
 };

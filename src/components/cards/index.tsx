@@ -1,3 +1,3 @@
-export * from './SmallVCCard';
-export * from './LargeVCCard';
-export * from './ServiceCard';
+export * from './EmiratesIDVCCard';
+export * from './RealEstateIDCard';
+export * from './LargeEmiratesIdVCCard';

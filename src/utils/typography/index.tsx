@@ -80,6 +80,10 @@ export const Body2 = styled.p<TextProps>`
     font-size: 18px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
   }
+
+  @media(max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 export const Body3 = styled.p<TextProps>`
@@ -123,6 +127,14 @@ export const Body5 = styled.p<TextProps>`
     font-size: 28px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '15px 0')};
   }
+
+  @media(max-width: 840px) {
+    font-size: 22px;
+  }
+  
+  @media(max-width: 600px) {
+    font-size: 21px;
+  }
 `;
 
 export const Label1 = styled.p<TextProps>`
@@ -140,7 +152,7 @@ export const Label1 = styled.p<TextProps>`
 `;
 
 export const Label2 = styled.p<TextProps>`
-  font-size: 14px;
+  font-size: 13px;
   color: ${(props) => (props.color ? props.color : COLORS.white)};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : '400')};
   line-height: 140%;
@@ -148,8 +160,12 @@ export const Label2 = styled.p<TextProps>`
   margin: ${(props) => (props.margin ? props.margin : '0')};
 
   @media(min-width: 1400px) {
-    font-size: 16px;
+    font-size: 15px;
     margin: ${(props) => (props.marginLg ? props.marginLg : props.margin ? props.margin : '0')};
+  }
+
+  @media(max-width: 600px) {
+    font-size: 14px;
   }
 `;
 

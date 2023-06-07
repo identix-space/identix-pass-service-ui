@@ -1,16 +1,75 @@
 import create from 'zustand';
 
-interface MyDid {
-    myDid: string;
-    setMyDid: (myDid: string) => void;
+interface DataFromUAEInterface {
+    uuid?: string;
+    email?: string;
+    gender?: string;
+    mobile?: string;
+    userType?: string;
+    fullnameEN?: string;
+    lastnameEN?: string;
+    lastnameAR?: string;
+    firstnameEN?: string;
+    firstnameAR?: string;
+    nationalityAR?: string;
+    nationalityEN?: string;
+    idcardIssuanceDate?: string;
+    idcardExpirationDate?: string;
+    idcardIssuer?: string;
+    idn?: string;
+    spuuid?: string;
 }
 
-export const useMyDidStore = create<MyDid>((set) => ({
+interface VcTypesInterface {
+    vcTypeDid: string;
+    vcTypeTag: string;
+}
+
+interface MyAccountInfoInterface {
+    myDid: string;
+    setMyDid: (myDid: string) => void;
+    dataFromUAE: DataFromUAEInterface;
+    setDataFromUAE: (myName: DataFromUAEInterface) => void;
+    vcTypes: VcTypesInterface[];
+    setVcTypes: (vcTypes: VcTypesInterface[]) => void;
+}
+
+export const useMyAccountInfoStore = create<MyAccountInfoInterface>((set) => ({
     myDid: '',
     setMyDid: (myDid) =>
         set((state) => ({
             ...state,
             myDid
+        })),
+    dataFromUAE: {
+        uuid: '',
+        email: '',
+        gender: '',
+        mobile: '',
+        userType: '',
+        fullnameEN: '',
+        lastnameEN: '',
+        lastnameAR: '',
+        firstnameEN: '',
+        firstnameAR: '',
+        nationalityAR: '',
+        nationalityEN: '',
+        idcardIssuanceDate: '',
+        idcardExpirationDate: '',
+        idcardIssuer: '',
+        idn: '',
+        spuuid: ''
+    },
+    setDataFromUAE: (dataFromUAE) =>
+        set((state) => ({
+            ...state,
+            dataFromUAE
+        })),
+    vcTypes: [],
+    setVcTypes: (vcTypes) =>
+        set((state) => ({
+            ...state,
+            vcTypes
         }))
 }));
 

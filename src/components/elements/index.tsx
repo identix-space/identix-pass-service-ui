@@ -1,3 +1,4 @@
 export * from './Buttons';
-export * from './Search';
 export * from './Loader';
+export * from './Breadcrumbs';
+export * from './QrCodeScanner';
