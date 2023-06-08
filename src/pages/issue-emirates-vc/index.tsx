@@ -11,7 +11,7 @@ import {getApolloError} from '../../utils/misc';
 
 export default function IssueEmiratesVCPage(): ReactNode {
     const [isSuccess, setIsSuccess] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isAvailable, setIsAvailable] = useState(false);
     const {dataFromUAE, myDid, vcTypes} = useMyAccountInfoStore();
     const messageApi = useContext(MessageContext);
 
@@ -46,9 +46,9 @@ export default function IssueEmiratesVCPage(): ReactNode {
     useEffect(() => {
         if (vcTypes.length > 0) {
             (async () => {
-                const dataCheckVCs = await checkUserVCs({variables: {role: AgentsRoles.Issuer, vcType: vcTypes.find(z => z.vcTypeTag === 'REAL_ESTATE')?.vcTypeDid}});
+                const dataCheckVCs = await checkUserVCs({variables: {role: AgentsRoles.Issuer, vcType: vcTypes.find(z => z.vcTypeTag === 'EMIRATES_ID')?.vcTypeDid}});
                 if (dataCheckVCs.data?.getUserVCs && dataCheckVCs.data?.getUserVCs.length === 0) {
-                    setIsDisabled(false);
+                    setIsAvailable(true);
                 }
             })();
         }
@@ -87,7 +87,7 @@ export default function IssueEmiratesVCPage(): ReactNode {
                                 <Body1>Issue a Verifiable Credential for your Emirates ID
                                     and store it into VENOM blockchain.
                                     The data provided by UAE Pass will be used.</Body1>
-                                <ButtonGradient disabled={!isDisabled} onClick={() => issueVC()}>Accept</ButtonGradient></>
+                                <ButtonGradient disabled={!isAvailable} onClick={() => issueVC()}>Accept</ButtonGradient></>
                         }
                     </>
                 }
