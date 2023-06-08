@@ -72,7 +72,7 @@ export default function ProfilePage(): ReactNode {
                                     </a>
                                 </Link>
                             ))}
-                        </Cards> : <Body1>N/D</Body1>
+                        </Cards> : <Body1>None available</Body1>
                     }
                 </>
             }
@@ -99,7 +99,7 @@ export default function ProfilePage(): ReactNode {
                                     </a>
                                 </Link>
                             ))}
-                        </Cards> : <Body1>N/D</Body1>
+                        </Cards> : <Body1>None available</Body1>
                     }
                 </>
             }
@@ -121,7 +121,7 @@ export default function ProfilePage(): ReactNode {
                             style={{color: '#7EF706'}}>{formatDate(log.eventDate)}</span> {log.message}</Body3>
                     ))}
                 </Logs>
-                : <Body1>N/D</Body1>
+                : <Body1>None available</Body1>
             }
         </>
     );
